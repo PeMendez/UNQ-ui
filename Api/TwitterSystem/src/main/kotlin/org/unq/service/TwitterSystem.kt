@@ -1,4 +1,10 @@
-package org.unq
+package org.unq.service
+
+import org.unq.*
+import org.unq.modelo.Tweet
+import org.unq.modelo.TweetType
+import org.unq.modelo.User
+import java.util.UUID
 
 class TwitterSystem {
     val users = mutableListOf<User>()
@@ -11,18 +17,31 @@ class TwitterSystem {
      *   El username se encuentra repetido.
      *
      */
-    fun addNewUser(user: DraftUser): User{
-        TODO()
-    }
+    fun addNewUser(user: DraftUser): User {
+        checkExistingNewUser(user)
+        val newUser : User = User(UUID.randomUUID().toString(),user.username, user.email, user.password, user.image, user.backgroundImage)
+        users.add(newUser)
 
+        return newUser
+    }
+    private fun checkExistingNewUser(user: DraftUser) {
+        if (users.any { it.username === user.username }) throw UserException("Username is in used")
+        if (users.any { it.email === user.email }) throw UserException("Email is in used")
+    }
     /**
      * Crea un nuevo tweet.
      * @throws UserException
      *  si el userId no existe.
      */
-    fun addNewTweet(tweet: DraftTweet): Tweet{
-        TODO()
+    fun addNewTweet(tweet: DraftTweet): Tweet {
+        val user = getUser(tweet.userId)
+        val newTweet = Tweet(UUID.randomUUID().toString(), TweetType(null, tweet.image), user, tweet.content)
+
+        tweets.add(newTweet)
+
+        return newTweet
     }
+
 
     /**
      * Devuelve el tweet con el id de tweetId.
@@ -33,7 +52,7 @@ class TwitterSystem {
      *  si el tweetId no existe.
      *  si el tweetId pertenece al mismo usuario.
      */
-    fun addReTweet(tweet: DraftReTweet): Tweet{
+    fun addReTweet(tweet: DraftReTweet): Tweet {
         TODO()
     }
 
@@ -45,7 +64,7 @@ class TwitterSystem {
      * @throws TweetException
      *  si el tweetId no existe.
      */
-    fun replyTweet(tweet: DraftReplyTweet): Tweet{
+    fun replyTweet(tweet: DraftReplyTweet): Tweet {
         TODO()
     }
 
@@ -57,7 +76,7 @@ class TwitterSystem {
      * @throws TweetException
      *  si el tweetId no existe.
      */
-    fun addLike(tweetId: String, userId: String): Tweet{
+    fun addLike(tweetId: String, userId: String): Tweet {
         TODO()
     }
 
