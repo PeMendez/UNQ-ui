@@ -1,4 +1,5 @@
-import io.javalin.core.security.RouteRole
+
+import io.javalin.security.RouteRole
 
 enum class Roles: RouteRole {
     ANYONE, USER
