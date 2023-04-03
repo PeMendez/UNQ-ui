@@ -1,4 +1,4 @@
-import Api.TwitterSystem.src.main.kotlin.org.TokenController
+import org.TokenController
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
 import io.javalin.plugin.bundled.RouteOverviewPlugin
