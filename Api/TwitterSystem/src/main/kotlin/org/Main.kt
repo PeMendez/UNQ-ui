@@ -1,7 +1,13 @@
+import Api.TwitterSystem.src.main.kotlin.org.TokenController
+import io.javalin.Javalin
+import io.javalin.apibuilder.ApiBuilder.*
+import io.javalin.plugin.bundled.RouteOverviewPlugin
+import org.unq.TwitterSystem
+
 fun main() {
 
     val twitterSystem = TwitterSystem()
-    val tokenController = TokenController()
+    val tokenController = TokenController(twitterSystem.users)
     val userController = UserController(twitterSystem,tokenController)
 
     val app = Javalin.create() {

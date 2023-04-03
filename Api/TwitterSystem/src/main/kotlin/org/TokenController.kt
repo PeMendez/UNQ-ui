@@ -1,5 +1,11 @@
 package Api.TwitterSystem.src.main.kotlin.org
 
+import io.javalin.http.*
+import com.sun.org.apache.xml.internal.security.algorithms.Algorithm
+import io.javalin.security.RouteRole
+import org.unq.User
+import org.unq.UserException
+
 class TokenController (private  val users: List<User>){
     private val algorithm = Algorithm.HMAC256("grupo_04")
     private val verifier = JWT.require(algorithm).build()
@@ -16,7 +22,7 @@ class TokenController (private  val users: List<User>){
         return provider.generateToken(user)
     }
 
-    fun validateToken(token: String) {
+    fun validateToken(token: String) : User {
         val decodedJWT = provider.validateToken(token).orElseThrow {throw Exception("Usuario no encontrado")}
         val username = decodedJWT.getClaim("username").asString()
         return users.find{it.username == username} ?: throw Exception("No existe el usuario")
@@ -34,7 +40,7 @@ class TokenController (private  val users: List<User>){
                 if (token.isPresent) {
                     val userId = token.get().getClaim("id").asString()
                     var user : User
-                    try { user = twitterSystem.getUser(userId) } catch(e:UserException) { throw ForbiddenResponse("Invalid token") }
+                    try { user = twitterSystem.getUser(userId) } catch(e: UserException) { throw ForbiddenResponse("Invalid token") }
                     if (permittedRoles.contains(Roles.USER)) {
                         ctx.attribute("user", user)
                         handler.handle(ctx)
