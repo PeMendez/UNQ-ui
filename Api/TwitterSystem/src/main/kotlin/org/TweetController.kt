@@ -48,9 +48,14 @@ class TweetController(private val twitterSystem: TwitterSystem, private val toke
 
     fun getTweet(ctx: Context){
 
+        ctx.json(tweetOrThrow(ctx))
     }
 
     fun toggleLike(ctx: Context){
+        var tweet = tweetOrThrow(ctx)
+        val user = tokenController.tokenToUser(ctx.header("Authorization")!!)
+        tweet = twitterSystem.toggleLike(tweet.id, user.id)
+        ctx.json(tweet)
 
     }
 
