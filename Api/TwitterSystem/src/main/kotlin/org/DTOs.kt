@@ -1,5 +1,6 @@
 package org
 
+import org.unq.Tweet
 import org.unq.User
 
 class UserLoginDTO(val username: String, val password: String)
@@ -18,8 +19,10 @@ class SimpleTweetDTO(val id: String, val type: TwitterTypeDTO, var user: SimpleU
 //  this.likes = tweet.likes.map { l -> SimpleUserDTO(l.id, l.username)}
 
 //}
-class TweetDTO(val id: String, val type: TwitterTypeDTO, var user: SimpleUserDTO, val content: String, val date: String, val replies: List<SimpleTweetDTO>, val reTweet: List<SimpleTweetDTO>, val likes: List<SimpleUserDTO>)
+class TweetDTO(val id: String, val type: TwitterTypeDTO, var user: SimpleUserDTO, val content: String, val date: String, val replies: List<SimpleTweetDTO>, val reTweet: List<SimpleTweetDTO>, val likes: List<SimpleUserDTO>)//{
 
+    //constructor(tweet: Tweet): this(tweet.id, tweet.type, tweet.user, tweet.content, tweet.date, listOf<SimpleTweetDTO>(), listOf<SimpleTweetDTO>(), listOf<SimpleUserDTO>() )
+//}
 class TweetResulDTO(val result: List<SimpleTweetDTO>)
 class UsersResultDTO(val result: List<SimpleTweetDTO>)
 
