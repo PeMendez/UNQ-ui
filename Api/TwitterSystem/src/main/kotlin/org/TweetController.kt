@@ -16,33 +16,26 @@ class TweetController(private val twitterSystem: TwitterSystem, private val toke
         }
     }
 
-    private fun tweetOrThrowBySameId(ctx: Context) { // no sé acá tiré cualquiera.
-      val tweet = twitterSystem.getTweet(ctx.pathParam("id"))
-        val user =  tokenController.tokenToUser(ctx.header("Authorization")!!)
-        if (tweet.user.id == user.id) {
-            throw NotFoundResponse("No podés hacer retweet de tu propio tweet")
-        }
-    }
     fun search(ctx: Context) {
         try {
             val query = ctx.queryParam("searchText")
-            val searchResult = twitterSystem.search(query!!)
-            ctx.json(searchResult)
+            val searchResult = tweetToSimpleTweet(twitterSystem.search(query!!))
+            ctx.json(TweetResulDTO(searchResult))
         } catch (e: Exception) {
             throw BadRequestResponse("The searched text is not found")
         }
     }
 
+    private fun tweetToSimpleTweet(list : List<Tweet>) : List<SimpleTweetDTO> {
+        return list.map { t -> SimpleTweetDTO(t) }
+    }
+
     fun getTrendingTopics(ctx: Context){
-        tokenController.tokenToUser(ctx.header("Authorization")!!) //usaria validate token porque no necesito el usuario
-        val simpleTweetsTrend: List<SimpleTweetDTO> = mutableListOf()
-        val tweetResulDTO = twitterSystem.getTrendingTopics().stream()
-            .forEach{t -> simpleTweetsTrend.add(SimpleTweetDTO(t))}
-        ctx.json(tweetResulDTO)
+        val tweetResul = tweetToSimpleTweet(twitterSystem.getTrendingTopics())
+        ctx.json(TweetResulDTO(tweetResul))
     }
 
     fun addNewTweet(ctx: Context){
-        tokenController.tokenToUser(ctx.header("Authorization")!!) //usaria validate token porque no necesito el usuario
         val draftTweet = ctx.bodyValidator<DraftTweet>()
             .check({ it.userId.isNotBlank() }, "Content cannot be empty")
             .check({ it.content.isNotBlank() }, "Content cannot be empty")
@@ -53,14 +46,14 @@ class TweetController(private val twitterSystem: TwitterSystem, private val toke
 
     fun getTweet(ctx: Context){
 
-        ctx.json(tweetOrThrow(ctx))
+        ctx.json(TweetDTO(tweetOrThrow(ctx)))
     }
 
     fun toggleLike(ctx: Context){
         var tweet = tweetOrThrow(ctx)
         val user = tokenController.tokenToUser(ctx.header("Authorization")!!)
         tweet = twitterSystem.toggleLike(tweet.id, user.id)
-        ctx.json(tweet)
+        ctx.json(TweetDTO(tweet))
 
     }
 
@@ -71,7 +64,7 @@ class TweetController(private val twitterSystem: TwitterSystem, private val toke
             .check({ it.userId == user.id}, "You can't retweet your own tweet")
             .get()
         tweet = twitterSystem.addReTweet(reTweet)
-        ctx.json(tweet)
+        ctx.json(TweetDTO(tweet))
 
     }
 
@@ -82,6 +75,6 @@ class TweetController(private val twitterSystem: TwitterSystem, private val toke
             .check({ it.content.isNotBlank() }, "Content cannot be empty")
             .get()
         tweet = twitterSystem.replyTweet(content)
-        ctx.json(tweet)
+        ctx.json(TweetDTO(tweet))
     }
 }
