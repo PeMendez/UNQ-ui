@@ -34,16 +34,21 @@ class TweetController(private val twitterSystem: TwitterSystem, private val toke
     }
 
     fun getTrendingTopics(ctx: Context){
-        //falta la autorización
-        val trends = twitterSystem.getTrendingTopics()
-        ctx.json(trends)
+        tokenController.tokenToUser(ctx.header("Authorization")!!) //usaria validate token porque no necesito el usuario
+        val simpleTweetsTrend: List<SimpleTweetDTO> = mutableListOf()
+        val tweetResulDTO = twitterSystem.getTrendingTopics().stream()
+            .forEach{t -> simpleTweetsTrend.add(SimpleTweetDTO(t))}
+        ctx.json(tweetResulDTO)
     }
 
     fun addNewTweet(ctx: Context){
-        //le falta la autorización
-        val user =  tokenController.tokenToUser(ctx.header("Authorization")!!)
-        //val tweet = twitterSystem.addNewTweet(ctx.)
-
+        tokenController.tokenToUser(ctx.header("Authorization")!!) //usaria validate token porque no necesito el usuario
+        val draftTweet = ctx.bodyValidator<DraftTweet>()
+            .check({ it.userId.isNotBlank() }, "Content cannot be empty")
+            .check({ it.content.isNotBlank() }, "Content cannot be empty")
+            .get()
+        val tweet = twitterSystem.addNewTweet(draftTweet)
+        ctx.json(TweetDTO(tweet))
     }
 
     fun getTweet(ctx: Context){
