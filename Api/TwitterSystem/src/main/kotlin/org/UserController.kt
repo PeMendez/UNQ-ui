@@ -7,11 +7,10 @@ import java.lang.Exception
 class UserController(private val twitterSystem: TwitterSystem, private val tokenController: TokenController){
 
     fun login(ctx: Context){
-
         val userBody = ctx.bodyValidator<UserLoginDTO>().get()
         val user = twitterSystem.users.find { it.username == userBody.username && it.password == userBody.password}?: throw UserException("Usuario no encontrado")
         ctx.header("Authenticator", tokenController.generateToken(user))
-        ctx.json(user)
+        ctx.json(UserDTO(user))
     }
 
     fun getLoguedUser(ctx: Context){

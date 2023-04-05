@@ -40,6 +40,7 @@ class TokenController (private  val system : TwitterSystem){
         val decodedJWT = provider.validateToken(token).orElseThrow {throw Exception("Usuario no encontrado")}
         val username = decodedJWT.getClaim("username").asString()
         return users.find{it.username == username} ?: throw Exception("No existe el usuario")
+        //hace falta devolver al usuario?
     }
 
     fun validate(handler: Handler, ctx: Context, permittedRoles: Set<RouteRole>) {
