@@ -58,22 +58,22 @@ class TweetController(private val twitterSystem: TwitterSystem, private val toke
     }
 
     fun addReTweet(ctx: Context){
-        val user = tokenController.tokenToUser(ctx.header("Authorization")!!)
         var tweet = tweetOrThrow(ctx)
         val reTweet = ctx.bodyValidator<DraftReTweet>()
-            .check({ it.userId == user.id}, "You can't retweet your own tweet")
+            .check({ it.userId == tweet.user.id}, "You can't retweet your own tweet")// no sirve
+            .check({ it.content.isNotBlank()}, "Content cannot be empty")
             .get()
         tweet = twitterSystem.addReTweet(reTweet)
         ctx.json(TweetDTO(tweet))
 
     }
 
-    fun replyTweet(ctx: Context){
-        var tweet = tweetOrThrow(ctx)
+    fun replyTweet(ctx: Context){//replantear
+        tweetOrThrow(ctx)
         val content = ctx.bodyValidator<DraftReplyTweet>()
             .check({ it.content.isNotBlank() }, "Content cannot be empty")
             .get()
-        tweet = twitterSystem.replyTweet(content)
+        val tweet = twitterSystem.replyTweet(content)
         ctx.json(TweetDTO(tweet))
     }
 }

@@ -17,7 +17,7 @@ fun main() {
         it.registerPlugin(RouteOverviewPlugin("/routes"))
         it.enableCorsForAllOrigins()
         it.accessManager(tokenController::validate)
-    }.start(7070)
+    }.start(7071)
 
 
     app.before {
@@ -26,7 +26,7 @@ fun main() {
 
     app.routes{
         path("/login") {
-            post(userController::login, Roles.USER)
+            post(userController::login, Roles.ANYONE)
         }
         path("/register") {
             post(userController::register, Roles.ANYONE)

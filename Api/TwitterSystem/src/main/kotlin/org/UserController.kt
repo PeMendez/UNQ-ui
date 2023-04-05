@@ -8,29 +8,34 @@ class UserController(private val twitterSystem: TwitterSystem, private val token
 
     fun login(ctx: Context){
         //falta bad request
-        val userBody = ctx.bodyValidator<UserLoginDTO>().get()
-        val user = twitterSystem.users.find { it.username == userBody.username && it.password == userBody.password}?: throw UserException("Usuario no encontrado")
+        val userBody = ctx.bodyValidator<UserLoginDTO>()
+            .check({ it.username.isNotBlank() }, "Username cannot be empty")
+            .check({ it.password.isNotBlank() },"Password cannot be empty")
+            .get()
+        val user = twitterSystem.users.find { it.username == userBody.username && it.password == userBody.password}?: throw BadRequestResponse("Usuario no encontrado")
         ctx.header("Authenticator", tokenController.generateToken(user))
-        ctx.json(UserDTO(user))
+        val tweets = twitterSystem.tweets.filter { it.user == user }
+        ctx.json(UserDTO(user, tweets))
     }
 
     fun register(ctx: Context){
         val userBody = ctx.bodyValidator<DraftUser>()
             .check({ it.username.isNotBlank() }, "Username cannot be empty")
             .check({ it.email.isNotBlank() }, "Email cannot be empty")
-            .check({ it.password.isNotBlank() },"Password cannot be empty").get()
-        val user : User
+            .check({ it.password.isNotBlank() },"Password cannot be empty")
+            .get()
         try {
-            user = twitterSystem.addNewUser(userBody)
+            val user = twitterSystem.addNewUser(userBody)
+            //ctx.json(UserDTO(user))
         } catch (e: UserException) {
                 throw UserException("El usuario ya existe")
         }
-        ctx.json(UserDTO(user))
+
     }
 
     fun getLoguedUser(ctx: Context){
-        val user = tokenController.tokenToUser(ctx.header("Authorization")!!)
-        ctx.json(UserDTO(user))
+        val user = ctx.attribute<User>("user")!!
+        //ctx.json(UserDTO(user))
     }
     fun getFollowingTweets(ctx: Context){
         var user = tokenController.tokenToUser(ctx.header("Authorization")!!)
@@ -46,17 +51,17 @@ class UserController(private val twitterSystem: TwitterSystem, private val token
 
     fun getUser(ctx: Context){
         val user = userOrThrow(ctx)
-        ctx.json(UserDTO(user))
+        //ctx.json(UserDTO(user))
     }
 
     fun toggleFollow(ctx: Context){
         var user = tokenController.tokenToUser(ctx.header("Authorization")!!)
         val userToFollow = userOrThrow(ctx)
         user = twitterSystem.toggleFollow(user.id, userToFollow.id)
-        ctx.json(UserDTO(user))
+        //ctx.json(UserDTO(user))
     }
 
-    private fun userOrThrow(ctx: Context): User {
+    private fun userOrThrow(ctx: Context): User {// replicar con atribute
         try{
             return twitterSystem.getUser(ctx.pathParam("id"))
         } catch (e: Exception){
