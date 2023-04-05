@@ -47,7 +47,7 @@ class TweetDTO(val id: String, val type: TwitterTypeDTO, var user: SimpleUserDTO
         this.likes = tweet.likes.map { l -> SimpleUserDTO(l.id, l.username)}
 }}
 class TweetResulDTO(val result: List<SimpleTweetDTO>)
-class UsersResultDTO(val result: List<SimpleTweetDTO>)
+class UsersResultDTO(val result: List<SimpleUserDTO>)
 
 class AddTweetDTO(val content: String, val image: String?)
 class AddReTweetDTO(val content: String)

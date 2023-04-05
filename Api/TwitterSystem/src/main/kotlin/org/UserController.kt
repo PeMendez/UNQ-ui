@@ -14,12 +14,6 @@ class UserController(private val twitterSystem: TwitterSystem, private val token
         ctx.json(UserDTO(user))
     }
 
-    fun getLoguedUser(ctx: Context){
-        val users = twitterSystem.users
-        val user = tokenController.tokenToUser(ctx.header("Authorization")!!)
-        ctx.json(UserDTO(user))
-    }
-
     private fun userOrThrow(ctx: Context): User {
         try{
             return twitterSystem.getUser(ctx.pathParam("id"))
@@ -29,20 +23,29 @@ class UserController(private val twitterSystem: TwitterSystem, private val token
     }
     fun getFollowingTweets(ctx: Context){
         var user = tokenController.tokenToUser(ctx.header("Authorization")!!)
-        val usuario = userOrThrow(ctx)
-
+        var tweets = tweetToSimpleTweet(twitterSystem.getFollowingTweets(user.id))
+        ctx.json(TweetResulDTO(tweets))
+    }
+    private fun tweetToSimpleTweet(list : List<Tweet>) : List<SimpleTweetDTO> {
+        return list.map { t -> SimpleTweetDTO(t) }
     }
 
     fun register(ctx: Context){
 
     }
 
+    private fun userToSimpleUser(list : List<User>) : List<SimpleUserDTO> {
+        return list.map { u -> SimpleUserDTO(u.id, u.username) }
+    }
     fun usersToFollow(ctx: Context){
-
+        var user = tokenController.tokenToUser(ctx.header("Authorization")!!)
+        var users = userToSimpleUser(twitterSystem.getUsersToFollow(user.id))
+        ctx.json(UsersResultDTO(users))
     }
 
     fun getUser(ctx: Context){
-
+        val user = tokenController.tokenToUser(ctx.header("Authorization")!!)
+        ctx.json(UserDTO(user))
     }
 
     fun toggleFollow(ctx: Context){
