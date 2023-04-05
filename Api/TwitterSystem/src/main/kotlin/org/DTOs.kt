@@ -1,6 +1,7 @@
 package org
 
 import org.unq.Tweet
+import org.unq.TweetType
 import org.unq.User
 
 class UserLoginDTO(val username: String, val password: String)
@@ -15,11 +16,31 @@ class UserDTO(val id: String, val username: String, val email: String, val image
 
 class TwitterTypeDTO(val tweet: SimpleTweetDTO, val image: String?)
 class SimpleTweetDTO(val id: String, val type: TwitterTypeDTO?, var user: SimpleUserDTO, val content: String, val date: String, val repliesAmount: Int, val reTweetAmount: Int, var likes: List<SimpleUserDTO>)
-class TweetDTO(val id: String, val type: TwitterTypeDTO, var user: SimpleUserDTO, val content: String, val date: String, val replies: List<SimpleTweetDTO>, val reTweet: List<SimpleTweetDTO>, val likes: List<SimpleUserDTO>)//{
-    //constructor(tweet: Tweet): this(tweet.id, null, SimpleUserDTO(tweet.user.id, tweet.user.username), tweet.content, tweet.date.toString(), listOf<SimpleTweetDTO>(), listOf<SimpleTweetDTO>(), listOf<SimpleUserDTO>()){
-      //  this.likes = tweet.likes.map { l -> SimpleUserDTO(l.id, l.username)}
-        //this.type = TwitterTypeDTO()
-//}
+class TweetDTO(val id: String, val type: TwitterTypeDTO, var user: SimpleUserDTO, val content: String, val date: String, val replies: List<SimpleTweetDTO>, val reTweet: List<SimpleTweetDTO>, var likes: List<SimpleUserDTO>){
+    constructor(tweet: Tweet): this(tweet.id,
+                                    TwitterTypeDTO(
+                                        SimpleTweetDTO(
+                                            tweet.id,
+                                            null,
+                                            SimpleUserDTO(
+                                                tweet.user.id,
+                                                tweet.user.username),
+                                            tweet.content,
+                                            tweet.date.toString(),
+                                            tweet.replies.size,
+                                            tweet.reTweets.size,
+                                            listOf<SimpleUserDTO>()),
+                                        null),
+                                    SimpleUserDTO(
+                                        tweet.user.id,
+                                        tweet.user.username),
+                                    tweet.content,
+                                    tweet.date.toString(),
+                                    listOf<SimpleTweetDTO>(),
+                                    listOf<SimpleTweetDTO>(),
+                                    listOf<SimpleUserDTO>()){
+        this.likes = tweet.likes.map { l -> SimpleUserDTO(l.id, l.username)}
+}}
 class TweetResulDTO(val result: List<SimpleTweetDTO>)
 class UsersResultDTO(val result: List<SimpleTweetDTO>)
 
