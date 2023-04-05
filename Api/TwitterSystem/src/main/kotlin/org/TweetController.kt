@@ -69,7 +69,6 @@ class TweetController(private val twitterSystem: TwitterSystem, private val toke
     }
 
     fun replyTweet(ctx: Context){
-        val user = tokenController.tokenToUser(ctx.header("Authorization")!!)
         var tweet = tweetOrThrow(ctx)
         val content = ctx.bodyValidator<DraftReplyTweet>()
             .check({ it.content.isNotBlank() }, "Content cannot be empty")

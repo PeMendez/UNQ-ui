@@ -17,8 +17,14 @@ class UserController(private val twitterSystem: TwitterSystem, private val token
     fun register(ctx: Context){
         val userBody = ctx.bodyValidator<DraftUser>()
             .check({ it.username.isNotBlank() }, "Username cannot be empty")
-            .check({ it.email.isNotBlank() }, "Email cannot be empty").get()?: throw BadRequestResponse("Invalid fields") //ver esto.
-        val user = twitterSystem.users.find { it.username == userBody.username && it.email == userBody.email }?: twitterSystem.addNewUser(userBody)
+            .check({ it.email.isNotBlank() }, "Email cannot be empty")
+            .check({ it.password.isNotBlank() },"Password cannot be empty").get()
+        val user : User
+        try {
+            user = twitterSystem.addNewUser(userBody)
+        } catch (e: UserException) {
+                throw UserException("El usuario ya existe")
+        }
         ctx.json(UserDTO(user))
     }
 
