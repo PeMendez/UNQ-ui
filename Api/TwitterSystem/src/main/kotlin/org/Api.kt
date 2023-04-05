@@ -3,11 +3,11 @@ package org
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
 import io.javalin.core.util.RouteOverviewPlugin
-import org.unq.TwitterSystem
+import org.unq.initTwitterSystem
 
 fun main() {
 
-    val twitterSystem = TwitterSystem()
+    val twitterSystem = initTwitterSystem()
     val tokenController = TokenController(twitterSystem)
     val userController = UserController(twitterSystem,tokenController)
     val tweetController = TweetController(twitterSystem, tokenController)

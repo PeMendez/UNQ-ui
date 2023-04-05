@@ -25,8 +25,8 @@ class TweetController(private val twitterSystem: TwitterSystem, private val toke
     }
     fun search(ctx: Context) {
         try {
-            val text = ctx.pathParam("searchText")
-            val searchResult = twitterSystem.search(text!!)
+            val query = ctx.queryParam("searchText")
+            val searchResult = twitterSystem.search(query!!)
             ctx.json(searchResult)
         } catch (e: Exception) {
             throw BadRequestResponse("The searched text is not found")
