@@ -24,9 +24,6 @@ class TokenController (private  val system : TwitterSystem){
     private val algorithm = Algorithm.HMAC256("grupo04")
     private val verifier = JWT.require(algorithm).build()
     private val generator = UserGenerator()
-    //JWTGenerator<User> {user: User, alg: Algorithm? ->
-    //val token: JWTCreator.Builder = JWT.create()
-    //  .withClaim("username", user.username)
     private val provider = JWTProvider(algorithm, generator, verifier)
     private val header = "Authorization"
     private val users = system.users
