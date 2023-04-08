@@ -3,7 +3,7 @@ package org
 import org.unq.*
 
 class UserLoginDTO(val username: String, val password: String)
-class DraftUserDTO(val usarme: String, val email: String, val password: String, val image: String, val backgroundImage: String)
+class DraftUserDTO(val username: String, val email: String, val password: String, val image: String, val backgroundImage: String)
 class SimpleUserDTO(val id: String, val username: String)
 class UserDTO(val id: String, val username: String, val email: String, val image: String, val backgroundImage: String,  var followers: List<SimpleUserDTO>, var following: List<SimpleUserDTO>, var tweets: List<SimpleTweetDTO>){
     constructor(user: User, tweets: List<Tweet>) : this(user.id, user.username, user.email, user.image, user.backgroundImage, listOf<SimpleUserDTO>(), listOf<SimpleUserDTO>(), listOf<SimpleTweetDTO>()) {

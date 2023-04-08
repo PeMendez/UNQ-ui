@@ -7,7 +7,6 @@ import java.lang.Exception
 class UserController(private val twitterSystem: TwitterSystem, private val tokenController: TokenController){
 
     fun login(ctx: Context){
-        //falta bad request -> si no entiendo mal, esta hecho en la linea 16
         val userBody = ctx.bodyValidator<UserLoginDTO>()
             .check({ it.username.isNotBlank() }, "Username cannot be empty")
             .check({ it.password.isNotBlank() },"Password cannot be empty")
@@ -20,7 +19,7 @@ class UserController(private val twitterSystem: TwitterSystem, private val token
     }
 
     fun register(ctx: Context){
-        val userBody = ctx.bodyValidator<DraftUser>()
+        val userBody = ctx.bodyValidator<DraftUser>()//No sabemos si es lo mismo usar el DTO o no.
             .check({ it.username.isNotBlank() }, "Username cannot be empty")
             .check({ it.email.isNotBlank() }, "Email cannot be empty")
             .check({ it.password.isNotBlank() },"Password cannot be empty")
@@ -29,15 +28,15 @@ class UserController(private val twitterSystem: TwitterSystem, private val token
             val user = twitterSystem.addNewUser(userBody)
             val tweets = getLogedUserTweets(user)
             ctx.json(UserDTO(user,tweets))
-        } catch (e: UserException) {
+        } catch (e: UserException) {  //No lanza bien el error.
                 throw UserException("User already exists")
         }
 
     }
 
     fun getLoguedUser(ctx: Context){
-        //val user = ctx.attribute<User>("user")!!
-        var user = userOrThrow(ctx)
+        //val user = tokenController.tokenToUser(ctx.header("Authorization")!!)
+        val user = ctx.attribute<User>("user")!!
         val tweets = getLogedUserTweets(user)
         ctx.json(UserDTO(user,tweets))
     }
