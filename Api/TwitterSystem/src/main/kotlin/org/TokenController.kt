@@ -15,7 +15,7 @@ import org.unq.UserException
 class UserGenerator : JWTGenerator<User> {
     override fun generate(user: User, alg: Algorithm?): String {
         val token: JWTCreator.Builder = JWT.create()
-            .withClaim("username", user.username)
+            .withClaim("id", user.id)
         return token.sign(alg)
     }
 }
@@ -33,12 +33,6 @@ class TokenController (private  val system : TwitterSystem){
         return provider.generateToken(user)
     }
 
-    fun validateToken(token: String) : User {
-        val decodedJWT = provider.validateToken(token).orElseThrow {throw Exception("Usuario no encontrado")}
-        val username = decodedJWT.getClaim("username").asString()
-        return users.find{it.username == username} ?: throw Exception("No existe el usuario")
-        //hace falta devolver al usuario?
-    }
 
     fun validate(handler: Handler, ctx: Context, permittedRoles: Set<RouteRole>) {
         val header = ctx.header(header)
@@ -66,13 +60,9 @@ class TokenController (private  val system : TwitterSystem){
         }
     }
 
-    fun tokenToUser(token: String): User {
-        val validateToken = provider.validateToken(token)
-        val userId = validateToken.get().getClaim("id").asString()
-        try {
-            return system.getUser(userId)
-        } catch (e: UserException) {
-            throw NotFoundResponse("User not found.")
-        }
+    fun tokenToUser(token: String) : User {
+        val decodedJWT = provider.validateToken(token).orElseThrow {throw UnauthorizedResponse("Usuario no encontrado")}
+        val id = decodedJWT.getClaim("id").asString()
+        return users.find{it.id == id} ?: throw NotFoundResponse("No existe el usuario")
     }
 }
