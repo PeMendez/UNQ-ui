@@ -7,15 +7,7 @@ import org.unq.*
 import java.time.LocalDateTime
 
 
-class TweetController(private val twitterSystem: TwitterSystem, private val tokenController: TokenController) {
-
-    private fun tweetOrThrow(ctx: Context): Tweet {
-        try {
-            return twitterSystem.getTweet(ctx.pathParam("id"))
-        } catch(e: TweetException) {
-            throw NotFoundResponse("Tweet not found")
-        }
-    }
+class TweetController(private val twitterSystem: TwitterSystem) {
 
     fun search(ctx: Context) {
         try {
@@ -36,36 +28,18 @@ class TweetController(private val twitterSystem: TwitterSystem, private val toke
         ctx.json(TweetResulDTO(tweetResul))
     }
 
-    fun addNewTweet(ctx: Context){
+    fun addNewTweet(ctx: Context){// meter if y preguntar.
         val tweetDTO = ctx.bodyValidator<AddTweetDTO>()
             .check({ it.content.isNotBlank() }, "Content cannot be empty")
             .get()
-        try {
-            val user = tokenController.tokenToUser(ctx.header("Authorization")!!)
+
+            val user = getUserByAttribute(ctx)
             val draftTweet = createDraftTweet(tweetDTO, user)
             val tweet = twitterSystem.addNewTweet(draftTweet)
             ctx.json(TweetDTO(tweet))
-        } catch (e: Exception){
-            throw UserException("User don´t exists")
-        }
+
 
     }
-
-    private fun createDraftTweet(tweetDTO: AddTweetDTO, user: User ) : DraftTweet {
-
-        return DraftTweet(user.id, tweetDTO.content, tweetDTO.image, LocalDateTime.now())
-    }
-
-    private fun createDraftReTweet(tweetDTO: AddReTweetDTO, user: User, originTweet: Tweet) : DraftReTweet {
-
-        return DraftReTweet(user.id, originTweet.id, tweetDTO.content, LocalDateTime.now())
-    }
-
-    private fun createDraftReplyTweet(tweetDTO: AddReplyTweetDTO, user: User, originTweet: Tweet ) : DraftReplyTweet {
-
-        return DraftReplyTweet(user.id, originTweet.id, tweetDTO.content, tweetDTO.image, LocalDateTime.now())
-    }
-
     fun getTweet(ctx: Context){
 
         ctx.json(TweetDTO(tweetOrThrow(ctx)))
@@ -73,14 +47,14 @@ class TweetController(private val twitterSystem: TwitterSystem, private val toke
 
     fun toggleLike(ctx: Context){
         var tweet = tweetOrThrow(ctx)
-        val user = tokenController.tokenToUser(ctx.header("Authorization")!!)
+        val user = getUserByAttribute(ctx)
         tweet = twitterSystem.toggleLike(tweet.id, user.id)
         ctx.json(TweetDTO(tweet))
 
     }
 
-    fun addReTweet(ctx: Context){
-        var user = tokenController.tokenToUser(ctx.header("Authorization")!!)
+    fun addReTweet(ctx: Context){ //hacer if y preguntar.
+        var user = getUserByAttribute(ctx)
         var tweet = tweetOrThrow(ctx)
         val reTweetDTO = ctx.bodyValidator<AddReTweetDTO>()
             .check({ it.content.isNotBlank()}, "Content cannot be empty")
@@ -91,8 +65,8 @@ class TweetController(private val twitterSystem: TwitterSystem, private val toke
 
     }
 
-    fun replyTweet(ctx: Context){//replantear
-        var user = tokenController.tokenToUser(ctx.header("Authorization")!!)
+    fun replyTweet(ctx: Context){//if
+        var user = getUserByAttribute(ctx)
         val originTweet = tweetOrThrow(ctx)
         val replyTweetDTO = ctx.bodyValidator<AddReplyTweetDTO>()
             .check({ it.content.isNotBlank() }, "Content cannot be empty")
@@ -100,5 +74,29 @@ class TweetController(private val twitterSystem: TwitterSystem, private val toke
         val draftTweet = createDraftReplyTweet(replyTweetDTO, user, originTweet)
         val tweet = twitterSystem.replyTweet(draftTweet)
         ctx.json(TweetDTO(tweet))
+    }
+
+    private fun tweetOrThrow(ctx: Context): Tweet {
+        try {
+            return twitterSystem.getTweet(ctx.pathParam("id"))
+        } catch(e: TweetException) {
+            throw NotFoundResponse("Tweet not found")
+        }
+    }
+
+    private fun getUserByAttribute(ctx: Context) : User {
+        return ctx.attribute<User>("user")!!
+    }
+    private fun createDraftTweet(tweetDTO: AddTweetDTO, user: User ) : DraftTweet {
+
+        return DraftTweet(user.id, tweetDTO.content, tweetDTO.image, LocalDateTime.now())
+    }
+    private fun createDraftReTweet(tweetDTO: AddReTweetDTO, user: User, originTweet: Tweet) : DraftReTweet {
+
+        return DraftReTweet(user.id, originTweet.id, tweetDTO.content, LocalDateTime.now())
+    }
+    private fun createDraftReplyTweet(tweetDTO: AddReplyTweetDTO, user: User, originTweet: Tweet ) : DraftReplyTweet {
+
+        return DraftReplyTweet(user.id, originTweet.id, tweetDTO.content, tweetDTO.image, LocalDateTime.now())
     }
 }
