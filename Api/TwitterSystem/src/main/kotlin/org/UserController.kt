@@ -14,7 +14,7 @@ class UserController(private val twitterSystem: TwitterSystem, private val token
             if (userBody.password == "") throw BadRequestResponse("Password cannot be empty")
 
         val user = twitterSystem.users.find { it.username == userBody.username && it.password == userBody.password}?:
-                    throw BadRequestResponse("Invalid username or password")
+                    throw NotFoundResponse("Invalid username or password")
         ctx.header("Authorization", tokenController.generateToken(user))
         val tweets = getLogedUserTweets(user)
         ctx.json(UserDTO(user, tweets))
@@ -40,7 +40,7 @@ class UserController(private val twitterSystem: TwitterSystem, private val token
             val tweets = getLogedUserTweets(user)
             ctx.json(UserDTO(user,tweets))
         } catch (e: UserException) {
-                throw UnauthorizedResponse("User already exists")
+                throw BadRequestResponse("User already exists")
         }
     }
 
@@ -75,7 +75,7 @@ class UserController(private val twitterSystem: TwitterSystem, private val token
         try {
             user = twitterSystem.toggleFollow(user.id, userToFollow.id)
         } catch (e: Exception){
-            throw ForbiddenResponse("Can not follow to yourself")
+            throw NotFoundResponse("Can not follow to yourself")
         }
         val tweets = getLogedUserTweets(user)
         ctx.json(UserDTO(user,tweets))

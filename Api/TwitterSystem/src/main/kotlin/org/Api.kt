@@ -10,7 +10,7 @@ fun main() {
     val twitterSystem = initTwitterSystem()
     val tokenController = TokenController(twitterSystem)
     val userController = UserController(twitterSystem,tokenController)
-    val tweetController = TweetController(twitterSystem, tokenController)
+    val tweetController = TweetController(twitterSystem)
 
     val app = Javalin.create() {
         it.defaultContentType = "application/json"

@@ -2,7 +2,6 @@ package org
 
 import io.javalin.http.BadRequestResponse
 import io.javalin.http.Context
-import io.javalin.http.NotFoundResponse
 import org.unq.*
 import java.time.LocalDateTime
 
@@ -15,12 +14,8 @@ class TweetController(private val twitterSystem: TwitterSystem) {
             val searchResult = tweetToSimpleTweet(twitterSystem.search(query!!))
             ctx.json(TweetResulDTO(searchResult))
         } catch (e: Exception) {
-            throw BadRequestResponse("The searched text is not found")
+            throw BadRequestResponse("Invalid query")
         }
-    }
-
-    private fun tweetToSimpleTweet(list : List<Tweet>) : List<SimpleTweetDTO> {
-        return list.map { t -> SimpleTweetDTO(t) }
     }
 
     fun getTrendingTopics(ctx: Context){
@@ -28,17 +23,15 @@ class TweetController(private val twitterSystem: TwitterSystem) {
         ctx.json(TweetResulDTO(tweetResul))
     }
 
-    fun addNewTweet(ctx: Context){// meter if y preguntar.
+    fun addNewTweet(ctx: Context){
         val tweetDTO = ctx.bodyValidator<AddTweetDTO>()
-            .check({ it.content.isNotBlank() }, "Content cannot be empty")
+            //.check({ it.content.isNotBlank() }, "Content cannot be empty")
             .get()
-
+            if (tweetDTO.content == "") throw BadRequestResponse("Content cannot be empty")
             val user = getUserByAttribute(ctx)
             val draftTweet = createDraftTweet(tweetDTO, user)
             val tweet = twitterSystem.addNewTweet(draftTweet)
             ctx.json(TweetDTO(tweet))
-
-
     }
     fun getTweet(ctx: Context){
 
@@ -53,24 +46,31 @@ class TweetController(private val twitterSystem: TwitterSystem) {
 
     }
 
-    fun addReTweet(ctx: Context){ //hacer if y preguntar.
+    fun addReTweet(ctx: Context){
         var user = getUserByAttribute(ctx)
         var tweet = tweetOrThrow(ctx)
+        if (ctx.body().isBlank()) throw BadRequestResponse("Body cannot be empty")
         val reTweetDTO = ctx.bodyValidator<AddReTweetDTO>()
-            .check({ it.content.isNotBlank()}, "Content cannot be empty")
+            //.check({ it.content.isNotBlank()}, "Content cannot be empty")
             .get()
+            if (reTweetDTO.content == "") throw BadRequestResponse("Content cannot be empty")
         val reTweet = createDraftReTweet(reTweetDTO, user, tweet)
-        tweet = twitterSystem.addReTweet(reTweet)
-        ctx.json(TweetDTO(tweet))
-
+        try {
+            tweet = twitterSystem.addReTweet(reTweet)
+            ctx.json(TweetDTO(tweet))
+        } catch (e: Exception){
+            throw BadRequestResponse("Can not retweet your own tweet")
+        }
     }
 
-    fun replyTweet(ctx: Context){//if
+    fun replyTweet(ctx: Context){
         var user = getUserByAttribute(ctx)
         val originTweet = tweetOrThrow(ctx)
+        if (ctx.body().isBlank()) throw BadRequestResponse("Body cannot be empty")
         val replyTweetDTO = ctx.bodyValidator<AddReplyTweetDTO>()
-            .check({ it.content.isNotBlank() }, "Content cannot be empty")
+            //.check({ it.content.isNotBlank() }, "Content cannot be empty")
             .get()
+        if (replyTweetDTO.content == "") throw BadRequestResponse("Content cannot be empty")
         val draftTweet = createDraftReplyTweet(replyTweetDTO, user, originTweet)
         val tweet = twitterSystem.replyTweet(draftTweet)
         ctx.json(TweetDTO(tweet))
@@ -80,7 +80,7 @@ class TweetController(private val twitterSystem: TwitterSystem) {
         try {
             return twitterSystem.getTweet(ctx.pathParam("id"))
         } catch(e: TweetException) {
-            throw NotFoundResponse("Tweet not found")
+            throw BadRequestResponse("Tweet not found")
         }
     }
 
@@ -99,4 +99,8 @@ class TweetController(private val twitterSystem: TwitterSystem) {
 
         return DraftReplyTweet(user.id, originTweet.id, tweetDTO.content, tweetDTO.image, LocalDateTime.now())
     }
+    private fun tweetToSimpleTweet(list : List<Tweet>) : List<SimpleTweetDTO> {
+        return list.map { t -> SimpleTweetDTO(t) }
+    }
+
 }

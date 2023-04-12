@@ -23,7 +23,7 @@ class SimpleTweetDTO(val id: String, val type: TwitterTypeDTO, var user: SimpleU
         this.likes = tweet.likes.map { l -> SimpleUserDTO(l.id, l.username) }
     }
 }
-class TweetDTO(val id: String, val type: TwitterTypeDTO, var user: SimpleUserDTO, val content: String, val date: String, val replies: List<SimpleTweetDTO>, val reTweet: List<SimpleTweetDTO>, var likes: List<SimpleUserDTO>){
+class TweetDTO(val id: String, val type: TwitterTypeDTO, var user: SimpleUserDTO, val content: String, val date: String, var replies: List<SimpleTweetDTO>, var reTweet: List<SimpleTweetDTO>, var likes: List<SimpleUserDTO>){
     constructor(tweet: Tweet): this(tweet.id,
                                     TwitterTypeDTO(
                                         tweet.type),
@@ -35,6 +35,8 @@ class TweetDTO(val id: String, val type: TwitterTypeDTO, var user: SimpleUserDTO
                                     listOf<SimpleTweetDTO>(),
                                     listOf<SimpleTweetDTO>(),
                                     listOf<SimpleUserDTO>()){
+        this.reTweet = tweet.reTweets.map { r -> SimpleTweetDTO(r) }
+        this.replies = tweet.replies.map { r -> SimpleTweetDTO(r) }
         this.likes = tweet.likes.map { l -> SimpleUserDTO(l.id, l.username)}
 }}
 class TweetResulDTO(val result: List<SimpleTweetDTO>)
