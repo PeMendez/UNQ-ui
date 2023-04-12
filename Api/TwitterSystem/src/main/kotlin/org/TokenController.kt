@@ -60,9 +60,4 @@ class TokenController (private  val system : TwitterSystem){
         }
     }
 
-    fun tokenToUser(token: String) : User {
-        val decodedJWT = provider.validateToken(token).orElseThrow {throw UnauthorizedResponse("Usuario no encontrado")}
-        val id = decodedJWT.getClaim("id").asString()
-        return users.find{it.id == id} ?: throw NotFoundResponse("No existe el usuario")
-    }
 }
