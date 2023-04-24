@@ -2,21 +2,25 @@ package org
 
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
-import io.javalin.core.util.RouteOverviewPlugin
 import org.unq.initTwitterSystem
 
 fun main() {
 
     val twitterSystem = initTwitterSystem()
-    val tokenController = TokenController(twitterSystem)
+    val tokenController = TokenController<Any?>(twitterSystem)
     val userController = UserController(twitterSystem,tokenController)
     val tweetController = TweetController(twitterSystem)
 
-    val app = Javalin.create() {
-        it.defaultContentType = "application/json"
-        it.registerPlugin(RouteOverviewPlugin("/routes"))
-        it.enableCorsForAllOrigins()
-        it.accessManager(tokenController::validate)
+    val app = Javalin.create {config ->
+        config.accessManager(tokenController::validate)
+        config.plugins.enableCors{ cors ->
+                cors.add { corsConfig ->
+                    corsConfig.anyHost()
+                }
+            }
+        //it.defaultContentType = "application/json"
+        //it.registerPlugin(RouteOverviewPlugin("/routes"))
+
     }.start(7071)
 
 

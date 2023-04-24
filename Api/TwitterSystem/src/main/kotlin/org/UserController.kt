@@ -4,13 +4,13 @@ import io.javalin.http.*
 import org.unq.*
 import java.lang.*
 
-class UserController(private val twitterSystem: TwitterSystem, private val tokenController: TokenController){
+class UserController(private val twitterSystem: TwitterSystem, private val tokenController: TokenController<Any?>){
 
     fun login(ctx: Context){
-        val userBody = ctx.bodyValidator<UserLoginDTO>().get()
-            if (userBody.username == "") throw BadRequestResponse("Username cannot be empty")
-            if (userBody.password == "") throw BadRequestResponse("Password cannot be empty")
-
+        val userBody = ctx.bodyValidator<UserLoginDTO>()
+            .check({it.username.isNotBlank()}, "Username cannot be empty")
+            .check({it.password.isNotBlank()}, "Password cannot be empty")
+            .getOrThrow { throw BadRequestResponse("Invalid fields") }
         val user = twitterSystem.users.find { it.username == userBody.username && it.password == userBody.password}?:
                     throw NotFoundResponse("Invalid username or password")
         ctx.header("Authorization", tokenController.generateToken(user))
@@ -20,16 +20,18 @@ class UserController(private val twitterSystem: TwitterSystem, private val token
     }
 
     fun register(ctx: Context){
-        val userBody = ctx.bodyValidator<DraftUserDTO>().get()
-            if (userBody.username == "") throw BadRequestResponse("Username cannot be empty")
-            if (userBody.email == "") throw BadRequestResponse("Email cannot be empty")
-            if (userBody.password == "") throw BadRequestResponse("Password cannot be empty")
-            if (userBody.image == "") throw BadRequestResponse("Image cannot be empty")
-            if (userBody.backgroundImage == "") throw BadRequestResponse("Background Image cannot be empty")
-
+        val userBody = ctx.bodyValidator<DraftUserDTO>()
+            .check({it.username.isNotBlank()}, "Username cannot be empty")
+            .check({it.email.isNotBlank()}, "Email cannot be empty")
+            .check({it.password.isNotBlank()}, "Password cannot be empty")
+            .check({it.image.isNotBlank()}, "Image cannot be empty")
+            .check({it.backgroundImage.isNotBlank()}, "Background Image cannot be empty")
+            .getOrThrow { throw BadRequestResponse("Invalid fields") }
         try {
             val user = twitterSystem.addNewUser(draftDTOtoDraft(userBody))
             val tweets = getLogedUserTweets(user)
+            val token = tokenController.generateToken(user)
+            ctx.header("Authorization", token)
             ctx.json(UserDTO(user,tweets))
         } catch (e: UserException) {
                 throw BadRequestResponse("User already exists")

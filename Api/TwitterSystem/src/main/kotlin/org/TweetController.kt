@@ -2,6 +2,7 @@ package org
 
 import io.javalin.http.BadRequestResponse
 import io.javalin.http.Context
+import io.javalin.http.bodyValidator
 import org.unq.*
 import java.time.LocalDateTime
 
@@ -27,8 +28,9 @@ class TweetController(private val twitterSystem: TwitterSystem) {
     }
 
     fun addNewTweet(ctx: Context){
-        val tweetDTO = ctx.bodyValidator<AddTweetDTO>().get()
-            if (tweetDTO.content == "") throw BadRequestResponse("Content cannot be empty")
+        val tweetDTO = ctx.bodyValidator<AddTweetDTO>()
+            .check( {it.content.isNotBlank()}, "Content cannot be empty")
+            .getOrThrow { throw BadRequestResponse("Content cannot be empty") }
         val user = getUserByAttribute(ctx)
         val draftTweet = createDraftTweet(tweetDTO, user)
         val tweet = twitterSystem.addNewTweet(draftTweet)
@@ -51,10 +53,11 @@ class TweetController(private val twitterSystem: TwitterSystem) {
 
     fun addReTweet(ctx: Context){
 
-        var user = getUserByAttribute(ctx)
+        val user = getUserByAttribute(ctx)
         var tweet = tweetOrThrow(ctx)
-        val reTweetDTO = ctx.bodyValidator<AddReTweetDTO>().get()
-            if (reTweetDTO.content == "") throw BadRequestResponse("Content cannot be empty")
+        val reTweetDTO = ctx.bodyValidator<AddReTweetDTO>()
+            .check( {it.content.isNotBlank()}, "Content cannot be empty")
+            .getOrThrow { throw BadRequestResponse("Content cannot be empty") }
         val reTweet = createDraftReTweet(reTweetDTO, user, tweet)
         try {
             tweet = twitterSystem.addReTweet(reTweet)
@@ -66,10 +69,11 @@ class TweetController(private val twitterSystem: TwitterSystem) {
 
     fun replyTweet(ctx: Context){
 
-        var user = getUserByAttribute(ctx)
+        val user = getUserByAttribute(ctx)
         val originTweet = tweetOrThrow(ctx)
-        val replyTweetDTO = ctx.bodyValidator<AddReplyTweetDTO>().get()
-            if (replyTweetDTO.content == "") throw BadRequestResponse("Content cannot be empty")
+        val replyTweetDTO = ctx.bodyValidator<AddReplyTweetDTO>()
+            .check( {it.content.isNotBlank()}, "Content cannot be empty")
+            .getOrThrow { throw BadRequestResponse("Content cannot be empty") }
         val draftTweet = createDraftReplyTweet(replyTweetDTO, user, originTweet)
         val tweet = twitterSystem.replyTweet(draftTweet)
 

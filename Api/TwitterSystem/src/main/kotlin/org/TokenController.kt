@@ -3,13 +3,16 @@ package org
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTCreator
 import com.auth0.jwt.algorithms.Algorithm
-import io.javalin.core.security.RouteRole
 import io.javalin.http.*
 import javalinjwt.JWTGenerator
 import javalinjwt.JWTProvider
 import org.unq.TwitterSystem
 import org.unq.User
 import org.unq.UserException
+import io.javalin.http.Context
+import io.javalin.http.Handler
+import io.javalin.http.UnauthorizedResponse
+
 
 
 class UserGenerator : JWTGenerator<User> {
@@ -20,13 +23,12 @@ class UserGenerator : JWTGenerator<User> {
     }
 }
 
-class TokenController (private  val system : TwitterSystem){
+class TokenController<RouteRole>(private  val system : TwitterSystem){
     private val algorithm = Algorithm.HMAC256("grupo04")
     private val verifier = JWT.require(algorithm).build()
     private val generator = UserGenerator()
     private val provider = JWTProvider(algorithm, generator, verifier)
     private val header = "Authorization"
-    private val users = system.users
 
 
     fun generateToken(user: User): String {
@@ -45,7 +47,7 @@ class TokenController (private  val system : TwitterSystem){
                 val token = provider.validateToken(header)
                 if (token.isPresent) {
                     val userId = token.get().getClaim("id").asString()
-                    var user : User
+                    val user : User
                     try { user = system.getUser(userId) } catch(e: UserException) { throw ForbiddenResponse("Invalid token") }
                     if (permittedRoles.contains(Roles.USER)) {
                         ctx.attribute("user", user)
