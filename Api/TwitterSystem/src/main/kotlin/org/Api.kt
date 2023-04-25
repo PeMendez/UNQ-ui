@@ -7,7 +7,7 @@ import org.unq.initTwitterSystem
 fun main() {
 
     val twitterSystem = initTwitterSystem()
-    val tokenController = TokenController<Any?>(twitterSystem)
+    val tokenController = TokenController(twitterSystem)
     val userController = UserController(twitterSystem,tokenController)
     val tweetController = TweetController(twitterSystem)
 

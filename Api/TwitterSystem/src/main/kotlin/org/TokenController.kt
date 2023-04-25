@@ -12,8 +12,7 @@ import org.unq.UserException
 import io.javalin.http.Context
 import io.javalin.http.Handler
 import io.javalin.http.UnauthorizedResponse
-
-
+import io.javalin.security.RouteRole
 
 class UserGenerator : JWTGenerator<User> {
     override fun generate(user: User, alg: Algorithm?): String {
@@ -23,7 +22,7 @@ class UserGenerator : JWTGenerator<User> {
     }
 }
 
-class TokenController<RouteRole>(private  val system : TwitterSystem){
+class TokenController(private  val system : TwitterSystem){
     private val algorithm = Algorithm.HMAC256("grupo04")
     private val verifier = JWT.require(algorithm).build()
     private val generator = UserGenerator()

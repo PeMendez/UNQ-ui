@@ -4,7 +4,7 @@ import io.javalin.http.*
 import org.unq.*
 import java.lang.*
 
-class UserController(private val twitterSystem: TwitterSystem, private val tokenController: TokenController<Any?>){
+class UserController(private val twitterSystem: TwitterSystem, private val tokenController: TokenController){
 
     fun login(ctx: Context){
         val userBody = ctx.bodyValidator<UserLoginDTO>()
