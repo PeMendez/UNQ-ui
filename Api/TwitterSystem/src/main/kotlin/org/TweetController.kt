@@ -11,13 +11,12 @@ class TweetController(private val twitterSystem: TwitterSystem) {
 
     fun search(ctx: Context) {
 
-        try {
-            val query = ctx.queryParam("searchText")
-            val searchResult = tweetToSimpleTweet(twitterSystem.search(query!!))
-            ctx.json(TweetResulDTO(searchResult))
-        } catch (e: TweetException) {
+        val query = ctx.queryParam("searchText").orEmpty()
+        if (query.isBlank()){
             throw BadRequestResponse("Invalid query")
         }
+        val searchResult = tweetToSimpleTweet(twitterSystem.search(query))
+        ctx.json(TweetResulDTO(searchResult))
     }
 
     fun getTrendingTopics(ctx: Context){
