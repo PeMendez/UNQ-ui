@@ -1,0 +1,37 @@
+.user-button {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-top: 50px; 
+}
+
+.user-button:hover {
+  cursor: pointer;
+}
+
+.user-button:active {
+  background-color: lightblue;
+  border-radius: 20px/10px;
+}
+
+.user-button .MuiAvatar-root {
+  width: 32px;
+  height: 32px;
+  margin-right: 10px;
+}
+
+.user-info-side {
+  display: flex;
+  flex-direction: column;
+}
+
+.username-side {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.id-side {
+  font-size: 12px;
+  color: gray;
+}

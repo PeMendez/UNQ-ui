@@ -1,0 +1,69 @@
+.tweet {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-bottom: 1px solid rgb(230, 236, 240);
+    font-size: 15px;
+  line-height: 1.4;
+}
+
+.tweet__header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.tweet__profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.tweet__username {
+  font-weight: bold;
+  margin: 0;
+}
+
+.tweet__date {
+  margin: 0;
+  color: rgb(101, 119, 134);
+}
+
+.tweet__content {
+  margin: 10px 0;
+}
+
+.tweet__footer {
+  display: flex;
+  justify-content: space-between;
+  color: rgb(101, 119, 134);
+  font-size: 13px;
+}
+
+.tweet__likes,
+.tweet__replies,
+.tweet__retweets {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.tweet__likes span,
+.tweet__replies span,
+.tweet__retweets span {
+  margin-left: 5px;
+}
+
+.tweet__likes:hover,
+.tweet__replies:hover,
+.tweet__retweets:hover {
+  cursor: pointer;
+  color: rgb(224, 36, 94);
+}
+
+.tweet__likes:hover i,
+.tweet__replies:hover i,
+.tweet__retweets:hover i {
+  color: rgb(224, 36, 94);
+}

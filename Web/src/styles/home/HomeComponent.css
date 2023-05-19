@@ -1,0 +1,35 @@
+body {
+  --twitter-color: #50b7f5;
+  --twitter-background: #e6ecf0;
+}
+
+
+.app {
+  display: flex;
+  height: 100vh;
+  margin-left: 10px;
+  margin-right: 20px;
+  padding: 0 10px;
+  width: 100%;
+}
+
+.main {
+  flex: 0.3;
+  border-right: 1px solid var(--twitter-background);
+  min-width: fit-content;
+  overflow-y: scroll;
+}
+
+.children-container {
+  width: 100%; 
+  overflow-x: hidden;
+}
+  
+.main::-webkit-scrollbar {
+  display: none;
+}
+
+.main {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
