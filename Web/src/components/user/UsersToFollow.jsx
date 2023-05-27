@@ -1,35 +1,39 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import UserSimple from "./UserSimple"
 import Api from "../../api/Api.js";
+import '../../styles/user/UsersToFollow.css'
 
-const UsersToFollow = () => {
-  const [users, setUsers] = useState([]);
-  const navigate = useNavigate();
 
-  const fetchUsersToFollow = async () => {
-    try {
-      const response = await Api.getUsersToFollow();
-      setUsers(response.data);
-    } catch (error) {
-      console.error(error);
+const UsersToFollow = ({loggedUser}) => {
+    
+    const [users, setUsers] = useState([])
+
+    const fetchUsersToFollow = async () => {
+        try {
+          const response = await Api.getUsersToFollow();
+          setUsers(response.data.result);
+        } catch (error) {
+          console.error(error);
+        }
     }
-  };
+    
+    useEffect(() => {
+      fetchUsersToFollow();
+    }, [])
 
-  useEffect(() => {
-    fetchUsersToFollow();
-  }, []);
+    return (
+        <div className="users-to-follow">
+            <h2>Recommended users</h2> {
+                Array.isArray(users) && users.length > 0 ? (
+                    users.map((user) => (
+                        <div className="list_of_users_to_follow">
+                            <UserSimple user={user}/>
+                        </div>
+                    ))
+                ):(<p>No hay usuarios para recomendar.</p>)
+            }
+        </div>
+    )
+}
 
-  return (
-    <div className="users-to-follow">
-      <h2>Usuarios a seguir</h2>
-        {Array.isArray(users) && users.length > 0 ? (
-        users.map((user) => (
-            <span onClick={() => navigate(`user/:${user.id}`, { replace: true })}>@{user.username}</span>
-        ))): (
-          <p>No se encontraron tweets.</p>
-        )}
-    </div>
-  );
-};
-
-export default UsersToFollow;
+export default UsersToFollow

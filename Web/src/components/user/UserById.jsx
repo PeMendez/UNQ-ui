@@ -10,7 +10,7 @@ const UserById = ({user}) => {
   const followingAmount = user && user.following ? Object.keys(user.following).length : 0;
 
   const [loggedUser, setLoggedUser] = useState(null);
-  const [teSigo, setTeSigo] = useState(false);
+  const [teSigo, setTeSigo] = useState();
   const buttonClassName = teSigo ? 'user_button user_button_following' : 'user_button';
   const [hovered, setHovered] = useState(false);
   const [followersAmountRefresh, setFollowersAmountRefresh] = useState(followersAmount);
@@ -31,7 +31,11 @@ const UserById = ({user}) => {
         console.error(error);
       }
   }
-  fetchData(); 
+
+  useEffect(()=>{
+    fetchData();
+  },[]
+  )
 
   const fetchUser = async () => {
     try {

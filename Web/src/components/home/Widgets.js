@@ -28,7 +28,7 @@ function Widgets() {
   };
 
   const onClickUserToFollow = () => {
-    navigate("user/usersToFollow", { replace: true })
+    navigate("/user/usersToFollow", { replace: true })
   }
 
   return (

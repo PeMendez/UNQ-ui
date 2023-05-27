@@ -32,14 +32,6 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const handleUsernameRChange = (e) => {
-    setUsernameR(e.target.value);
-  };
-
-  const handlePasswordRChange = (e) => {
-    setPasswordR(e.target.value);
-  };
-
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
@@ -56,8 +48,8 @@ const Login = () => {
     //e.preventDefault();
     setLoading(true);
     Api.postRegister(
-      usernameR,
-      passwordR,
+      username,
+      password,
       email,
       image,
       backgroundImage,

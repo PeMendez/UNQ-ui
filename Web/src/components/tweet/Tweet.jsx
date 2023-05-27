@@ -53,7 +53,11 @@ console.log(isLikedT)
       console.error(error);
     }
 }
-fetchData(); 
+
+useEffect(()=>{
+  fetchData();
+},[]
+)
 
 const fetchLike = async () => {
   try {
@@ -67,6 +71,7 @@ const fetchLike = async () => {
   }
 };
 
+console.log("a ver si sigue la recursion")
   const handleComment = (isReply) => {
     setTweetId(id)
     setIsPopupOpen(true)
@@ -78,6 +83,8 @@ const fetchLike = async () => {
       await Api.putLike(id);
       fetchLike()
     } catch (error){}
+    //const response = 
+    //actualizarTweet(response.data)
   };
 
   const handlePopupClose = () => {
