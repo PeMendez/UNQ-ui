@@ -14,7 +14,10 @@ const GetFollowingTweets = () => {
       console.error(error);
     }
   };
-  fetchLoggedUser();
+
+  useEffect(() => {
+    fetchLoggedUser();
+  }, []);
 
   useEffect(() => {
     (async () => {

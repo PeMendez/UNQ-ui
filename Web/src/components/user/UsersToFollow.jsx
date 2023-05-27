@@ -9,7 +9,7 @@ const UsersToFollow = () => {
   const fetchUsersToFollow = async () => {
     try {
       const response = await Api.getUsersToFollow();
-      setUsers(response.data);
+      setUsers(response.data.result);
     } catch (error) {
       console.error(error);
     }
