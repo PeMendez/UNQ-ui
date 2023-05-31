@@ -4,9 +4,13 @@ import Api from "../../api/Api.js";
 import '../../styles/user/UsersToFollow.css'
 
 
-const UsersToFollow = ({loggedUser}) => {
-    
+const UsersToFollow = () => {
+    const [loggedUser, setLoggedUser] = useState()
     const [users, setUsers] = useState([])
+
+    const updateLoggedUser = (updatedLoggedUser) => {
+        setLoggedUser(updatedLoggedUser)
+    }
 
     const fetchUsersToFollow = async () => {
         try {
@@ -27,7 +31,7 @@ const UsersToFollow = ({loggedUser}) => {
                 Array.isArray(users) && users.length > 0 ? (
                     users.map((user) => (
                         <div className="list_of_users_to_follow">
-                            <UserSimple user={user}/>
+                            <UserSimple user={user} updateLoggedUser={updateLoggedUser}/>
                         </div>
                     ))
                 ):(<p>No hay usuarios para recomendar.</p>)
