@@ -8,6 +8,8 @@ const  SearchRoute = () => {
   const searchText = params.get('searchText')
   const [result, setResult] = useState([])
 
+  console.log(searchText)
+
   useEffect(() => {
     Api.getSearch(searchText)
       .then((data) => setResult(data))

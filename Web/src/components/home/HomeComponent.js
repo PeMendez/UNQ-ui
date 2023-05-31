@@ -4,6 +4,7 @@ import Widgets from "./Widgets";
 import '../../styles/home/HomeComponent.css';
 
 function Home({children}) {
+  
   return (
       <div className="app">
         <Sidebar />

@@ -11,19 +11,15 @@ import { useNavigate } from "react-router-dom";
 
 const Tweet = (props, actualizarTweet) => {
   const {key, id, type, typeAsString, tweetTypeID ,image, content, date, profile_pic, 
-          likes, repliesAmount, reTweetAmount, username, userId, isLikedT} = props;
-console.log(isLikedT)
+          likes, repliesAmount, reTweetAmount, username, userId, isLikedT } = props;
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [tweetId, setTweetId] = useState(null);
   const [isComment, setIsComment] = useState(false);
-  const [likesAmount, setlikesAmount] = useState(likes?.lenght);
+  const [likesAmount, setlikesAmount] = useState(likes.length);
   const [reTweetedFrom, setReTweetedFrom] = useState([]);
   const [reTweetID, setReTweetID] = useState([]);
   const [tweet, setTweet] = useState([]);
   const [isLiked, setIsLiked] = useState(isLikedT)
-
-
-  
   
   const navigate = useNavigate();
   
@@ -35,29 +31,29 @@ console.log(isLikedT)
   //   }
   // }, []);
 
-  useEffect(() => {
-    if (likes) {
-      const amount =  likes.length; 
-      setlikesAmount(amount);
-    }
-  }, [likes]);
+  // useEffect(() => {
+  //   if (likes) {
+  //     const amount =  likes.length; 
+  //     setlikesAmount(amount);
+  //   }
+  // }, [likes]);
 
-  const fetchData = async () => {
-    try {
-      const response = await Api.getTweet(id);
-      const responseUser = await Api.getLoggedUser();
-      setTweet(response.data);
-      const l =!!response?.likes?.find(async (user) => { return user.id === responseUser.data.id ;});
-      setIsLiked(l)
-    } catch (error) {
-      console.error(error);
-    }
-}
+//   const fetchData = async () => {
+//     try {
+//       const response = await Api.getTweet(id);
+//       const responseUser = await Api.getLoggedUser();
+//       setTweet(response.data);
+//       const l =!!response?.likes?.find(async (user) => { return user.id === responseUser.data.id ;});
+//       setIsLiked(l)
+//     } catch (error) {
+//       console.error(error);
+//     }
+// }
 
-useEffect(()=>{
-  fetchData();
-},[]
-)
+// useEffect(()=>{
+//   fetchData();
+// },[]
+// )
 
 const fetchLike = async () => {
   try {
@@ -65,13 +61,12 @@ const fetchLike = async () => {
     const updatedTweet = response.data;
     const amount = updatedTweet.likes ? Object.keys(updatedTweet.likes).length : 0;
     setlikesAmount(amount);
-    setIsLiked(!isLiked)
+    setIsLiked(prevState => !prevState)
   } catch (error) {
     console.error("Error al obtener los likes del tweet:", error);
   }
 };
 
-console.log("a ver si sigue la recursion")
   const handleComment = (isReply) => {
     setTweetId(id)
     setIsPopupOpen(true)
