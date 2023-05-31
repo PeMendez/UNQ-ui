@@ -36,4 +36,4 @@ const UsersToFollow = ({loggedUser}) => {
     )
 }
 
-export default UsersToFollow; 
+export default UsersToFollow
