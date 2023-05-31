@@ -42,3 +42,10 @@ Api/target/classes/org/UserDTO.class
 Api/target/classes/org/UserGenerator.class
 Api/target/classes/org/UserLoginDTO.class
 Api/target/classes/org/UsersResultDTO.class
+.idea/workspace.xml
+Api/.idea/workspace.xml
+Web/.idea/.gitignore
+Web/.idea/misc.xml
+Web/.idea/modules.xml
+Web/.idea/vcs.xml
+Web/.idea/Web.iml
