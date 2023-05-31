@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import Api from "../../api/Api"
-import User from "../../components/user/UsersToFollow"
+import UserToFollow from "../../components/user/UsersToFollow"
 
 const UsersToFollowRoute = () => {
   const [result, setResult] = useState([])
@@ -11,7 +11,7 @@ const UsersToFollowRoute = () => {
   }, [])
   
   return (
-    User(result)
+    <UserToFollow loggedUser={result}/>
   )
 }
 

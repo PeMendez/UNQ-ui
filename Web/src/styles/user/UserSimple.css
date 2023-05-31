@@ -1,0 +1,41 @@
+.user_simple{
+    display: flex;
+    padding-left: 50px;
+    gap: 20px;
+    align-items: center;
+}
+
+.user_simple_info{
+    width: 150px;
+    font-size: 30px;
+    text-align: right;
+}
+
+.user_simple_info:hover{
+    cursor: pointer;
+    color: var(--twitter-color);
+}
+
+.follow_buttonundefined{
+    background-color: var(--twitter-color);
+    width: 100px;
+    height: 35px;
+    display: flex;
+    font-size: 20px;
+}
+
+.follow_buttontrue{
+    background-color: darkred;
+    width: 100px;
+    height: 35px;
+    display: flex;
+    font-size: 20px;
+}
+
+.follow_buttonfalse{
+    background-color: var(--twitter-color);
+    width: 100px;
+    height: 35px;
+    display: flex;
+    font-size: 20px;
+}
