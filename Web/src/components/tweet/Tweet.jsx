@@ -15,7 +15,7 @@ const Tweet = (props, actualizarTweet) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [tweetId, setTweetId] = useState(null);
   const [isComment, setIsComment] = useState(false);
-  const [likesAmount, setlikesAmount] = useState(likes.length);
+  const [likesAmount, setlikesAmount] = useState(likes?.length);
   const [reTweetedFrom, setReTweetedFrom] = useState([]);
   const [reTweetID, setReTweetID] = useState([]);
   const [tweet, setTweet] = useState([]);
