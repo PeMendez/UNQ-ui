@@ -27,6 +27,7 @@ const UserById = ({user}) => {
         const response = await Api.getLoggedUser();
         setLoggedUser(response.data);
         setTeSigo(response.data.following.some(obj => obj.id === user.id));
+        console.log("?", response.data.following, user.id, response.data.following.some(obj => obj.id === user.id))
       } catch (error) {
         console.error(error);
       }
@@ -43,6 +44,7 @@ const UserById = ({user}) => {
       const updatedUser = response.data;
       const amount = updatedUser.followers ? Object.keys(updatedUser.followers).length : 0;
       setFollowersAmountRefresh(amount);
+      fetchData()
     } catch (error) {
       console.error("Error al obtener los datos del usuario:", error);
     }
@@ -51,7 +53,7 @@ const UserById = ({user}) => {
 
 const onClickFollow = async () => {
   try {
-    await Api.putFollowUser(user.id);
+    await Api.putFollowUser(user.id).then(console.log);
     fetchUser();
   } catch (error) {
     console.error("Error al seguir al usuario:", error);
