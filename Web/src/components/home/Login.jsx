@@ -57,7 +57,7 @@ const Login = () => {
       setInvalidData
     )
       .then(() => {
-        navigate("/followingTweets");
+        navigate("/user/followingTweets");
       })
       .catch((error) => {
         console.error("Error during registration:", error);

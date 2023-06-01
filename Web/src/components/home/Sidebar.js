@@ -15,14 +15,8 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("authorization_token");
-    navigate("/", { replace: true });
+    navigate("/login", { replace: true });
   };
-
-  const handleOnChange = () => {
-    setTimeout(() => {
-      window.location.reload();
-    }, 100);
-  }
 
   const handleLogin = () => {
     navigate("/login", { replace: true });
@@ -41,7 +35,7 @@ const Sidebar = () => {
         link= "/user"
       />
       {isLogged ? (
-      <Button variant="outlined" className="sidebar__tweet" onClick={handleLogout} onChange={handleOnChange}>
+      <Button variant="outlined" className="sidebar__tweet" onClick={handleLogout} >
           Logout
       </Button> ) 
       : (
@@ -49,7 +43,10 @@ const Sidebar = () => {
           Login
       </Button>
       )}
-      <UserInfo/>
+      {isLogged ? (
+        <UserInfo/>
+      ):([])
+      }
 
     </div>
   );
