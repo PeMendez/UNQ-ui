@@ -103,7 +103,7 @@ class UserController(private val twitterSystem: TwitterSystem, private val token
 
     private fun userToSimpleUser(list : List<User>) : List<SimpleUserDTO> {
 
-        return list.map { u -> SimpleUserDTO(u.id, u.username) }
+        return list.map { u -> SimpleUserDTO(u.id, u.username, u.image) }
     }
 
     private fun getUserByAttribute(ctx: Context) : User {
