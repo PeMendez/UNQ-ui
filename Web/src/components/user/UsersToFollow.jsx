@@ -12,18 +12,29 @@ const UsersToFollow = () => {
         setLoggedUser(updatedLoggedUser)
     }
 
-    const fetchUsersToFollow = async () => {
-        try {
-          const response = await Api.getUsersToFollow();
-          setUsers(response.data.result);
-        } catch (error) {
-          console.error(error);
-        }
-    }
-    
     useEffect(() => {
-      fetchUsersToFollow();
-    }, [])
+        Api.getUsersToFollow()
+          .then(response => {
+            setUsers(response.data.result);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }, []);
+      
+
+    //const fetchUsersToFollow = async () => {
+    //    try {
+    //      const response = await Api.getUsersToFollow();
+    //      setUsers(response.data.result);
+    //    } catch (error) {
+    //      console.error(error);
+    //    }
+    //}
+    
+    //useEffect(() => {
+    //  fetchUsersToFollow();
+    //}, [])
 
     return (
         <div className="users-to-follow">

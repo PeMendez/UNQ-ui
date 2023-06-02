@@ -2,6 +2,7 @@ import React from "react";
 import "../../styles/home/Feed.css";
 import TweetBox from "../../components/tweet/TweetBox.js";
 import GetFollowingTweets from "../../components/tweet/FollowingTweets.jsx";
+import FollowingTweetsCopy from "../../components/tweet/FollowingTweetsCopy.jsx"; 
 
 function Feed() {
 
@@ -12,7 +13,7 @@ function Feed() {
       </div>
 
       <TweetBox />
-      <GetFollowingTweets/>
+      <FollowingTweetsCopy/>
     </div>
   );
 }
