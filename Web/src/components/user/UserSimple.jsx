@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Api from '../../api/Api';
 import '../../styles/user/UserSimple.css'
 
-const UserSimple = ({user},{updateLoggedUser}) => {
+const UserSimple = ({user}) => {
 
     const [isFollowed, setIsFollowed] = useState();
     const navigate = useNavigate();
@@ -12,22 +12,10 @@ const UserSimple = ({user},{updateLoggedUser}) => {
         try {
             await Api.putFollowUser(user.id)
                 .then(()=>{
-                    setIsFollowed(!isFollowed)
-                    sendUpdatedLoggedUser()
+                    setIsFollowed(prevState => !prevState)
                 })
         } catch (error) {
             console.error("Error al seguir al usuario:", error);
-        }
-    }
-
-    const sendUpdatedLoggedUser = async () =>{
-        try{
-            await Api.getLoggedUser()
-                .then((response)=>{
-                    updateLoggedUser(response.data)
-                })
-        } catch (error) {
-            console.error(error)
         }
     }
 

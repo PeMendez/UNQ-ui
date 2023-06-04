@@ -5,12 +5,7 @@ import '../../styles/user/UsersToFollow.css'
 
 
 const UsersToFollow = () => {
-    const [loggedUser, setLoggedUser] = useState()
     const [users, setUsers] = useState([])
-
-    const updateLoggedUser = (updatedLoggedUser) => {
-        setLoggedUser(updatedLoggedUser)
-    }
 
     useEffect(() => {
         Api.getUsersToFollow()
@@ -21,20 +16,6 @@ const UsersToFollow = () => {
             console.error(error);
           });
       }, []);
-      
-
-    //const fetchUsersToFollow = async () => {
-    //    try {
-    //      const response = await Api.getUsersToFollow();
-    //      setUsers(response.data.result);
-    //    } catch (error) {
-    //      console.error(error);
-    //    }
-    //}
-    
-    //useEffect(() => {
-    //  fetchUsersToFollow();
-    //}, [])
 
     return (
         <div className="users-to-follow">
@@ -42,7 +23,7 @@ const UsersToFollow = () => {
                 Array.isArray(users) && users.length > 0 ? (
                     users.map((user) => (
                         <div className="list_of_users_to_follow">
-                            <UserSimple user={user} updateLoggedUser={updateLoggedUser}/>
+                            <UserSimple user={user}/>
                         </div>
                     ))
                 ):(<p>No hay usuarios para recomendar.</p>)

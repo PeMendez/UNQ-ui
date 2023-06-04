@@ -121,10 +121,10 @@ const Login = () => {
     <div className="container">
       <div className="login__header">
             <button type="button" onClick={() => setLogin(true)} disabled={loading}>
-              {loading ? "Loading..." : "Login"}
+              Login
             </button>
             <button type="button" onClick={() => setLogin(false)} disabled={loading}>
-              {loading ? "Loading..." : "Register"}
+              Register
             </button>
       </div>
       <div className={"login" + showLogin}>
