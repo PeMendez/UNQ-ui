@@ -11,8 +11,6 @@ const Login = () => {
   const [invalidData, setInvalidData] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [usernameR, setUsernameR] = useState("");
-  const [passwordR, setPasswordR] = useState("");
   const [email, setEmail] = useState("");
   const [image, setImage] = useState("");
   const [backgroundImage, setBackgroundImage] = useState("");
@@ -47,6 +45,32 @@ const Login = () => {
   const handleRegister = (e) => {
     //e.preventDefault();
     setLoading(true);
+
+    if (!username || !password || !email || !image || !backgroundImage) {
+      toast.error("Todos los campos son obligatorios");
+      setLoading(false);
+      return;
+    }
+
+    if ((!image.startsWith("http://") || !image.startsWith("https://")) && !image.endsWith(".jpg")) {
+      toast.error("El campo de imagen debe ser una URL de imagen en formato jpg");
+      setLoading(false);
+      return;
+    }
+
+    if ((!backgroundImage.startsWith("http://") || !backgroundImage.startsWith("https://")) && !backgroundImage.endsWith(".jpg")) {
+      toast.error("El campo de imagen de fondo debe ser una URL de imagen en formato jpg");
+      setLoading(false);
+      return;
+    }
+
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    if (!emailRegex.test(email)) {
+      toast.error("El campo de correo electrónico debe tener un formato válido");
+      setLoading(false);
+      return;
+    }
+    
     Api.postRegister(
       username,
       password,
@@ -70,6 +94,13 @@ const Login = () => {
 
   const handleLogin = (e) => {
     setLoading(true);
+
+     if (!username || !password) {
+      toast.error("Username y password son campos obligatorios");
+      setLoading(false);
+      return;
+    }
+
     Api.postLogin(username, password, setContext, setInvalidData)
       .then((response) => {
         navigate("/user/followingTweets");
@@ -155,8 +186,6 @@ const Login = () => {
         
       </div>
 
-
-      {/* {login ? <LoginFields /> : <RegisterFields />} */}
       <button type="button" onClick={login ? () => handleLogin() : () => handleRegister()} disabled={loading}>
           {loading ? "Loading..." : "Submit"}
         </button>

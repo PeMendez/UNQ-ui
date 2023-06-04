@@ -5,7 +5,7 @@ import TweetComponent from "../../components/tweet/TweetComponent";
 
 const TweetRoute = () => {
   const {tweetId} = useParams();
-  const [result, setResult] = useState({type:{},user:{},id:{}});
+  const [result, setResult] = useState({type:{},user:{},id:{}, likes:{}});
   useEffect(() => {
         Api.getTweet(tweetId)
         .then((data) => setResult(data.data))
