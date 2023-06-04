@@ -24,7 +24,7 @@ console.log(tweet.likes?.length)
       useEffect(() => {
         fetchLoggedUser()
           .then(loggedUserResponse => {
-            setIsLiked(tweet.likes.some(user => user.id === loggedUserResponse.id));
+            setIsLiked(tweet.likes.find(user => user.id === loggedUserResponse.id));
           })
           .catch(error => {
             console.log(error);
@@ -36,7 +36,7 @@ console.log(tweet.likes?.length)
 
     const actualizarTweet = (tweetActualizar) => {
         setTweets((prevState) =>  prevState.map((tweet) => ( (tweet.id === tweetActualizar.id)?  tweetActualizar : tweet)))
-       
+       setIsLiked(prevState => !prevState)
       };
 
     return (

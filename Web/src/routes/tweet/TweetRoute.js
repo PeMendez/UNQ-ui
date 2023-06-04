@@ -8,8 +8,13 @@ const TweetRoute = () => {
   const [result, setResult] = useState({type:{},user:{},id:{}, likes:{}});
   useEffect(() => {
         Api.getTweet(tweetId)
-        .then((data) => setResult(data.data))
-  })
+        .then((data) => {
+        setResult(data.data)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [tweetId]);
   return (    
     <TweetComponent tweet={result}/>
   )
