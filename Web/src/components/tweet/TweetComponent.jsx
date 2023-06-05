@@ -7,37 +7,40 @@ const TweetComponent = ({tweet}) => {
 
     // const [user, setUser] = useState([]);
     // const [replies, setReplies] = useState([]);
-    const [tweets, setTweets] = useState([]);
-    const [loggedUser, setLoggedUser] = useState("");
-    const [isLiked, setIsLiked] = useState(false);
+//     const [tweetRender, setTweetRender] = useState(tweet);
+//     const [loggedUser, setLoggedUser] = useState("");
+//     const [isLiked, setIsLiked] = useState(false);
 
-    const fetchLoggedUser = async () => {
-        try {
-          const response = await Api.getLoggedUser();
-          setLoggedUser(response.data);
-          return response.data
-        } catch (error) {
-          console.error(error);
-        }
-      };
-console.log(tweet.likes?.length)
-      useEffect(() => {
-        fetchLoggedUser()
-          .then(loggedUserResponse => {
-            setIsLiked(tweet.likes.find(user => user.id === loggedUserResponse.id));
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      }, [tweet.likes]);      
+//     const fetchLoggedUser = async () => {
+//         try {
+//           const response = await Api.getLoggedUser();
+//           setLoggedUser(response.data);
+//           return response.data
+//         } catch (error) {
+//           console.error(error);
+//         }
+//       };
+// console.log(tweet.likes?.length)
+//       useEffect(() => {
+//         fetchLoggedUser()
+//           .then(loggedUserResponse => {
+//             setIsLiked(
+//               tweet.likes.find((like) => like.id === loggedUserResponse.id) !== undefined
+//             );
+//             //setIsLiked(tweet.likes.find(user => user.id === loggedUserResponse.id));
+//           })
+//           .catch(error => {
+//             console.log(error);
+//           });
+//       }, [tweet.likes]);      
 
     const reTweetAmount = tweet && tweet.reTweet ? tweet.reTweet.length : 0;
     const repliesAmount = tweet && tweet.replies ? tweet.replies.length : 0;
 
-    const actualizarTweet = (tweetActualizar) => {
-        setTweets((prevState) =>  prevState.map((tweet) => ( (tweet.id === tweetActualizar.id)?  tweetActualizar : tweet)))
-       setIsLiked(prevState => !prevState)
-      };
+    // const actualizarTweet = (tweetActualizar) => {
+    //     setTweetRender(tweetActualizar )
+    //    setIsLiked(prevState => !prevState)
+    //   };
 
     return (
         <div>
@@ -57,8 +60,8 @@ console.log(tweet.likes?.length)
                 typeAsString={tweet.typeAsString}
                 tweetTypeID={tweet.tweetTypeID}
                 userId={tweet.user?.id}
-                isLikedT={isLiked}
-                actualizar={actualizarTweet}
+                isLikedT={tweet.isLiked}
+                //actualizar={actualizarTweet}
             />
             </div>
             <div>
@@ -75,7 +78,7 @@ console.log(tweet.likes?.length)
                             likes={reply.likes}
                             username={reply.user.username}
                             isLikedT={reply.isLiked}
-                            actualizar={actualizarTweet}
+                            //actualizar={actualizarTweet}
                             userId={reply.user?.id}
                             //userID={tweet.tweetTypeID.usedID}
                         />

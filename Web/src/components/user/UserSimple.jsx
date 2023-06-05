@@ -20,7 +20,7 @@ const UserSimple = ({user}) => {
     }
 
     const handleGoToUser = () => {
-        navigate(`/user/${user.id}`, { replace: true });
+        navigate(`/user/${user.id}`);
     }
 
     return (

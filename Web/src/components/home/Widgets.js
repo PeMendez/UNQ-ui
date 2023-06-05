@@ -9,7 +9,7 @@ function Widgets() {
   const [searchText, setSearchText] = useState("");
 
   const handleSearch = () => {
-      navigate(`/search/${searchText}`, { replace: true });
+      navigate(`/search/${searchText}`);
       setSearchText("");
   };
 
@@ -24,11 +24,11 @@ function Widgets() {
   };
 
   const handleTrendingTopics = () => {
-    navigate("/TrendingTopics", { replace: true });
+    navigate("/TrendingTopics");
   };
 
   const onClickUserToFollow = () => {
-    navigate("/user/usersToFollow", { replace: true })
+    navigate("/user/usersToFollow")
   }
 
   return (

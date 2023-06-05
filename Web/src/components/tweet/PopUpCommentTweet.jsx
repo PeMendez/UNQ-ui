@@ -27,7 +27,7 @@ function PopUpCommentTweet({ onClose, id, isComment }) {
     }
     
     onClose(); 
-    navigate(`/tweet/${id}`, { replace: true });  
+    navigate(`/tweet/${id}`);  
   };
 
   const popUpComment = isComment ? 'popup-comment-tweet__textarea' : 'dontShowImageArea';

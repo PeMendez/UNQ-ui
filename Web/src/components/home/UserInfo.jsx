@@ -10,7 +10,7 @@ const UserInfo = () => {
     const navigate = useNavigate();
 
     const handleRedirectTo = () => {
-      navigate(`/user`, { replace: true });
+      navigate(`/user`);
     };
   
     useEffect(() => {

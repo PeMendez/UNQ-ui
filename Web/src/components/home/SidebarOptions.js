@@ -8,7 +8,7 @@ const SidebarOptions = ({active, text, Icon, link}) => {
     const navigate = useNavigate();
 
     const Redirect = () => {
-        navigate(`${link}`, { replace: true });
+        navigate(`${link}`);
       };
 
     return (

@@ -15,11 +15,11 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("authorization_token");
-    navigate("/login", { replace: true });
+    navigate("/login");
   };
 
   const handleLogin = () => {
-    navigate("/login", { replace: true });
+    navigate("/login");
   };
 
   return (

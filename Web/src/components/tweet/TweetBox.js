@@ -52,7 +52,7 @@ const TweetBox = () => {
   }, []);
 
   const handleRedirectTo = () => {
-    navigate(`/user`, { replace: true });
+    navigate(`/user`);
   };
 
   return (

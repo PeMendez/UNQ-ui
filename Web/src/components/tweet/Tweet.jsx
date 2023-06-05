@@ -87,11 +87,11 @@ const fetchLike = async () => {
   };
 
   const handleRedirectTo = (tweetID) => {
-    navigate(`/tweet/${tweetID}`, { replace: true });
+    navigate(`/tweet/${tweetID}`);
   };
 
   const handleUserProfile = () => {
-    navigate(`/user/${userId}`, { replace: true });
+    navigate(`/user/${userId}`);
   };
 
   return (
