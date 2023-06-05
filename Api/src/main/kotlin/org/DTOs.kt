@@ -23,8 +23,9 @@ class SimpleTweetDTO(val id: String, val type: TwitterTypeDTO, var user: SimpleU
         this.likes = tweet.likes.map { l -> SimpleUserDTO(l.id, l.username, l.image) }
     }
 }
-class TweetDTO(val id: String, val type: TwitterTypeDTO, var user: SimpleUserDTO, val content: String, val date: String, var replies: List<SimpleTweetDTO>, var reTweet: List<SimpleTweetDTO>, var likes: List<SimpleUserDTO>){
-    constructor(tweet: Tweet): this(tweet.id,
+class TweetDTO(val id: String, val isLiked: Boolean, val type: TwitterTypeDTO, var user: SimpleUserDTO, val content: String, val date: String, var replies: List<SimpleTweetDTO>, var reTweet: List<SimpleTweetDTO>, var likes: List<SimpleUserDTO>){
+    constructor(tweet: Tweet, isLike: Boolean): this(tweet.id,
+                                    isLike,
                                     TwitterTypeDTO(
                                         tweet.type),
                                     SimpleUserDTO(

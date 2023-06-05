@@ -34,11 +34,11 @@ class TweetController(private val twitterSystem: TwitterSystem) {
         val draftTweet = createDraftTweet(tweetDTO, user)
         val tweet = twitterSystem.addNewTweet(draftTweet)
 
-        ctx.json(TweetDTO(tweet))
+        ctx.json(TweetDTO(tweet, isLiked(ctx, tweet)))
     }
     fun getTweet(ctx: Context){
-
-        ctx.json(TweetDTO(tweetOrThrow(ctx)))
+        val tweet = tweetOrThrow(ctx)
+        ctx.json(TweetDTO(tweet, isLiked(ctx, tweet)))
     }
 
     fun toggleLike(ctx: Context){
@@ -47,7 +47,7 @@ class TweetController(private val twitterSystem: TwitterSystem) {
         val user = getUserByAttribute(ctx)
         tweet = twitterSystem.toggleLike(tweet.id, user.id)
 
-        ctx.json(TweetDTO(tweet))
+        ctx.json(TweetDTO(tweet, isLiked(ctx, tweet)))
     }
 
     fun addReTweet(ctx: Context){
@@ -60,7 +60,7 @@ class TweetController(private val twitterSystem: TwitterSystem) {
         val reTweet = createDraftReTweet(reTweetDTO, user, tweet)
         try {
             tweet = twitterSystem.addReTweet(reTweet)
-            ctx.json(TweetDTO(tweet))
+            ctx.json(TweetDTO(tweet, isLiked(ctx, tweet)))
         } catch (e: TweetException){
             throw BadRequestResponse("Can not retweet your own tweet")
         }
@@ -76,7 +76,7 @@ class TweetController(private val twitterSystem: TwitterSystem) {
         val draftTweet = createDraftReplyTweet(replyTweetDTO, user, originTweet)
         val tweet = twitterSystem.replyTweet(draftTweet)
 
-        ctx.json(TweetDTO(tweet))
+        ctx.json(TweetDTO(tweet, isLiked(ctx, tweet)))
     }
 
     private fun tweetOrThrow(ctx: Context): Tweet {
@@ -85,6 +85,11 @@ class TweetController(private val twitterSystem: TwitterSystem) {
         } catch(e: TweetException) {
             throw BadRequestResponse("Tweet not found")
         }
+    }
+
+    fun isLiked(ctx: Context, tweetDTO: Tweet): Boolean{
+        val user = getUserByAttribute(ctx)
+        return tweetDTO.likes.contains(user)
     }
 
     private fun getUserByAttribute(ctx: Context) : User {
