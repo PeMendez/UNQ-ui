@@ -8,6 +8,8 @@ import { red } from '@mui/material/colors';
 import PopUpCommentTweet from './PopUpCommentTweet';
 import Api from '../../api/Api';
 import { useNavigate } from "react-router-dom";
+import moment from 'moment';
+import 'moment-timezone';
 
 const Tweet = (props, actualizarTweet) => {
   const {key, id, type, typeAsString, tweetTypeID ,image, content, date, profile_pic, 
@@ -22,6 +24,8 @@ const Tweet = (props, actualizarTweet) => {
   const [isLiked, setIsLiked] = useState(isLikedT)
   
   const navigate = useNavigate();
+  const dateTime = date;
+  const formattedDateTime = moment(dateTime).format('D MMMM YYYY, HH:mm');
   
   // useEffect(() => {
   //   if (typeAsString === "reTweet" && type !== undefined) {
@@ -97,17 +101,13 @@ const fetchLike = async () => {
   return (
     <div className='tweet'>
               <div className='tweet__avatar'>
-                <Avatar src={profile_pic} onClick={() => handleUserProfile()}/>
+                <Avatar src={profile_pic} onClick={() => handleUserProfile()} style={{ width: 60, height: 60 }}/>
               </div>
               <div className='tweet__body'>
                 <div className="tweet__header">
                 <div className="tweet__headerUsername">
-                  <h3>
-                    <span className="tweet__username">@{username}</span>
-                  </h3>
-                </div>
-                <div className="tweet__headerDate">
-                  <span className="tweet__date">{date}</span>
+                    <span className="tweet__username">@{username}</span>                    
+                    <span className="tweet__date">{formattedDateTime}</span>
                 </div>
                 <div className="tweet__headerDescription" onClick={() => handleRedirectTo(id)}>
                   <p>{content}</p>
@@ -126,7 +126,7 @@ const fetchLike = async () => {
                 <div className='tweet__footerIconLike'>
                   <FavoriteTwoToneIcon
                     fontSize="small"
-                    style={{ color: isLiked ? red[500] : 'rgba(0, 0, 0, 0.54)' }}
+                    style={{ color: isLiked ? 'rgb(249, 24, 128)' : 'rgba(0, 0, 0, 0.54)' }}
                     onClick={() => handleLike()}
                   />
                   <span className="tweet__footerIconCount">{likesAmount}</span>

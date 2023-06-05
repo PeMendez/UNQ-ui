@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";
 import "../../styles/home/Feed.css";
 import Tweet from "../../components/tweet/Tweet.jsx";
-import Api from "../../api/Api";
 
 const TweetComponent = ({tweet}) => {
 
