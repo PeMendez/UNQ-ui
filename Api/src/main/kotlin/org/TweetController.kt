@@ -15,13 +15,13 @@ class TweetController(private val twitterSystem: TwitterSystem) {
         if (query.isBlank()){
             throw BadRequestResponse("Invalid query")
         }
-        val searchResult = tweetToSimpleTweet(twitterSystem.search(query))
+        val searchResult = tweetToSimpleTweet(twitterSystem.search(query), ctx)
         ctx.json(TweetResulDTO(searchResult))
     }
 
     fun getTrendingTopics(ctx: Context){
 
-        val tweetResul = tweetToSimpleTweet(twitterSystem.getTrendingTopics())
+        val tweetResul = tweetToSimpleTweet(twitterSystem.getTrendingTopics(), ctx)
 
         ctx.json(TweetResulDTO(tweetResul))
     }
@@ -108,9 +108,9 @@ class TweetController(private val twitterSystem: TwitterSystem) {
 
         return DraftReplyTweet(user.id, originTweet.id, tweetDTO.content, tweetDTO.image, LocalDateTime.now())
     }
-    private fun tweetToSimpleTweet(list : List<Tweet>) : List<SimpleTweetDTO> {
+    private fun tweetToSimpleTweet(list : List<Tweet>, ctx: Context) : List<SimpleTweetDTO> {
 
-        return list.map { t -> SimpleTweetDTO(t) }
+        return list.map { t -> SimpleTweetDTO(t, isLiked(ctx, t)) }
     }
 
 }
