@@ -22,9 +22,10 @@
   outline: none;
   background-color: transparent;
   color: white;
+  margin-top: 20px;
 }
 
-.popup-comment-tweet .reply-button {
+.popup-comment-tweet__reply-button {
     background-color: var(--twitter-color) !important;
     border: none !important;
     color: white !important;
@@ -33,15 +34,14 @@
     border-radius: 30px !important;
     width: 80px !important;
     height: 40px !important;
-    margin-top: 20px !important;
-    margin-left: auto !important;
-
+    float: right !important;
 }
 
 .popup-comment-close:hover {
-    background-color:  #e8e8e8;
+    background-color:  black;
     border-radius: 30px;
-    color: black;
+    opacity: 0.3;
+    color: white;
     transition: color 100ms ease-out;
     margin-bottom: 10px;
 
