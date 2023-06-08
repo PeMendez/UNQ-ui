@@ -3,12 +3,19 @@ import { useNavigate } from "react-router-dom";
 import "../../styles/home/Widgets.css";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button } from "@mui/material";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Widgets() {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState("");
 
   const handleSearch = () => {
+    if (!searchText) {
+      toast.error("No puede ser vacía la búsqueda");
+      return;
+    }
+
       navigate(`/search/${searchText}`);
       setSearchText("");
   };
