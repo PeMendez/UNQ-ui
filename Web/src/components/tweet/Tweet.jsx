@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import "../../styles/tweet/Tweet.css";
 import { Avatar } from "@mui/material";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import RepeatIcon from "@mui/icons-material/Repeat";
 import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
-import { red } from '@mui/material/colors';
 import PopUpCommentTweet from './PopUpCommentTweet';
 import Api from '../../api/Api';
 import { useNavigate } from "react-router-dom";
@@ -20,44 +19,13 @@ const Tweet = (props, actualizarTweet) => {
   const [likesAmount, setlikesAmount] = useState(likes?.length);
   const [reTweetedFrom, setReTweetedFrom] = useState([]);
   const [reTweetID, setReTweetID] = useState([]);
-  const [tweet, setTweet] = useState([]);
   const [isLiked, setIsLiked] = useState(isLikedT)
+  const [isRetweet, setIsRetweet] = useState(null)
   
   const navigate = useNavigate();
   const dateTime = date;
   const formattedDateTime = moment(dateTime).format('D MMMM YYYY, HH:mm');
   
-  // useEffect(() => {
-  //   if (typeAsString === "reTweet" && type !== undefined) {
-  //     setReTweetedFromID(type['tweet']['user']['id'])
-  //     setReTweetedFrom(type['tweet']['user']['username'])
-  //     setReTweetID(type['tweet']['id'])
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   if (likes) {
-  //     const amount =  likes.length; 
-  //     setlikesAmount(amount);
-  //   }
-  // }, [likes]);
-
-//   const fetchData = async () => {
-//     try {
-//       const response = await Api.getTweet(id);
-//       const responseUser = await Api.getLoggedUser();
-//       setTweet(response.data);
-//       const l =!!response?.likes?.find(async (user) => { return user.id === responseUser.data.id ;});
-//       setIsLiked(l)
-//     } catch (error) {
-//       console.error(error);
-//     }
-// }
-
-// useEffect(()=>{
-//   fetchData();
-// },[]
-// )
 
 const fetchLike = async () => {
   try {
@@ -82,8 +50,6 @@ const fetchLike = async () => {
       await Api.putLike(id);
       fetchLike()
     } catch (error){}
-    //const response = 
-    //actualizarTweet(response.data)
   };
 
   const handlePopupClose = () => {
@@ -97,6 +63,32 @@ const fetchLike = async () => {
   const handleUserProfile = () => {
     navigate(`/user/${userId}`);
   };
+
+  console.log(typeAsString)
+  // const retweet = async (id) => {
+  //   if(typeAsString === "ReTweet"){
+  //     setIsRetweet( await Api.getTweet(id));  
+  //     if (isRetweet){
+  //       const tweetARenderizar = isRetweet.type.tweet;
+  //         return (
+  //           <div className="quote-tweet">
+  //             <Tweet
+  //               key={tweetARenderizar.id}
+  //               id={tweetARenderizar.id}
+  //               content={tweetARenderizar.content}
+  //               profile_pic={tweetARenderizar.user.image}
+  //               date={tweetARenderizar.date}
+  //               username={tweetARenderizar.user.username}
+  //               image={tweetARenderizar.type.image}
+  //               userId={tweetARenderizar.user.id}
+  //             />
+  //           </div>
+  //         );
+  //     }
+  //     return null;
+  //   }
+  // }
+  // const retweetContent = retweet(id);
 
   return (
     <div className='tweet'>
@@ -113,6 +105,7 @@ const fetchLike = async () => {
                   <p>{content}</p>
                 </div>
               </div>
+              {/* {retweet(id)} */}
               <img src={image} alt="" onClick={() => handleRedirectTo(id)} />
               <div className='tweet__footer'>
                 <div className='tweet__footerIconChat'>

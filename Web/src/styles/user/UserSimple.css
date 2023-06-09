@@ -1,41 +1,66 @@
 .user_simple{
     display: flex;
-    padding-left: 50px;
-    gap: 20px;
+    gap: 20px; 
     align-items: center;
 }
 
 .user_simple_info{
     width: 150px;
-    font-size: 30px;
-    text-align: right;
+    font-size: 20px;
+    text-align: center;
+    align-items: center;
+    flex: 1;
+    display: flex;
+    margin-left: 10px;
 }
+
+.user_simple_info p {
+    margin-left: 10px;
+    font-size: 18px;
+    font-style: italic;
+}
+  
 
 .user_simple_info:hover{
     cursor: pointer;
     color: var(--twitter-color);
 }
 
+  
+.follow_button {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+  
 .follow_buttonundefined{
-    background-color: var(--twitter-color);
-    width: 100px;
-    height: 35px;
-    display: flex;
-    font-size: 20px;
+  background-color: var(--twitter-color);
+  width: 90px;
+  height: 35px;
+  display: flex;
+  font-size: 18px;
+  border-radius: 50px;
+  margin-right: 20px;
 }
 
 .follow_buttontrue{
     background-color: darkred;
-    width: 100px;
+    width: 90px;
     height: 35px;
     display: flex;
-    font-size: 20px;
+    font-size: 18px;
+    border-radius: 50px;
+    margin-right: 20px;
 }
 
 .follow_buttonfalse{
     background-color: var(--twitter-color);
-    width: 100px;
+    width: 90px;
     height: 35px;
     display: flex;
-    font-size: 20px;
+    font-size: 18px;
+    border-radius: 50px;
+    margin-right: 20px;
 }

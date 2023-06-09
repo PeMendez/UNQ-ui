@@ -23,7 +23,9 @@ const UsersToFollow = () => {
                 Array.isArray(users) && users.length > 0 ? (
                     users.map((user) => (
                         <div className="list_of_users_to_follow">
-                            <UserSimple user={user}/>
+                          <div className="user-container">
+                            <UserSimple user={user} />
+                          </div>
                         </div>
                     ))
                 ):(<p>No hay usuarios para recomendar.</p>)

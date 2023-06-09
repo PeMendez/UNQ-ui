@@ -1,36 +1,37 @@
 import "../../styles/home/Feed.css";
 import Tweet from "../../components/tweet/Tweet.jsx";
+import React, { useState, useEffect } from 'react';
+import Api from '../../api/Api';
+
 
 const TweetComponent = ({tweet}) => {
 
-    // const [user, setUser] = useState([]);
-    // const [replies, setReplies] = useState([]);
-//     const [tweetRender, setTweetRender] = useState(tweet);
-//     const [loggedUser, setLoggedUser] = useState("");
-//     const [isLiked, setIsLiked] = useState(false);
+    const [tweetsWithLike, setTweetsWithLike] = useState([]);
 
-//     const fetchLoggedUser = async () => {
-//         try {
-//           const response = await Api.getLoggedUser();
-//           setLoggedUser(response.data);
-//           return response.data
-//         } catch (error) {
-//           console.error(error);
-//         }
-//       };
-// console.log(tweet.likes?.length)
-//       useEffect(() => {
-//         fetchLoggedUser()
-//           .then(loggedUserResponse => {
-//             setIsLiked(
-//               tweet.likes.find((like) => like.id === loggedUserResponse.id) !== undefined
-//             );
-//             //setIsLiked(tweet.likes.find(user => user.id === loggedUserResponse.id));
-//           })
-//           .catch(error => {
-//             console.log(error);
-//           });
-//       }, [tweet.likes]);      
+    const fetchLoggedUser = async () => {
+        try {
+          const response = await Api.getLoggedUser();
+          return response.data
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+    useEffect(() => {
+        fetchLoggedUser()
+          .then(loggedUserResponse => {
+            const promises = tweet.replies.map(tweet => {
+              let isLiked = !!tweet.likes.find(user => user.id === loggedUserResponse.id);
+              return { ...tweet, isLiked };
+            });
+            console.log(promises)
+            setTweetsWithLike(promises);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }, [tweet]);
+      
 
     const reTweetAmount = tweet && tweet.reTweet ? tweet.reTweet.length : 0;
     const repliesAmount = tweet && tweet.replies ? tweet.replies.length : 0;
@@ -39,6 +40,11 @@ const TweetComponent = ({tweet}) => {
     //     setTweetRender(tweetActualizar )
     //    setIsLiked(prevState => !prevState)
     //   };
+    
+    const actualizarTweet = (tweetActualizar) => {
+        setTweetsWithLike((prevState) =>  prevState.map((tweet) => ( (tweet.id === tweetActualizar.id)?  tweetActualizar : tweet)))
+       
+      };
 
     return (
         <div>
@@ -64,7 +70,7 @@ const TweetComponent = ({tweet}) => {
             </div>
             <div>
                 {repliesAmount > 0 ? (
-                    tweet.replies.map((reply) => (
+                    tweetsWithLike?.map((reply) => (
                         <Tweet
                             key={reply.id}
                             id={reply.id}
@@ -76,7 +82,7 @@ const TweetComponent = ({tweet}) => {
                             likes={reply.likes}
                             username={reply.user.username}
                             isLikedT={reply.isLiked}
-                            //actualizar={actualizarTweet}
+                            actualizar={actualizarTweet}
                             userId={reply.user?.id}
                             //userID={tweet.tweetTypeID.usedID}
                         />

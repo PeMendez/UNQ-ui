@@ -7,32 +7,43 @@ import { useParams } from 'react-router-dom';
 const SearchComponent = () => {
 
     const { searchText } = useParams();
-    const [tweets, setTweets] = useState([])  
-
-useEffect(() => {
-  (async () => {
-       try {
-          const response = await Api.getSearch(searchText);
-          if (response && response.data && Array.isArray(response.data.result)) {
-            const tweetsWithProfilePics = await Promise.all(
-              response.data.result.map(async (tweet) => {
-                let profile_pic = null;
-                let username = null; 
-                const userResponse = await Api.getUser(tweet.user.id);
-                if (userResponse && userResponse.data && userResponse.data.image) {
-                  profile_pic = userResponse.data.image;
-                  username = userResponse.data.username;
-                }
-                return { ...tweet, profile_pic, username };
-              })
-            );
-            setTweets(tweetsWithProfilePics);
-          }
-        } catch (error) {
+    const [tweets, setTweets] = useState([])    
+    
+    const fetchLoggedUser = async () => {
+      try {
+        const response = await Api.getLoggedUser();
+        return response.data
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    useEffect(() => {
+      fetchLoggedUser()
+        .then(loggedUserResponse => {
+          return Api.getSearch(searchText)
+            .then(response => {
+              if (response && response.data && Array.isArray(response.data.result)) {
+                const promises = response.data.result.map(tweet => {
+                  let isLiked = !!tweet.likes.find(user => user.id === loggedUserResponse.id);
+                  return { ...tweet, isLiked };
+                });
+                return Promise.all(promises)
+                  .then(tweetsWithProfilePics => {
+                    setTweets(tweetsWithProfilePics);
+                  });
+              }
+            });
+        })
+        .catch(error => {
           console.log(error);
-        }
-      })();
+        });
     }, [searchText]);
+  
+    const actualizarTweet = (tweetActualizar) => {
+      setTweets((prevState) =>  prevState.map((tweet) => ( (tweet.id === tweetActualizar.id)?  tweetActualizar : tweet)))
+     
+    };
 
   return (
     <div>
@@ -42,16 +53,18 @@ useEffect(() => {
           <Tweet
             id={tweet.id}
             content={tweet.content}
-            profile_pic={tweet.profile_pic}
+            profile_pic={tweet.user.image}
             date={tweet.date}
             repliesAmount={tweet.repliesAmount}
             reTweetAmount={tweet.reTweetAmount}
             likes={tweet.likes}
-            username={tweet.username}
+            username={tweet.user.username}
             image={tweet.type.image}
             userId={tweet.user.id}
             typeAsString={tweet.typeAsString}
             tweetTypeID={tweet.tweetTypeID}
+            isLikedT={tweet.isLiked}
+            actualizar={actualizarTweet}
           />
         ))
       ) : (

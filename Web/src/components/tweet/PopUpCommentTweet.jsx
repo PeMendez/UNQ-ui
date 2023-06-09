@@ -53,7 +53,7 @@ function PopUpCommentTweet({ onClose, id, isComment }) {
           type="text"
         />
         <Button className="popup-comment-tweet__reply-button" onClick={() => sendTweet(id)}>
-          Reply
+          {isComment ? "Reply" : "Retweet"}
         </Button>
       </div>
     </div>
