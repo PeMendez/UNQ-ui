@@ -1,0 +1,40 @@
+.not-found-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  .error-image {
+    max-width: 30%;
+    height: auto;
+    border-radius: 50%;
+  }
+  
+  
+  .navigate-home-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--twitter-color); 
+    color: white;
+    border-radius: 30px;
+    height: 40px;
+    width: 190px;
+    margin-top: 20px;
+    cursor: pointer; 
+  }
+  
+  .navigate-home-button:hover {
+    background-color: #214cc4; 
+  }
+  
+  .navigate-home-button-text {
+    margin: 0;
+    text-align: center;
+    font-family: "Segoe UI Bold", sans-serif;
+    font-size: 20px;
+    text-decoration: none;
+  }
+  

@@ -12,7 +12,7 @@ function Widgets() {
 
   const handleSearch = () => {
     if (!searchText) {
-      toast.error("No puede ser vacía la búsqueda");
+      toast.error("Please introduce some text to search");
       return;
     }
 
