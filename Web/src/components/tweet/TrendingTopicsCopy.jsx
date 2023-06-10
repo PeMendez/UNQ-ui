@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Api from '../../api/Api';
 import Tweet from './Tweet';
+import "../../styles/tweet/TrendingTopics.css"; 
 
 function TrendingTopics() {
   const [tweets, setTweets] = useState([]);
@@ -46,8 +47,8 @@ function TrendingTopics() {
 
 
   return (
-    <div>
-      <h6>Trending Topics</h6>
+    <div className='trending_topics'>
+      <h2>Trending Topics</h2>
       {tweets.length > 0 ? (
         tweets.map((tweet) => (
           <Tweet
