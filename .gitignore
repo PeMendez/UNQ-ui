@@ -59,3 +59,15 @@ Web/.idea/Web.iml
 .idea/modules.xml
 .idea/vcs.xml
 .idea/inspectionProfiles/Project_Default.xml
+Mobile/.idea/.gitignore
+Mobile/.idea/misc.xml
+Mobile/.idea/Mobile.iml
+Mobile/.idea/modules.xml
+Mobile/.idea/vcs.xml
+.gitignore
+Api/target/classes/org/Api.kt
+Api/target/classes/org/DTOs.kt
+Api/target/classes/org/Roles.kt
+Api/target/classes/org/TokenController.kt
+Api/target/classes/org/TweetController.kt
+Api/target/classes/org/UserController.kt
