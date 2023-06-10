@@ -38,7 +38,7 @@ const GetTweetsByUser = () => {
             image={tweet.type.image}
             userId={userId}
             typeAsString={tweet.typeAsString}
-            tweetTypeID={tweet.tweetTypeID}
+            show={true}
           />
         ))
       ) : (

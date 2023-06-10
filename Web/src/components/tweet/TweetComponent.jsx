@@ -60,12 +60,11 @@ const TweetComponent = ({tweet}) => {
                 likes={tweet.likes}
                 username={tweet.user.username}
                 image={tweet.type.image}
-                type={tweet.type}
                 typeAsString={tweet.typeAsString}
-                tweetTypeID={tweet.tweetTypeID}
                 userId={tweet.user?.id}
                 isLikedT={tweet.isLiked}
                 //actualizar={actualizarTweet}
+                show={true}
             />
             </div>
             <div>

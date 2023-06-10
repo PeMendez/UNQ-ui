@@ -58,10 +58,9 @@ const TweesByUser = ({user}) =>{
           image={tweet.type.image}
           userId={tweet.user.id}
           typeAsString={tweet.typeAsString}
-          type={tweet.type}
-          tweetTypeID={tweet.tweetTypeID}
           isLikedT={tweet.isLiked}
           actualizar={actualizarTweet}
+          show={true}
           />
         ))
       ) : (
