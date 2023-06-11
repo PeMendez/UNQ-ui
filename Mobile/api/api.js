@@ -1,5 +1,35 @@
 import axios from "axios";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {AsyncStorage} from '@react-native-async-storage/async-storage';
+import { setAuthToken } from "./axios";
+
+const url = 'http://localhost:7071'
+
+const get = async (url) => {
+  try {
+    const { data } = await axios.get(url);
+    return data;
+  } catch (error) {
+    return await Promise.reject(error.response.data);
+  }
+};
+
+const post = async (url, data) => {
+  try {
+    const { data: data_1 } = await axios.post(url, data);
+    return data_1;
+  } catch (error) {
+    return await Promise.reject(error.response.data);
+  }
+};
+
+const put = async (url) => {
+   try {
+    const { data } = await axios.put(url, null);
+    return data;
+  } catch (error) {
+    return await Promise.reject(error.response.data);
+  }
+};
 
 const postRegister = (user, pass, email, image, backgroundImage, setContext, setInvalidData) => {
     return new Promise((resolve, reject) => {
@@ -15,7 +45,7 @@ const postRegister = (user, pass, email, image, backgroundImage, setContext, set
         .post(url + "/register", registerData)
         .then(response => {
           const token = response.headers.authorization;
-          AsyncStorage.setItem("authorization_token", token);  // Use AsyncStorage instead of localStorage
+          AsyncStorage.setItem('@storage_Key', token);
           setAuthToken(token);
   
           let data = response.data;

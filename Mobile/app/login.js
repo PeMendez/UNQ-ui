@@ -2,6 +2,7 @@ import { StyleSheet, View, Text, Button} from "react-native";
 import { Link , useRouter} from "expo-router";
 import { useState } from "react";
 import { TextInput } from 'react-native';
+import Api from "../api/api"
 
 
 const Login = () => {
@@ -16,27 +17,27 @@ const Login = () => {
 
     const router = useRouter()
 
-
-    const handleLogin = (e) => {
+    const handleLogin = () => {
         //setLoading(true);
     
-        //  if (!username || !password) {
-        //   toast.error("Username y password son campos obligatorios");
-        //   setLoading(false);
-        //   return;
-        // }
-    
+        //   if (!username || !password) {
+        //     toast.console.error("Username y password son campos obligatorios");
+        //    return;
+        //  }
 
-        // Api.postLogin(username, password, setContext, setInvalidData)
-        //   .then((response) => {
-        //     router.push("/index");
-        //     setContext(response)
-        //   })
-        //   .catch((error) => {
-        //     console.error("Error during login:", error);
-        //     //toast.error("Login failed. Please check your credentials.")
-        //   });
-      };
+        Api.postLogin(username, password, setContext, setInvalidData)
+          .then((response) => {
+            console.log("anda")
+            //router.push("index");
+            setContext(response)
+          })
+          .catch((error) => {
+            
+            console.error("Error during login:", error);
+            console.log("NO anda")
+            //toast.error("Login failed. Please check your credentials.")
+          });
+    };
 
     return (
         <View style={styles.container}>
@@ -107,19 +108,21 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   headerButton: {
-    padding: 10,
+    width: 50,
+    width: 120,
     margin: 5,
   },
   
   inputField: {
     height: 40,
+    width: 240,
     borderWidth: 1,
     borderColor: '#ccc',
     padding: 10,
     margin: 5,
   },
   postButton: {
-    padding: 10,
+    width: 250,
     margin: 5,
   },
 });
