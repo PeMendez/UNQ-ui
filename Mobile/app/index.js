@@ -10,6 +10,9 @@ export default function Page() {
         <Text style={styles.subtitle}>Esto es una mierda...</Text>
         <Link href="/profile">Go to profile</Link>
       </View>
+      <View>
+        
+      </View>
     </View>
   );
 }
