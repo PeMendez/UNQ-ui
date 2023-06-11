@@ -33,7 +33,7 @@ const put = async (url) => {
 
 const storeToken = async (value) => {
   try {
-    await AsyncStorage.authorization('@storage_Key', value)
+    await AsyncStorage.setItem('@storage_Key', value)
   } catch (e) {
     // saving error
   }
