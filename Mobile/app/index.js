@@ -9,9 +9,10 @@ export default function Page() {
         <Link href="/search">Search</Link>
         <Text style={styles.subtitle}>Esto es una mierda...</Text>
         <Link href="/profile">Go to profile</Link>
+        <Link href="/login">Go to login</Link>
       </View>
       <View>
-        
+
       </View>
     </View>
   );
