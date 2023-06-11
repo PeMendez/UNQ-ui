@@ -1,16 +1,19 @@
-import { StyleSheet, View, Text } from "react-native";
-import { Link } from "expo-router";
+import { StyleSheet, View, Text, Button} from "react-native";
+import { Link , useRouter} from "expo-router";
 
-export default function Profile() {
+const Profile = () => {
+    const router = useRouter()
     return (
         <View style={styles.container}>
           <View style={styles.main}>
             <Text style={styles.title}>Profile</Text>
             <Link href="/index">Go index</Link>
+            <Button onPress={()=>router.back()} title="Go back"></Button>
           </View>
         </View>
   );
 }
+export default Profile
 
 const styles = StyleSheet.create({
   container: {
