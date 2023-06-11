@@ -28,7 +28,7 @@ const Login = () => {
         Api.postLogin(username, password, setContext, setInvalidData)
           .then((response) => {
             console.log("anda")
-            //router.push("index");
+            //router.push("/index");
             setContext(response)
           })
           .catch((error) => {

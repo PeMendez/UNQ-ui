@@ -31,6 +31,14 @@ const put = async (url) => {
   }
 };
 
+const storeToken = async (value) => {
+  try {
+    await AsyncStorage.authorization('@storage_Key', value)
+  } catch (e) {
+    // saving error
+  }
+}
+
 const postRegister = (user, pass, email, image, backgroundImage, setContext, setInvalidData) => {
     return new Promise((resolve, reject) => {
       const registerData = {
@@ -45,7 +53,7 @@ const postRegister = (user, pass, email, image, backgroundImage, setContext, set
         .post(url + "/register", registerData)
         .then(response => {
           const token = response.headers.authorization;
-          AsyncStorage.setItem('@storage_Key', token);
+          storeToken(token)
           setAuthToken(token);
   
           let data = response.data;
@@ -82,7 +90,7 @@ const postRegister = (user, pass, email, image, backgroundImage, setContext, set
         .post(url + "/login", loginData)
         .then(response => {
           const token = response.headers.authorization;
-          AsyncStorage.setItem("authorization_token", token);  // Use AsyncStorage instead of localStorage
+          storeToken(token)
           setAuthToken(token);
   
           let data = response.data;
