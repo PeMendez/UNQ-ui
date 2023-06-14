@@ -2,7 +2,8 @@ import { StyleSheet, View, Text, Button} from "react-native";
 import { Link , useRouter} from "expo-router";
 import { useState } from "react";
 import { TextInput } from 'react-native';
-import Api from "../api/api"
+import Api from "../api/api";
+
 
 
 const Login = () => {
@@ -15,7 +16,7 @@ const Login = () => {
     const [backgroundImage, setBackgroundImage] = useState("");
     const [login, setLogin] = useState(true);
 
-    const router = useRouter()
+    const navigation = useRouter()
 
     const handleLogin = () => {
         //setLoading(true);
@@ -28,13 +29,13 @@ const Login = () => {
         Api.postLogin(username, password, setContext, setInvalidData)
           .then((response) => {
             console.log("anda")
-            //router.push("/index");
+            navigation.push("/");
             setContext(response)
           })
           .catch((error) => {
             
-            console.error("Error during login:", error);
             console.log("NO anda")
+            console.error("Error during login:", error);
             //toast.error("Login failed. Please check your credentials.")
           });
     };

@@ -4,33 +4,6 @@ import { setAuthToken } from "./axios";
 
 const url = 'http://localhost:7071'
 
-const get = async (url) => {
-  try {
-    const { data } = await axios.get(url);
-    return data;
-  } catch (error) {
-    return await Promise.reject(error.response.data);
-  }
-};
-
-const post = async (url, data) => {
-  try {
-    const { data: data_1 } = await axios.post(url, data);
-    return data_1;
-  } catch (error) {
-    return await Promise.reject(error.response.data);
-  }
-};
-
-const put = async (url) => {
-   try {
-    const { data } = await axios.put(url, null);
-    return data;
-  } catch (error) {
-    return await Promise.reject(error.response.data);
-  }
-};
-
 const storeToken = async (value) => {
   try {
     await AsyncStorage.setItem('@storage_Key', value)
