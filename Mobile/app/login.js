@@ -44,10 +44,10 @@ const Login = () => {
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.headerButton}>
-                    <Button onPress={() => setLogin(true)} title="Login" />
+                    <Button onPress={() => setLogin(true)} title="Login" style={styles.buttonText}/>
                 </View>
                 <View style={styles.headerButton}>
-                    <Button onPress={() => setLogin(false)} title="Register" />
+                    <Button onPress={() => setLogin(false)} title="Register" style={styles.buttonText}/>
                 </View>
             </View>
             <View style={styles.fields}>
@@ -89,7 +89,7 @@ const Login = () => {
                 }
             </View>
             <View style={styles.postButton}>
-                <Button onPress={() => handleLogin()} title="Submit"></Button>
+                <Button onPress={() => handleLogin()} title="Submit" style={styles.buttonText}></Button>
             </View>
         </View>
     );
@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 1,
     borderColor: '#ccc',
+    fontFamily: 'ubuntu-regular',
   },
   header: {
     borderColor: '#ccc',
@@ -112,6 +113,8 @@ const styles = StyleSheet.create({
     width: 50,
     width: 120,
     margin: 5,
+    borderRadius: 25,
+    overflow: "hidden",
   },
   
   inputField: {
@@ -121,11 +124,18 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     padding: 10,
     margin: 5,
+    borderRadius: 25,
+    overflow: "hidden",
   },
   postButton: {
     width: 250,
     margin: 5,
+    borderRadius: 25,
+    overflow: "hidden",
   },
+  buttonText: {
+    textTransform: "none",
+},
 });
 
 
