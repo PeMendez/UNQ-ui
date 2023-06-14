@@ -2,7 +2,7 @@ import axios from "axios";
 import {AsyncStorage} from '@react-native-async-storage/async-storage';
 import { setAuthToken } from "./axios";
 
-const url = 'http://localhost:7071'
+const url = 'http://10.12.3.155:7071'
 
 const storeToken = async (value) => {
   try {
@@ -13,7 +13,7 @@ const storeToken = async (value) => {
 }
 
 const postRegister = (user, pass, email, image, backgroundImage, setContext, setInvalidData) => {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       const registerData = {
         username: user,
         password: pass,
@@ -24,9 +24,9 @@ const postRegister = (user, pass, email, image, backgroundImage, setContext, set
   
       axios
         .post(url + "/register", registerData)
-        .then(response => {
+        .then(async (response) => {
           const token = response.headers.authorization;
-          storeToken(token)
+          await storeToken(token)
           setAuthToken(token);
   
           let data = response.data;
@@ -51,7 +51,7 @@ const postRegister = (user, pass, email, image, backgroundImage, setContext, set
     });
   };
   
-  const postLogin = (user, pass, setContext, setInvalidData) => {
+  const postLogin = (user, pass, setInvalidData) => {
   
     return new Promise((resolve, reject) => {
       const loginData = {
@@ -66,18 +66,7 @@ const postRegister = (user, pass, email, image, backgroundImage, setContext, set
           storeToken(token)
           setAuthToken(token);
   
-          let data = response.data;
-          setContext({
-            logged: true,
-            id: data.id,
-            username: data.username,
-            email: data.email,
-            image: data.image,
-            followers: data.followers,
-            following: data.following,
-            tweet: data.tweet
-          });
-          resolve(); 
+          resolve(response.data);
         })
         .catch(err => {
           console.log(err);
@@ -111,7 +100,7 @@ const postRegister = (user, pass, email, image, backgroundImage, setContext, set
       });
       return response;
     } catch (error) {
-      return Promise.reject(error.response.data);
+      return Promise.reject(error);
     }
   };
   

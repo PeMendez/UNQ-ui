@@ -1,7 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
+import React, { useEffect } from 'react';
 import { Link } from "expo-router";
 
 export default function Page() {
+  
   return (
     <View style={styles.container}>
       <View style={styles.main}>
@@ -36,6 +38,6 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 36,
-    color: "#38434D",
+    color: "#38434D", 
   },
 });

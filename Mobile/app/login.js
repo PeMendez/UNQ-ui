@@ -7,7 +7,7 @@ import Api from "../api/api";
 
 
 const Login = () => {
-    const [context, setContext] = useState({});
+    const [loggedUser, setLoggedUser] = useState({});
     const [invalidData, setInvalidData] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -26,11 +26,9 @@ const Login = () => {
         //    return;
         //  }
 
-        Api.postLogin(username, password, setContext, setInvalidData)
+        Api.postLogin(username, password, setInvalidData)
           .then((response) => {
-            console.log("anda")
-            navigation.push("/");
-            setContext(response)
+            navigation.push("/Home", {loggedUser: response});
           })
           .catch((error) => {
             
@@ -102,7 +100,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 1,
     borderColor: '#ccc',
-    fontFamily: 'ubuntu-regular',
+    //fontFamily: 'ubuntu-regular',
   },
   header: {
     borderColor: '#ccc',
