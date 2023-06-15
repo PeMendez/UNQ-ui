@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons/faHeart';
-import { faHeart as lightHeart } from '@fortawesome/free-regular-svg-icons/faHeart';
-import { faComment as lightComment } from '@fortawesome/free-regular-svg-icons/faComment';
-import { faCircle as solidCircleUser } from '@fortawesome/free-solid-svg-icons/faCircle';
-import { faRetweet as solidRetweet } from '@fortawesome/free-solid-svg-icons/faRetweet';
+import { FontAwesome5 } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons'; 
 import Api from "../api/api";
 import moment from 'moment';
 import 'moment-timezone';
@@ -91,7 +88,7 @@ const Tweet = ({ tweet, actualizarTweet, show, isLikedT }) => {
   return (
     <View style={styles.tweet}>
       <View style={styles.tweet__avatar}>
-        <FontAwesomeIcon icon={solidCircleUser} source={tweet.user.image} onPress={() => handleUserProfile()} />
+        <FontAwesome name="user-circle-o" size={24} source={tweet.user.image} onPress={() => handleUserProfile()} />
       </View>
       <View style={styles.tweet__body}>
         <View style={styles.tweet__header}>
@@ -104,31 +101,21 @@ const Tweet = ({ tweet, actualizarTweet, show, isLikedT }) => {
           </TouchableOpacity>
         </View>
         {retweet()}
-        <Image source={tweet.type.image} onPress={() => handleRedirectTo(tweet.id)} />
+        {/* <Image source={tweet.type.image} onPress={() => handleRedirectTo(tweet.id)} /> */}
         <View style={styles[showFooter]}>
           <View style={styles.tweet__footerIconChat}>
-            <FontAwesomeIcon icon={lightComment} size="small" onPress={() => handleComment(true)} />
+            <FontAwesome5 name="comment" size={24} color="black" onPress={() => handleComment(true)}/>
             <Text style={styles.tweet__footerIconCount}>{tweet.repliesAmount}</Text>
           </View>
           <View style={styles.tweet__footerIcon}>
-            <FontAwesomeIcon icon={solidRetweet} size="small" onPress={() => handleComment(false)} />
+            <FontAwesome5 name="retweet" size={24} color="black" onPress={() => handleComment(false)}/>            
             <Text style={styles.tweet__footerIconCount}>{tweet.reTweetAmount}</Text>
           </View>
           <View style={styles.tweet__footerIconLike}>
             {isLiked ? (
-              <FontAwesomeIcon
-                icon={solidHeart}
-                size="small"
-                color='rgb(249, 24, 128)'
-                onPress={() => handleLike()}
-              />
+              <AntDesign name="heart" size={24} color= 'rgb(249, 24, 128)' onPress={() => handleLike()} />
             ) : (
-              <FontAwesomeIcon
-                icon={lightHeart}
-                size="small"
-                color='rgba(0, 0, 0, 0.54)'
-                onPress={() => handleLike()}
-              />
+              <AntDesign name="hearto" size={24} color='rgba(0, 0, 0, 0.54)' onPress={() => handleLike()} />  
             )}
             <Text style={styles.tweet__footerIconCount}>{likesAmount}</Text>
           </View>

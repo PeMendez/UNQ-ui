@@ -7,7 +7,6 @@ import Api from "../api/api";
 
 
 const Login = () => {
-    const [loggedUser, setLoggedUser] = useState({});
     const [invalidData, setInvalidData] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -28,7 +27,7 @@ const Login = () => {
 
         Api.postLogin(username, password, setInvalidData)
           .then((response) => {
-            navigation.push("/Home", {loggedUser: response});
+            navigation.push({ pathname: "/Home", params: {loggedUser: response.id}});
           })
           .catch((error) => {
             

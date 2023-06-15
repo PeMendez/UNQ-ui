@@ -1,5 +1,5 @@
 import axios from "axios";
-import {AsyncStorage} from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setAuthToken } from "./axios";
 
 const url = 'http://10.12.3.155:7071'
@@ -12,7 +12,7 @@ const storeToken = async (value) => {
   }
 }
 
-const postRegister = (user, pass, email, image, backgroundImage, setContext, setInvalidData) => {
+const postRegister = (user, pass, email, image, backgroundImage, setInvalidData) => {
     return new Promise(async (resolve, reject) => {
       const registerData = {
         username: user,
@@ -28,20 +28,9 @@ const postRegister = (user, pass, email, image, backgroundImage, setContext, set
           const token = response.headers.authorization;
           await storeToken(token)
           setAuthToken(token);
-  
-          let data = response.data;
-          setContext({
-            logged: true,
-            id: data.id,
-            username: data.username,
-            email: data.email,
-            image: data.image,
-            followers: data.followers,
-            following: data.following,
-            tweet: data.tweet
-          });
-  
-          resolve(); 
+
+          resolve(response.data);
+
         })
         .catch(err => {
           console.log(err);
@@ -78,7 +67,7 @@ const postRegister = (user, pass, email, image, backgroundImage, setContext, set
 
   const getLoggedUser = async () => {
     try {
-      const token = await AsyncStorage.getItem("authorization_token");  
+      const token = await AsyncStorage.getItem("@storage_Key");  
       const response = await axios.get(`${url}/user`, {
         headers: {
           Authorization: token,
@@ -92,7 +81,7 @@ const postRegister = (user, pass, email, image, backgroundImage, setContext, set
   
   const getFollowingTweets = async () => {
     try {
-      const token = await AsyncStorage.getItem("authorization_token");
+      const token = await AsyncStorage.getItem("@storage_Key");
       const response = await axios.get(`${url}/user/followingTweets`, {
         headers: {
           Authorization: token,
@@ -106,7 +95,7 @@ const postRegister = (user, pass, email, image, backgroundImage, setContext, set
   
   const getUsersToFollow = async () => {
     try {
-      const token = await AsyncStorage.getItem("authorization_token");
+      const token = await AsyncStorage.getItem("@storage_Key");
       const response = await axios.get(`${url}/user/usersToFollow`, {
         headers: {
           Authorization: token,
@@ -120,7 +109,7 @@ const postRegister = (user, pass, email, image, backgroundImage, setContext, set
   
   const getUser = async (id) => {
     try {
-      const token = await AsyncStorage.getItem("authorization_token");
+      const token = await AsyncStorage.getItem("@storage_Key");
       const response = await axios.get(`${url}/user/${id}`, {
         headers: {
           Authorization: token,
@@ -134,7 +123,7 @@ const postRegister = (user, pass, email, image, backgroundImage, setContext, set
   
   const putFollowUser = async (id) => {
     try {
-      const token = await AsyncStorage.getItem("authorization_token");
+      const token = await AsyncStorage.getItem("@storage_Key");
       const response = await axios.put(`${url}/user/${id}/follow`, null, {
         headers: {
           Authorization: token,
@@ -148,7 +137,7 @@ const postRegister = (user, pass, email, image, backgroundImage, setContext, set
   
   const getSearch = async (searchText) => {
     try {
-      const token = await AsyncStorage.getItem("authorization_token");
+      const token = await AsyncStorage.getItem("@storage_Key");
       const response = await axios.get(`${url}/search?searchText=${searchText}`, {
         headers: {
           Authorization: token,
@@ -162,7 +151,7 @@ const postRegister = (user, pass, email, image, backgroundImage, setContext, set
   
   async function getTrendingTopics() {
     try {
-      const token = await AsyncStorage.getItem("authorization_token");
+      const token = await AsyncStorage.getItem("@storage_Key");
       const response = await axios.get(`${url}/trendingTopics`, {
         headers: {
           Authorization: token,
@@ -185,7 +174,7 @@ const postRegister = (user, pass, email, image, backgroundImage, setContext, set
   
   const putLike = async (id) => {
     try {
-      const token = await AsyncStorage.getItem("authorization_token");
+      const token = await AsyncStorage.getItem("@storage_Key");
       const response = await axios.put(`${url}/tweet/${id}/like`, null, {
         headers: {
           Authorization: token,
