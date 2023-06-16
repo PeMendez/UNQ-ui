@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text} from "react-native";
+import { StyleSheet, View, Text, StatusBar} from "react-native";
 import Api from "../api/api";
 import Tweet from './Tweet';
 import { useLocalSearchParams } from 'expo-router';
+import { ScrollView } from 'react-native';
+import Header from './Header';
+import Footer from './Footer'; 
 
 const GetFollowingTweets = () => {
-  const {loggedUser} = useLocalSearchParams()  
+  const {loggedUser} = useLocalSearchParams() 
+  //const {user} = useLocalSearchParams() 
   const [tweets, setTweets] = useState([]);
+  console.log("user:")
+  console.log("id:", loggedUser)
 
    useEffect(() => {
          Api.getFollowingTweets()
            .then(response => {
-             console.log(response)
              if (response && response.data && Array.isArray(response.data.result)) {
                const promises = response.data.result.map(tweet => {
                   let isLiked = !!tweet.likes.find(user => user.id === loggedUser);
@@ -32,10 +37,14 @@ const GetFollowingTweets = () => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      <Header />
+    <ScrollView>
       {tweets.length > 0 ? (
         tweets.map((tweet) => (
           <Tweet
+            key={tweet.id}
             tweet={tweet}
             isLikedT={tweet.isLiked}
             actualizar={actualizarTweet}
@@ -45,8 +54,19 @@ const GetFollowingTweets = () => {
       ) : (
         <Text>No se encontraron tweets.</Text>
       )}
+    </ScrollView>
+        <Footer/>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  contentContainer: {
+    paddingTop: StatusBar.currentHeight,
+  },
+});
 
 export default GetFollowingTweets;

@@ -1,22 +1,43 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View, SafeAreaView } from "react-native";
 import React, { useEffect } from 'react';
-import { Link } from "expo-router";
+import { useRouter } from "expo-router";
+import { AntDesign } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Api from "../api/api";
+import Header from "./Header";
 
 export default function Page() {
+
+  const navigation = useRouter()
+
+  useEffect(() => {
+  
+      AsyncStorage.getItem('@storage_Key')
+      .then( isLoggedIn =>
+        {console.log(isLoggedIn)
+          isLoggedIn ? (
+          Api.getLoggedUser()
+          .then((response) => {
+            navigation.push({ pathname: "/Home", params: {loggedUser: response.data.id}})
+          })
+          .catch(error => {
+            console.log(error)
+          })
+        ) : (
+          navigation.push({ pathname: "/login"})
+        )}        
+      )
+       
+  }, []);
+  
   
   return (
-    <View style={styles.container}>
-      <View style={styles.main}>
-        <Text style={styles.title}>Home</Text>
-        <Link href="/search">Search</Link>
-        <Text style={styles.subtitle}>Esto es una mierda...</Text>
-        <Link href="/profile">Go to profile</Link>
-        <Link href="/login">Go to login</Link>
+    <SafeAreaView style={styles.container}>
+      <Header/>
+      <View style={styles.loadingContainer}>
+        <AntDesign name="twitter" size={40} color="white"/>
       </View>
-      <View>
-
-      </View>
-    </View>
+   </SafeAreaView>
   );
 }
 
@@ -24,20 +45,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    padding: 24,
-  },
-  main: {
-    flex: 1,
     justifyContent: "center",
-    maxWidth: 960,
-    marginHorizontal: "auto",
+    width: "100%"
   },
-  title: {
-    fontSize: 64,
-    fontWeight: "bold",
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#1DA1F2',
+    width: "100%", 
   },
-  subtitle: {
-    fontSize: 36,
-    color: "#38434D", 
-  },
+  logo: {
+    width: 120,
+    height: 120,
+  }
 });

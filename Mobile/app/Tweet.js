@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import {StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons'; 
+import { FontAwesome5, Entypo } from '@expo/vector-icons'; 
+import { EvilIcons } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
 import Api from "../api/api";
 import moment from 'moment';
 import 'moment-timezone';
 
-const Tweet = ({ tweet, actualizarTweet, show, isLikedT }) => {
+const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [tweetId, setTweetId] = useState(null);
   const [isComment, setIsComment] = useState(false);
@@ -18,7 +19,7 @@ const Tweet = ({ tweet, actualizarTweet, show, isLikedT }) => {
   const dateTime = tweet.date;
   const formattedDateTime = moment(dateTime).format('D MMMM YYYY, HH:mm');
 
-  const showFooter = show ? "tweet__footer" : "dontShowFooter";
+  const showFooter = show ? "container" : "dontShowFooter";
   const showIsRetweet = tweet.typeAsString === "ReTweet" ? "reTweet" : "dontRetweet";
 
   const fetchLike = async () => {
@@ -51,67 +52,83 @@ const Tweet = ({ tweet, actualizarTweet, show, isLikedT }) => {
   };
 
   const handleRedirectTo = (tweetID) => {
-    navigate(`/tweet/${tweetID}`);
+    //navigate(`/tweet/${tweetID}`);
   };
 
   const handleUserProfile = () => {
-    navigate(`/user/${userId}`);
+   // navigate(`/user/${userId}`);
   };
 
-  useEffect(() => {
-    Api.getTweet(tweet.id)
-      .then(updatedTweet => {
-        setTweetData(updatedTweet.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, []);
-
+  // useEffect(() => {
+  //   Api.getTweet(tweet.id)
+  //     .then(updatedTweet => {
+  //       setTweetData(updatedTweet?.data);
+  //     })
+  //     .catch(error => {
+  //       console.error(error, "?????????????????????????");
+  //     });
+  // }, []);
+  
   const retweet = () => {
-    if (tweet.typeAsString === "ReTweet") {
-      if (tweetData && tweetData.type && tweetData.type.tweet) {
-        const tweetARenderizar = tweetData.type.tweet;
-        return (
-          <View>
-            <Tweet
-              tweet={tweetARenderizar}
-              show={false}
-            />
-          </View>
-        );
-      }
-    }
-    return null;
+    // if (tweet.typeAsString === "ReTweet") {
+    //   if (tweetData && tweetData.type && tweetData.type.tweet) {
+    //     const tweetARenderizar = tweetData.type.tweet;
+    //     return (
+    //       <View>
+    //         <Tweet
+    //           tweet={tweetARenderizar}
+    //           show={false}
+    //         />
+    //       </View>
+    //     );
+    //   }
+    // }
+    // return null;
   };
 
   return (
     <View style={styles.tweet}>
-      <View style={styles.tweet__avatar}>
-        <FontAwesome name="user-circle-o" size={24} source={tweet.user.image} onPress={() => handleUserProfile()} />
+    <View style={styles.tweetHeaderContainer}>
+      <View style={styles.tweetHeaderNames}>
+        <Text style={styles.username}>@{tweet.user.username}</Text>
+        <Text style={styles.createdAt}>{moment(tweet.date).fromNow()}</Text>
       </View>
-      <View style={styles.tweet__body}>
-        <View style={styles.tweet__header}>
-          <View style={styles.tweet__headerUsername}>
+      <Entypo name={"chevron-down"} size={16} color={'grey'}/>
+    </View>
+    <View>
+      <Text style={styles.content}>{tweet.content}</Text>
+      {/* {!!tweet.type.image && <S3Image style={styles.image} imgKey={tweet.type.image} />} */}
+    </View>
+      {/* <View style={styles.tweet__avatar}>
+        <FontAwesome name="user-circle-o" size={24} source={tweet.user.image} onPress={() => handleUserProfile()} />
+      </View> */}
+      {/* <View style={styles.tweet__body}>
+         <View style={styles.tweet__header}> */}
+          {/* <View style={styles.tweet__headerUsername}>
             <Text style={styles.tweet__username}>@{tweet.user.username}</Text>
             <Text style={styles.tweet__date}>{formattedDateTime}</Text>
-          </View>
-          <TouchableOpacity style={styles.tweet__headerDescription} onPress={() => handleRedirectTo(tweet.id)}>
+          </View> */}
+          {/* <TouchableOpacity style={styles.tweet__headerDescription} onPress={() => handleRedirectTo(tweet.id)}>
             <Text>{tweet.content}</Text>
-          </TouchableOpacity>
-        </View>
+          </TouchableOpacity> */}
+        {/* </View>  */}
         {retweet()}
-        {/* <Image source={tweet.type.image} onPress={() => handleRedirectTo(tweet.id)} /> */}
+        {tweet.type?.image ? (
+          <Image source={{ uri: tweet.type.image }} onPress={() => handleRedirectTo(tweet.id)} style={styles.image} /> )
+          : (
+            <Text> aca no hay imagen </Text>
+          )}
         <View style={styles[showFooter]}>
-          <View style={styles.tweet__footerIconChat}>
+          <View style={styles.tweet__footerIcon}>
             <FontAwesome5 name="comment" size={24} color="black" onPress={() => handleComment(true)}/>
             <Text style={styles.tweet__footerIconCount}>{tweet.repliesAmount}</Text>
           </View>
           <View style={styles.tweet__footerIcon}>
-            <FontAwesome5 name="retweet" size={24} color="black" onPress={() => handleComment(false)}/>            
-            <Text style={styles.tweet__footerIconCount}>{tweet.reTweetAmount}</Text>
+            <EvilIcons name="retweet" size={34} color="black" onPress={() => handleComment(false)}/>
+            {/* <FontAwesome5 name="retweet" size={24} color="black" onPress={() => handleComment(false)}/>             */}
+            <Text style={styles.tweet__footerIcon}>{tweet.reTweetAmount}</Text>
           </View>
-          <View style={styles.tweet__footerIconLike}>
+          <View style={styles.tweet__footerIcon}>
             {isLiked ? (
               <AntDesign name="heart" size={24} color= 'rgb(249, 24, 128)' onPress={() => handleLike()} />
             ) : (
@@ -119,7 +136,7 @@ const Tweet = ({ tweet, actualizarTweet, show, isLikedT }) => {
             )}
             <Text style={styles.tweet__footerIconCount}>{likesAmount}</Text>
           </View>
-        </View>
+        {/* </View> */}
       </View>
       <View style={styles[showIsRetweet]}>
         <Text>is Retweet</Text>
@@ -134,51 +151,142 @@ export default Tweet;
 
 const styles = StyleSheet.create({
     tweet: {
-      // Estilos para el contenedor principal del tweet
+      flex: 1,
+      marginHorizontal: 10,
     },
-    tweet__avatar: {
-      // Estilos para el avatar
+    tweetHeaderContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
     },
-    tweet__body: {
-      // Estilos para el cuerpo del tweet
+    tweetHeaderNames: {
+      flexDirection: 'row',
     },
-    tweet__header: {
-      // Estilos para el encabezado del tweet
+    name: {
+      marginRight: 5,
+      fontWeight: 'bold',
     },
-    tweet__headerUsername: {
-      // Estilos para el nombre de usuario y la fecha del tweet
+    username: {
+      marginRight: 5,
+      color: 'grey',
     },
-    tweet__username: {
-      // Estilos para el nombre de usuario
+    createdAt: {
+      marginRight: 5,
+      color: 'grey',
     },
-    tweet__date: {
-      // Estilos para la fecha del tweet
+    content: {
+      marginTop: 5,
+      lineHeight: 18,
     },
-    tweet__headerDescription: {
-      // Estilos para la descripción del tweet
+    image: {
+      marginVertical: 10,
+      width: "100%",
+      height: 200,
+      resizeMode: 'cover',
+      borderRadius: 15,
+      overflow: 'hidden',
     },
-    tweet__footer: {
-      // Estilos para el pie de página del tweet
-    },
-    dontShowFooter: {
-      // Estilos alternativos cuando el pie de página no se muestra
-    },
-    tweet__footerIconChat: {
-      // Estilos para el ícono de comentarios y contador de comentarios
-    },
-    tweet__footerIconCount: {
-      // Estilos para el contador de comentarios
+    container: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginTop: 5,
     },
     tweet__footerIcon: {
-      // Estilos para el ícono de retweets y contador de retweets
+      flexDirection: "row",
+      alignItems: "center"
     },
-    tweet__footerIconLike: {
-      // Estilos para el ícono de corazón y contador de likes
+    tweet__footerIconCount: {
+      marginLeft: 5,
+      color: 'grey',
+      textAlign: 'center'
     },
-    reTweet: {
-      // Estilos para el caso en que el tweet sea un retweet
+    dontShowFooter: {
+      display: 'none',
     },
     dontRetweet: {
-      // Estilos alternativos cuando el tweet no es un retweet
+      display: 'none',
+      marginRight: 10,
+    },
+    reTweet: {
+      fontStyle: 'italic',
+      fontSize: 5,
+      marginRight: 10,
     },
   });
+  
+  //   tweet__avatar: {
+  //     borderRadius: 30,
+  //     marginRight: 10,
+  //     marginTop: 10,
+  //     marginLeft: 10,
+  //     width: 60,
+  //     height: 60,
+  //   },
+  //   tweet__body: {
+  //     flex: 1,
+  //     backgroundColor: 'white',
+  //     marginLeft: 10,
+  //     borderRadius: 10,
+  //   },
+  //   tweet__header: {
+  //     display: 'flex',
+  //     flexDirection: 'column',
+  //   },
+  //   tweet__headerUsername: {
+  //     flex: 1,
+  //     textAlign: 'left',
+  //     marginTop: 10,
+  //   },
+  //   tweet__username: {
+  //     fontStyle: 'italic',
+  //     fontSize: 10,
+  //   },
+  //   tweet__date: {
+  //     fontSize: 10,
+  //     color: 'gray',
+  //     marginLeft: 30,
+  //     fontStyle: 'italic',
+  //   },
+  //   tweet__headerDescription: {
+  //     fontStyle: 'italic',
+  //     flex: 1,
+  //     fontSize: 14,
+  //   },
+  //   tweet__footer: {
+  //     display: 'flex',
+  //     justifyContent: 'space-between',
+  //     alignItems: 'center',
+  //     marginTop: 4,
+  //     cursor: 'pointer',
+  //     marginBottom: 10,
+  //   },
+  //   tweet__footerIcon: {
+  //     display: 'flex',
+  //     alignItems: 'center',
+  //     marginRight: 5,
+  //     color: 'gray',
+  //     cursor: 'pointer',
+  //   },
+  //   tweet__footerIconLike: {
+  //     display: 'flex',
+  //     alignItems: 'center',
+  //     marginRight: 150,
+  //     color: 'gray',
+  //     cursor: 'pointer',
+  //   },
+  //   tweet__footerIconChat: {
+  //     display: 'flex',
+  //     alignItems: 'center',
+  //     marginLeft: 100,
+  //     color: 'gray',
+  //     cursor: 'pointer',
+  //   },
+  //   tweet__footerCount: {
+  //     fontSize: 12,
+  //     marginLeft: 2,
+  //     color: 'gray',
+  //   },
+  //   dontShowFooter: {
+  //     display: 'none',
+  //   },
+
+  // });
