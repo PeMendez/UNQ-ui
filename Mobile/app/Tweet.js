@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
-import { FontAwesome5, Entypo } from '@expo/vector-icons'; 
+import { FontAwesome5, Feather} from '@expo/vector-icons'; 
 import { EvilIcons } from '@expo/vector-icons'; 
-import { AntDesign } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons'; 
 import Api from "../api/api";
 import moment from 'moment';
 import 'moment-timezone';
+import { Avatar } from 'react-native-elements';
 
 const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -90,10 +90,15 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
     <View style={styles.tweet}>
     <View style={styles.tweetHeaderContainer}>
       <View style={styles.tweetHeaderNames}>
+        <Avatar
+          rounded
+          source={tweet.user.image ? { uri: tweet.user.image } : undefined}
+          size="small"
+          onPress={() => handleUserProfile()}
+        />
         <Text style={styles.username}>@{tweet.user.username}</Text>
-        <Text style={styles.createdAt}>{moment(tweet.date).fromNow()}</Text>
+        <Text style={styles.createdAt}>- {moment(tweet.date).fromNow()}</Text>
       </View>
-      <Entypo name={"chevron-down"} size={16} color={'grey'}/>
     </View>
     <View>
       <Text style={styles.content}>{tweet.content}</Text>
@@ -116,7 +121,7 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
         {tweet.type?.image ? (
           <Image source={{ uri: tweet.type.image }} onPress={() => handleRedirectTo(tweet.id)} style={styles.image} /> )
           : (
-            <Text> aca no hay imagen </Text>
+            <Text> </Text>
           )}
         <View style={styles[showFooter]}>
           <View style={styles.tweet__footerIcon}>
@@ -124,9 +129,9 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
             <Text style={styles.tweet__footerIconCount}>{tweet.repliesAmount}</Text>
           </View>
           <View style={styles.tweet__footerIcon}>
-            <EvilIcons name="retweet" size={34} color="black" onPress={() => handleComment(false)}/>
-            {/* <FontAwesome5 name="retweet" size={24} color="black" onPress={() => handleComment(false)}/>             */}
-            <Text style={styles.tweet__footerIcon}>{tweet.reTweetAmount}</Text>
+          <Feather name="refresh-cw" size={24} color="black" onPress={() => handleComment(false)}/>
+            {/* <EvilIcons name="retweet" size={34} color="black" onPress={() => handleComment(false)}/> */}
+            <Text style={styles.tweet__footerIconCount}>{tweet.reTweetAmount}</Text>
           </View>
           <View style={styles.tweet__footerIcon}>
             {isLiked ? (
@@ -150,10 +155,14 @@ export default Tweet;
 
 
 const styles = StyleSheet.create({
-    tweet: {
-      flex: 1,
-      marginHorizontal: 10,
-    },
+  tweet: {
+    flex: 1,
+    marginHorizontal: 10,
+    marginVertical: 10, 
+    borderBottomWidth: 1, 
+    borderBottomColor: 'gray', 
+    paddingBottom: 10, 
+  },
     tweetHeaderContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
@@ -161,41 +170,46 @@ const styles = StyleSheet.create({
     tweetHeaderNames: {
       flexDirection: 'row',
     },
-    name: {
-      marginRight: 5,
-      fontWeight: 'bold',
-    },
     username: {
+      marginLeft: 5, 
       marginRight: 5,
       color: 'grey',
+      fontSize: 16, 
     },
     createdAt: {
+      fontStyle: 'italic',
+      marginTop:3, 
+      marginLeft: 5, 
       marginRight: 5,
       color: 'grey',
     },
     content: {
+      marginLeft:40,
       marginTop: 5,
       lineHeight: 18,
     },
-    image: {
-      marginVertical: 10,
-      width: "100%",
-      height: 200,
-      resizeMode: 'cover',
+    image: {  
+      alignSelf: 'center', 
+      marginVertical: 20,
+      width: '90%', 
+      aspectRatio: 1, 
       borderRadius: 15,
-      overflow: 'hidden',
     },
     container: {
       flexDirection: "row",
       justifyContent: "space-between",
       marginTop: 5,
+      alignItems: 'center',
+      paddingHorizontal: 60,
+      paddingBottom: 10,
     },
     tweet__footerIcon: {
-      flexDirection: "row",
-      alignItems: "center"
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     tweet__footerIconCount: {
-      marginLeft: 5,
+      marginLeft: 10,
       color: 'grey',
       textAlign: 'center'
     },
