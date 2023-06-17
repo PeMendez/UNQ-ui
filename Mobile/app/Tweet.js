@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { FontAwesome5, Feather} from '@expo/vector-icons'; 
-import { EvilIcons } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons'; 
 import Api from "../api/api";
 import moment from 'moment';
 import 'moment-timezone';
 import { Avatar } from 'react-native-elements';
+import { useRouter } from "expo-router";
 
 const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -16,11 +16,15 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
   const [isLiked, setIsLiked] = useState(isLikedT);
   const [tweetData, setTweetData] = useState(null);
 
+  const navigation = useRouter()
+
   const dateTime = tweet.date;
   const formattedDateTime = moment(dateTime).format('D MMMM YYYY, HH:mm');
 
   const showFooter = show ? "container" : "dontShowFooter";
   const showIsRetweet = tweet.typeAsString === "ReTweet" ? "reTweet" : "dontRetweet";
+  const tweetOrRetweet = show ? "tweet" : "retweet"; 
+  const tweetHeaderContainer = show ? "tweetHeaderContainer" : "retweetHeaderContainer"
 
   const fetchLike = async () => {
     try {
@@ -51,50 +55,56 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
     setIsPopupOpen(false);
   };
 
-  const handleRedirectTo = (tweetID) => {
-    //navigate(`/tweet/${tweetID}`);
+  const handleRedirectTo = (tweetRender) => { //no anda esto, ver de hacer otra pantalla... 
+    navigation.push("/tweet", {
+      tweet: tweetRender,
+      actualizarTweet: actualizarTweet,
+      show: true,
+      isLikedT: tweetOrRetweet.isLiked
+    });
   };
 
-  const handleUserProfile = () => {
-   // navigate(`/user/${userId}`);
+  const handleUserProfile = (id) => {
+    console.log(id)
+   navigation.push({ pathname: "/profile", params: {userId: id}})
   };
 
-  // useEffect(() => {
-  //   Api.getTweet(tweet.id)
-  //     .then(updatedTweet => {
-  //       setTweetData(updatedTweet?.data);
-  //     })
-  //     .catch(error => {
-  //       console.error(error, "?????????????????????????");
-  //     });
-  // }, []);
+  useEffect(() => {
+    Api.getTweet(tweet.id)
+      .then(updatedTweet => {
+        setTweetData(updatedTweet?.data);
+      })
+      .catch(error => {
+        console.error(error, "?????????????????????????");
+      });
+  }, []);
   
   const retweet = () => {
-    // if (tweet.typeAsString === "ReTweet") {
-    //   if (tweetData && tweetData.type && tweetData.type.tweet) {
-    //     const tweetARenderizar = tweetData.type.tweet;
-    //     return (
-    //       <View>
-    //         <Tweet
-    //           tweet={tweetARenderizar}
-    //           show={false}
-    //         />
-    //       </View>
-    //     );
-    //   }
-    // }
-    // return null;
+    if (tweet.typeAsString === "ReTweet") {
+      if (tweetData && tweetData.type && tweetData.type.tweet) {
+        const tweetARenderizar = tweetData.type.tweet;
+        return (
+          <View>
+            <Tweet
+              tweet={tweetARenderizar}
+              show={false}
+            />
+          </View>
+        );
+      }
+    }
+    return null;
   };
 
   return (
-    <View style={styles.tweet}>
-    <View style={styles.tweetHeaderContainer}>
+    <View style={styles[tweetOrRetweet]}>
+    <View style={styles[tweetHeaderContainer]}>
       <View style={styles.tweetHeaderNames}>
         <Avatar
           rounded
           source={tweet.user.image ? { uri: tweet.user.image } : undefined}
           size="small"
-          onPress={() => handleUserProfile()}
+          onPress={() => handleUserProfile(tweet.user.id)}
         />
         <Text style={styles.username}>@{tweet.user.username}</Text>
         <Text style={styles.createdAt}>- {moment(tweet.date).fromNow()}</Text>
@@ -102,24 +112,10 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
     </View>
     <View>
       <Text style={styles.content}>{tweet.content}</Text>
-      {/* {!!tweet.type.image && <S3Image style={styles.image} imgKey={tweet.type.image} />} */}
     </View>
-      {/* <View style={styles.tweet__avatar}>
-        <FontAwesome name="user-circle-o" size={24} source={tweet.user.image} onPress={() => handleUserProfile()} />
-      </View> */}
-      {/* <View style={styles.tweet__body}>
-         <View style={styles.tweet__header}> */}
-          {/* <View style={styles.tweet__headerUsername}>
-            <Text style={styles.tweet__username}>@{tweet.user.username}</Text>
-            <Text style={styles.tweet__date}>{formattedDateTime}</Text>
-          </View> */}
-          {/* <TouchableOpacity style={styles.tweet__headerDescription} onPress={() => handleRedirectTo(tweet.id)}>
-            <Text>{tweet.content}</Text>
-          </TouchableOpacity> */}
-        {/* </View>  */}
         {retweet()}
         {tweet.type?.image ? (
-          <Image source={{ uri: tweet.type.image }} onPress={() => handleRedirectTo(tweet.id)} style={styles.image} /> )
+          <Image source={{ uri: tweet.type.image }} onPress={() => handleRedirectTo(tweet)} style={styles.image} /> )
           : (
             <Text> </Text>
           )}
@@ -130,7 +126,6 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
           </View>
           <View style={styles.tweet__footerIcon}>
           <Feather name="refresh-cw" size={24} color="black" onPress={() => handleComment(false)}/>
-            {/* <EvilIcons name="retweet" size={34} color="black" onPress={() => handleComment(false)}/> */}
             <Text style={styles.tweet__footerIconCount}>{tweet.reTweetAmount}</Text>
           </View>
           <View style={styles.tweet__footerIcon}>
@@ -144,7 +139,8 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
         {/* </View> */}
       </View>
       <View style={styles[showIsRetweet]}>
-        <Text>is Retweet</Text>
+      <Feather name="refresh-cw" size={16} color="black" />
+        <Text style={styles.reTweetText}>You Retweeted</Text>
       </View>
       {isPopupOpen && <PopUpCommentTweet onClose={handlePopupClose} id={tweetId} isComment={isComment} />}
     </View>
@@ -163,6 +159,20 @@ const styles = StyleSheet.create({
     borderBottomColor: 'gray', 
     paddingBottom: 10, 
   },
+  retweet: {
+    flex: 1,
+    marginHorizontal: 10,
+    marginVertical: 10, 
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    paddingBottom: 10,
+  },
+    retweetHeaderContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      margin: 10,
+    },
     tweetHeaderContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
@@ -187,6 +197,7 @@ const styles = StyleSheet.create({
       marginLeft:40,
       marginTop: 5,
       lineHeight: 18,
+      marginRight:20, 
     },
     image: {  
       alignSelf: 'center', 
@@ -221,9 +232,16 @@ const styles = StyleSheet.create({
       marginRight: 10,
     },
     reTweet: {
+      flexDirection: 'row',
       fontStyle: 'italic',
       fontSize: 5,
       marginRight: 10,
+      position: 'absolute',
+      top: 10, 
+      right: 10,
+    },
+    reTweetText: {
+      marginLeft: 10, 
     },
   });
   

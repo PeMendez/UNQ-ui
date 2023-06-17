@@ -31,8 +31,7 @@ export default function Footer() {
     };
     
     const handleUserProfile = () => {
-      console.log("useeeeeeeeeer:", loggedUser)
-      navigation.push({ pathname: "/profile", params: {user: loggedUser}})
+      navigation.push({ pathname: "/profile", params: {userId: loggedUser.id}})
     };
 
 
