@@ -26,8 +26,12 @@ export default function Footer() {
       navigation.push({ pathname: "/Home", params: {loggedUser: loggedUser.id}})
      };
     
-     const handleSearch = () => {
-      navigation.push({pathname: "/search"})
+    // const handleSearch = () => {
+    //   navigation.push({pathname: "/search", params: {loggedUser: loggedUser.id}})
+    // };
+
+    const handleSearch = () => {
+      navigation.push({pathname: "/Explore", params: {loggedUser: loggedUser.id}})
     };
     
     const handleUserProfile = () => {

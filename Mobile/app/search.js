@@ -7,11 +7,15 @@ import { AntDesign } from '@expo/vector-icons';
 import { SearchBar } from "react-native-elements";
 import Header from "./Header";
 import Footer from "./Footer";
+import { useRouter } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 
 
 function Search() {
   const navigation = useNavigation();
+  const navi = useRouter();
   const [searchText, setSearchText] = useState("");
+  const {loggedUser} = useLocalSearchParams()
 
   const handleSearch = () => {
     if (!searchText) {
@@ -34,11 +38,12 @@ function Search() {
   };
 
   const handleTrendingTopics = () => {
-    navigation.navigate("TrendingTopics");
+    navi.push({pathname: "/TrendingTopics", params: {loggedUser: loggedUser.id}})
+    //navigation.navigate("TrendingTopics");
   };
 
   const onClickUserToFollow = () => {
-    navigation.navigate("UsersToFollow");
+    navigation.navigate("UserToFollow");
   };
 
   return (
