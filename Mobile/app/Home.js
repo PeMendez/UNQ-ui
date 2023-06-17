@@ -20,7 +20,6 @@ const GetFollowingTweets = () => {
              if (response && response.data && Array.isArray(response.data.result)) {
                const promises = response.data.result.map(tweet => {
                   let isLiked = !!tweet.likes.find(user => user.id === loggedUser);
-                  console.log(isLiked)
                  return { ...tweet, isLiked};
                });
                setTweets(promises);

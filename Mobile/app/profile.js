@@ -5,31 +5,60 @@ import { useEffect, useState } from "react";
 import Tweet from "./Tweet";
 import Header from "./Header";
 import Footer from "./Footer";
+import Api from "../api/api";
+import { Avatar } from 'react-native-elements';
 
-export default function Profile({user}) {
-  const {user} = useLocalSearchParams() 
+export default function Profile() {
+  //const {user} = useLocalSearchParams() 
   const router = useRouter()
+  const [user, setUser] = useState("");
+
   const followersAmount = user && user.followers ? Object.keys(user.followers)?.length : 0;
   const followingAmount = user && user.following ? Object.keys(user.following)?.length : 0;
-  console.log(user)
+  
+  // console.log(Object.keys(user))
+  // console.log(user[0], user[1], user[2], user[3], user[4], user[5], user[6], user[7], user[8], user[9], user[10], user[11], user[12], user[13], user[14])
+  // console.dir(user)
+  // console.log(JSON.stringify(user))
+
+  useEffect(() => {
+  
+    Api.getLoggedUser()
+    .then((response) => {
+        setUser(response.data)
+    })
+    .catch(error => {
+      console.log(error)
+    }) 
+
+}, []);
+
+const actualizarTweet = (tweetActualizar) => {
+  setTweets((prevState) =>  prevState.map((tweet) => ( (tweet.id === tweetActualizar.id)?  tweetActualizar : tweet)))
+ 
+};
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <Header />
     <ScrollView>
-      <Image style={styles.userBackground} source={user?.backgroundImage} />
+      <Image style={styles.userBackground} source={{ uri: user.backgroundImage }} />
       {user && (
         <View>
           <View style={styles.userAvatar}>
-            <Image style={styles.avatarImage} source={user.image} />
+            <Avatar
+              rounded
+              source={user.image ? { uri: user.image } : undefined}
+              size="large"
+            />
           </View>
           <View style={styles.userInfo}>
             <Text>@{user.username}</Text>
           </View>
           <View style={styles.userStats}>
-            <Text>Followers {followersAmount}</Text>
-            <Text>Following {followingAmount}</Text>
+            <Text>{<Text style={styles.statsText}>{followersAmount}</Text>}{" "}Followers{"    "}</Text>
+            <Text>{<Text style={styles.statsText}>{followingAmount}</Text>}{" "}Following</Text>
           </View>
         </View>
       )}      
@@ -65,11 +94,11 @@ const styles = StyleSheet.create({
   },
   userBackground: {
     width: '100%',
-    height: 200,
+    height: 150,
   },
   userAvatar: {
-    alignItems: 'center',
-    marginTop: -80,
+    alignSelf: 'flex-start',
+    marginTop: -50,
   },
   avatarImage: {
     width: 100,
@@ -79,8 +108,9 @@ const styles = StyleSheet.create({
     borderColor: '#fff',
   },
   userInfo: {
-    alignItems: 'center',
+    alignSelf: 'flex-start',
     marginTop: 10,
+    marginLeft: 10,
   },
   usernameText: {
     fontSize: 18,
@@ -88,11 +118,17 @@ const styles = StyleSheet.create({
   },
   userStats: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
     marginTop: 10,
+    fontWeight: 'bold',
+    borderBottomWidth: 1, 
+    borderBottomColor: 'gray', 
+    paddingBottom: 10, 
+    marginHorizontal: 10,
+    marginLeft:10,
   },
   statsText: {
     fontSize: 16,
+    fontWeight: 'bold'
   },
 });
 

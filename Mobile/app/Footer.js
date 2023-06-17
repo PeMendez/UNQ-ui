@@ -27,12 +27,12 @@ export default function Footer() {
      };
     
      const handleSearch = () => {
-      navigation.push({pathname: "/Search"})
+      navigation.push({pathname: "/search"})
     };
     
     const handleUserProfile = () => {
-      console.log("useeeeeeeeeer:", loggedUser.id)
-      navigation.push({ pathname: "/profile", params: {user: loggedUser.id}})
+      console.log("useeeeeeeeeer:", loggedUser)
+      navigation.push({ pathname: "/profile", params: {user: loggedUser}})
     };
 
 

@@ -2,7 +2,7 @@ import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setAuthToken } from "./axios";
 
-const url = 'http://192.168.0.55:7071'
+const url = 'http://192.168.0.225:7071'
 
 const storeToken = async (value) => {
   try {
