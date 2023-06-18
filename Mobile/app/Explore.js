@@ -1,28 +1,98 @@
-import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
+import React, { useState } from "react";
 import Search from "./search";
 import TrendingTopics from "./TrendingTopics";
 import UserToFollow from "./UserToFollow"; 
-import { useRouter } from "expo-router";
-import { useLocalSearchParams } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { StyleSheet, View, Text, StatusBar } from "react-native";
+import Header from "./Header";
+import Footer from "./Footer";
 
-const Tab = createBottomTabNavigator();
 
-const {loggedUser} = useLocalSearchParams()
+const SearchScreen = () => (
+  <View style={styles.scene} >
+    <Text>Search</Text>
+    <Search />
+  </View>
+);
 
-const navigation = useRouter()
+const TrendingTopicsScreen = () => (
+  <View style={styles.scene}>
+    <Text>Trending Topics</Text>
+    <TrendingTopics />
+  </View>
+);
+
+const UserToFollowScreen = () => (
+  <View style={styles.scene}>
+    <Text>User to Follow</Text>
+    <UserToFollow/>
+  </View>
+);
 
 const Explore = () => {
+  const {loggedUser} = useLocalSearchParams()
+  const navigation = useRouter()
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    { key: 'search', title: 'Search' },
+    { key: 'trending', title: 'Trending Topics' },
+    { key: 'userToFollow', title: 'User to Follow' },
+  ]);
+
+  const renderScene = SceneMap({
+    search: SearchScreen,
+    trending: TrendingTopicsScreen,
+    userToFollow: UserToFollowScreen,
+  });
+
+  const renderTabBar = (props) => (
+    <TabBar
+      {...props}
+      indicatorStyle={styles.indicator}
+      style={styles.tabBar}
+      labelStyle={styles.label}
+    />
+  );
+
   return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name="Search" component={Search} />
-        <Tab.Screen name="Trending Topics" component={TrendingTopics} />
-        <Tab.Screen name="User to follow" component={UserToFollow} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <View style={styles.container}>
+    <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+    <Header />
+    <TabView
+      navigationState={{ index, routes }}
+      renderScene={renderScene}
+      onIndexChange={setIndex}
+      renderTabBar={renderTabBar}
+    />
+     <Footer/>
+    </View>
   );
 };
 
+const styles = StyleSheet.create({
+  scene: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tabBar: {
+    backgroundColor: '#FFFFFF',
+  },
+  indicator: {
+    backgroundColor: '#1DA1F2',
+  },
+  label: {
+    color: '#000000',
+  },
+  container: {
+    flex: 1,
+  },
+  contentContainer: {
+    paddingTop: StatusBar.currentHeight,
+  },
+
+});
+
 export default Explore;
+

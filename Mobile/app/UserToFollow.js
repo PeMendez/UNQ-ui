@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import Api from "../api/api";
 import UserSimple from "./UserSimple";
 
@@ -19,7 +19,7 @@ const UsersToFollow = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Recommended users</Text>
+      <ScrollView>
       {Array.isArray(users) && users.length > 0 ? (
         users.map(user => (
           <View key={user.id} style={styles.userContainer}>
@@ -29,6 +29,7 @@ const UsersToFollow = () => {
       ) : (
         <Text>No hay usuarios para recomendar.</Text>
       )}
+    </ScrollView>
     </View>
   );
 };

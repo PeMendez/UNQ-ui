@@ -37,8 +37,6 @@ function TrendingTopics() {
 
   return (
     <View style={styles.container}>
-    <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
-    <Header />
   <ScrollView>
       <Text style={styles.heading}>Trending Topics</Text>
       {tweets.length > 0 ? (
@@ -55,7 +53,6 @@ function TrendingTopics() {
         <Text>No se encontraron tweets.</Text>
       )}
     </ScrollView>
-        <Footer/>
     </View>
   );
 }
