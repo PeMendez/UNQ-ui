@@ -2,6 +2,7 @@ import { StyleSheet, View, Text, Button} from "react-native";
 import { Link , useRouter} from "expo-router";
 import { useState } from "react";
 import { TextInput } from 'react-native';
+import { ToastAndroid } from "react-native";
 import Api from "../api/api";
 
 
@@ -18,23 +19,50 @@ const Login = () => {
     const navigation = useRouter()
 
     const handleLogin = () => {
-        //setLoading(true);
     
-        //   if (!username || !password) {
-        //     toast.console.error("Username y password son campos obligatorios");
-        //    return;
-        //  }
+      if (!username || !password) {
+        ToastAndroid.show("All fields are required", ToastAndroid.SHORT);
+        return;
+      }
 
-        Api.postLogin(username, password, setInvalidData)
-          .then((response) => {
-            navigation.push({ pathname: "/Home", params: {loggedUser: response.id}});
-          })
-          .catch((error) => {
-            
-            console.log("NO anda")
-            console.error("Error during login:", error);
-            //toast.error("Login failed. Please check your credentials.")
-          });
+      Api.postLogin(username, password, setInvalidData)
+        .then((response) => {
+          navigation.push({ pathname: "/Home", params: {loggedUser: response.id}});
+        })
+        .catch(() => {
+          ToastAndroid.show("Login failed. Please check your credentials.", ToastAndroid.SHORT);
+        });
+    };
+
+    const handleRegister = () => {
+      if (!username || !password || !email || !image || !backgroundImage) {
+        ToastAndroid.show("All fields are required", ToastAndroid.SHORT);
+        return;
+      }
+
+      const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+      if (!emailRegex.test(email)) {
+        ToastAndroid.show("Please enter an valid e-mail account", ToastAndroid.SHORT);
+        return;
+      }
+  
+      if ((!image.startsWith("http://") || !image.startsWith("https://")) && !image.endsWith(".jpg")) {
+        ToastAndroid.show("Image field must be an URL of an .jpg extension file", ToastAndroid.SHORT);
+        return;
+      }
+  
+      if ((!backgroundImage.startsWith("http://") || !backgroundImage.startsWith("https://")) && !backgroundImage.endsWith(".jpg")) {
+        ToastAndroid.show("Background Image field must be an URL of an .jpg extension file", ToastAndroid.SHORT);
+        return;
+      }
+  
+      Api.postRegister(username, password, email, image, backgroundImage, setInvalidData)
+        .then((response) => {
+          navigation.push({ pathname: "/Home", params: {loggedUser: response.id}});
+        })
+        .catch(() => {
+          ToastAndroid.show("Login failed. Please check your credentials.", ToastAndroid.SHORT);
+        });
     };
 
     return (
@@ -86,7 +114,7 @@ const Login = () => {
                 }
             </View>
             <View style={styles.postButton}>
-                <Button onPress={() => handleLogin()} title="Submit" style={styles.buttonText}></Button>
+                <Button onPress={login?() => handleLogin():()=>handleRegister()} title="Submit" style={styles.buttonText}></Button>
             </View>
         </View>
     );

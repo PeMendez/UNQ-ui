@@ -10,8 +10,10 @@ export default function Header() {
   const navigation = useRouter()
 
   const handleLogout = () => {
-    AsyncStorage.removeItem()
-    navigation.push({ pathname: "/index"})
+    AsyncStorage.removeItem('@Storage_key')
+    .then(()=>{
+      navigation.replace({ pathname: "/login"})
+    })
   };
 
     return (
