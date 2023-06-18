@@ -9,10 +9,11 @@ export default function Header() {
   const isLogged = AsyncStorage.getItem('@storage_Key')
   const navigation = useRouter()
 
-  const handleLogout = () => {
-    AsyncStorage.removeItem('@Storage_key')
+
+  const handleLogout = async () => {
+    await AsyncStorage.removeItem('@Storage_key')
     .then(()=>{
-      navigation.replace({ pathname: "/login"})
+      navigation.push({ pathname: "/"})
     })
   };
 

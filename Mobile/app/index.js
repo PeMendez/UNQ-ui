@@ -1,5 +1,5 @@
 import { StyleSheet, View, SafeAreaView } from "react-native";
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from "expo-router";
 import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -9,12 +9,13 @@ import Header from "./Header";
 export default function Page() {
 
   const navigation = useRouter()
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
   
       AsyncStorage.getItem('@storage_Key')
-      .then( isLoggedIn =>
-        {console.log(isLoggedIn)
+      .then( isLogged =>
+        {setIsLoggedIn(isLogged)
           isLoggedIn ? (
           Api.getLoggedUser()
           .then((response) => {

@@ -10,8 +10,6 @@ import Footer from './Footer';
 const GetFollowingTweets = () => {
   const {loggedUser} = useLocalSearchParams() 
   const [tweets, setTweets] = useState([]);
-  console.log("user:")
-  console.log("id:", loggedUser)
 
    useEffect(() => {
          Api.getFollowingTweets()

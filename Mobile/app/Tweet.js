@@ -65,7 +65,6 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
   };
 
   const handleUserProfile = (id) => {
-    console.log(id)
    navigation.push({ pathname: "/profile", params: {userId: id}})
   };
 

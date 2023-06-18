@@ -14,8 +14,6 @@ function Search({loggedUser}) {
   const navi = useRouter();
   const [searchText, setSearchText] = useState("");
   const [tweets, setTweets] = useState([]);
-  console.log("user:")
-  console.log("id:", loggedUser)
 
    useEffect(() => {
          Api.getSearch(searchText)

@@ -14,8 +14,6 @@ export default function Profile() {
   const followersAmount = user && user.followers ? Object.keys(user.followers)?.length : 0;
   const followingAmount = user && user.following ? Object.keys(user.following)?.length : 0;
   
-   console.log(userId)
-
   useEffect(() => {
   
     Api.getUser(userId)

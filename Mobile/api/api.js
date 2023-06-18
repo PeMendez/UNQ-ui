@@ -2,7 +2,7 @@ import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setAuthToken } from "./axios";
 
-const url = 'http://192.168.0.225:7071'
+const url = 'http://192.168.100.6:7071'
 
 const storeToken = async (value) => {
   try {
@@ -199,8 +199,6 @@ const postRegister = (user, pass, email, image, backgroundImage, setInvalidData)
       axios
         .post(`${url}/tweet/${id}/retweet`, reTweetData)
         .then(response => {
-          console.log(response.data.id);
-          console.log(response.data.user.id);
           resolve();
         })
         .catch(err => {
