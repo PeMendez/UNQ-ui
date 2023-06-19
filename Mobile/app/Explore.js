@@ -17,7 +17,6 @@ const SearchScreen = () => (
 
 const TrendingTopicsScreen = () => (
   <View style={styles.scene}>
-    <Text style={styles.text}>Trending Topics</Text>
     <TrendingTopics />
   </View>
 );
