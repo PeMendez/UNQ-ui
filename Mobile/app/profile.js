@@ -37,7 +37,7 @@ export default function Profile() {
       console.log(error)
     }) 
 
-}, []);
+}, [isFollowed]);
 
 const handleFollow = async () => {
   try {
@@ -61,7 +61,7 @@ const actualizarTweet = (tweetActualizar) => {
         <View style={[styles.loadingContainer, styles.loadingAbsolute]}>
           <ActivityIndicator size="large" color="skyblue" />
         </View>) : (
-              <ScrollView>
+              <ScrollView showsVerticalScrollIndicator={false}>
               <Image style={styles.userBackground} source={{ uri: user.backgroundImage }} />
               {user && (
                 <View>
@@ -79,8 +79,8 @@ const actualizarTweet = (tweetActualizar) => {
                             <View style={styles.buttomFollow}>
                               <TouchableOpacity
                                 onPress={handleFollow}
-                                style={[styles.followButton, isFollowed ? styles.unfollowButton : null]}>      
-                                <Text style={styles.buttonText}>{isFollowed ? 'Unfollow' : 'Follow'}</Text>
+                                style={[styles.followButton, isFollowed ? styles.followingButton : null]}>      
+                                <Text style={[styles.buttonText, isFollowed ? styles.followingButtonText : null]}>{isFollowed ? 'Following' : 'Follow'}</Text>
                               </TouchableOpacity>
                             </View>}
                       </View>
@@ -189,13 +189,22 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 20,
     borderRadius: 20,
-    backgroundColor: '#1DA1F2',
+    backgroundColor: 'rgb(80, 183, 245)',
   },
-  unfollowButton: {
-    backgroundColor: '#8B0000',
+  followingButton: {
+    paddingVertical: 5,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    borderColor:'rgb(80, 183, 245)',
+    borderWidth: 1,
+    backgroundColor: 'white',
+    color: 'rgb(80, 183, 245)',
   },
   buttonText: {
     color: 'white',
+  },
+  followingButtonText: {
+    color: 'rgb(80, 183, 245)',
   },
   footerContainer: {
     position: 'absolute',
