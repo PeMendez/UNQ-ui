@@ -1,4 +1,4 @@
-import {StyleSheet, View, Text, StatusBar, ScrollView, Image, TouchableOpacity} from "react-native";
+import {StyleSheet, View, Text, StatusBar, ScrollView, Image, TouchableOpacity, ActivityIndicator} from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import Tweet from "./Tweet";
@@ -10,7 +10,8 @@ import { Avatar } from 'react-native-elements';
 export default function Profile() {
   const {userId} = useLocalSearchParams() 
   const [user, setUser] = useState("");
-  const [loggedUser, setLoggedUser] = useState("");
+  const [loggedUser, setLoggedUser] = useState("");  
+  const [isLoading, setIsLoading] = useState(true);
   
   const [isFollowed, setIsFollowed] = useState();
 
@@ -21,7 +22,8 @@ export default function Profile() {
   
     Api.getUser(userId)
     .then((response) => {
-        setUser(response.data)
+        setUser(response.data)        
+        setIsLoading(false);
     })
     .catch(error => {
       console.log(error)
@@ -55,51 +57,58 @@ const actualizarTweet = (tweetActualizar) => {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <Header />
-    <ScrollView>
-      <Image style={styles.userBackground} source={{ uri: user.backgroundImage }} />
-      {user && (
-        <View>
-          <View style={styles.userAvatar}>
-            <Avatar
-              rounded
-              source={user.image ? { uri: user.image } : undefined}
-              size="large"
-            />
-          </View>
-          <View style={styles.userInfo}>            
-             <View style={styles.usernameContainer}>
-              <Text>@{user.username}</Text>
-                  {user.id != loggedUser.id &&
-                    <View style={styles.buttomFollow}>
-                      <TouchableOpacity
-                        onPress={handleFollow}
-                        style={[styles.followButton, isFollowed ? styles.unfollowButton : null]}>      
-                        <Text style={styles.buttonText}>{isFollowed ? 'Unfollow' : 'Follow'}</Text>
-                      </TouchableOpacity>
-                    </View>}
-              </View>
-          </View>
-          <View style={styles.userStats}>
-            <Text>{<Text style={styles.statsText}>{followersAmount}</Text>}{" "}Followers{"    "}</Text>
-            <Text>{<Text style={styles.statsText}>{followingAmount}</Text>}{" "}Following</Text>
-          </View>          
+      {isLoading ? (
+        <View style={[styles.loadingContainer, styles.loadingAbsolute]}>
+          <ActivityIndicator size="large" color="skyblue" />
+        </View>) : (
+              <ScrollView>
+              <Image style={styles.userBackground} source={{ uri: user.backgroundImage }} />
+              {user && (
+                <View>
+                  <View style={styles.userAvatar}>
+                    <Avatar
+                      rounded
+                      source={user.image ? { uri: user.image } : undefined}
+                      size="large"
+                    />
+                  </View>
+                  <View style={styles.userInfo}>            
+                     <View style={styles.usernameContainer}>
+                      <Text>@{user.username}</Text>
+                          {user.id != loggedUser.id &&
+                            <View style={styles.buttomFollow}>
+                              <TouchableOpacity
+                                onPress={handleFollow}
+                                style={[styles.followButton, isFollowed ? styles.unfollowButton : null]}>      
+                                <Text style={styles.buttonText}>{isFollowed ? 'Unfollow' : 'Follow'}</Text>
+                              </TouchableOpacity>
+                            </View>}
+                      </View>
+                  </View>
+                  <View style={styles.userStats}>
+                    <Text>{<Text style={styles.statsText}>{followersAmount}</Text>}{" "}Followers{"    "}</Text>
+                    <Text>{<Text style={styles.statsText}>{followingAmount}</Text>}{" "}Following</Text>
+                  </View>          
+                </View>
+              )}      
+              {user.tweets?.length > 0 ? (
+                user.tweets.map((tweet) => (
+                  <Tweet
+                    key={tweet.id}
+                    tweet={tweet}
+                    isLikedT={tweet.isLiked}
+                    actualizar={actualizarTweet}
+                    show={true}
+                  />
+                ))
+              ) : (
+                <Text>No se encontraron tweets.</Text>
+              )}
+            </ScrollView>
+        )}
+        <View style={styles.footerContainer}>
+          <Footer/>
         </View>
-      )}      
-      {user.tweets?.length > 0 ? (
-        user.tweets.map((tweet) => (
-          <Tweet
-            key={tweet.id}
-            tweet={tweet}
-            isLikedT={tweet.isLiked}
-            actualizar={actualizarTweet}
-            show={true}
-          />
-        ))
-      ) : (
-        <Text>No se encontraron tweets.</Text>
-      )}
-    </ScrollView>
-        <Footer/>
     </View>
   );
 }
@@ -116,6 +125,19 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: StatusBar.currentHeight,
+  },
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loadingAbsolute: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1,
   },
   userProfile: {
     flex: 1,
@@ -174,6 +196,12 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
+  },
+  footerContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 });
 

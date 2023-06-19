@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, StatusBar} from "react-native";
+import { StyleSheet, View, Text, StatusBar, ActivityIndicator } from "react-native";
 import Api from "../api/api";
 import Tweet from './Tweet';
 import { useLocalSearchParams } from 'expo-router';
@@ -10,6 +10,7 @@ import Footer from './Footer';
 const GetFollowingTweets = () => {
   const {loggedUser} = useLocalSearchParams() 
   const [tweets, setTweets] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
    useEffect(() => {
          Api.getFollowingTweets()
@@ -20,6 +21,7 @@ const GetFollowingTweets = () => {
                  return { ...tweet, isLiked};
                });
                setTweets(promises);
+               setIsLoading(false);
              }
            })
        .catch(error => {
@@ -36,6 +38,10 @@ const GetFollowingTweets = () => {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <Header />
+      {isLoading ? (
+        <View style={[styles.loadingContainer, styles.loadingAbsolute]}>
+          <ActivityIndicator size="large" color="skyblue" />
+        </View>) : (
     <ScrollView>
       {tweets.length > 0 ? (
         tweets.map((tweet) => (
@@ -50,8 +56,10 @@ const GetFollowingTweets = () => {
       ) : (
         <Text>No se encontraron tweets.</Text>
       )}
-    </ScrollView>
-        <Footer/>
+    </ScrollView>)}
+        <View style={styles.footerContainer}>
+          <Footer/>
+        </View>
     </View>
   );
 }
@@ -62,6 +70,25 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: StatusBar.currentHeight,
+  },
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loadingAbsolute: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1,
+  },
+  footerContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 });
 
