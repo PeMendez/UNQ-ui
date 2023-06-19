@@ -36,7 +36,6 @@ function TrendingTopics() {
   return (
     <View style={styles.container}>
   <ScrollView>
-      <Text style={styles.heading}>Trending Topics</Text>
       {tweets.length > 0 ? (
         tweets.map(tweet => (
           <Tweet

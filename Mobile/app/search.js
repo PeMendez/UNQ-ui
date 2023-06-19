@@ -1,48 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View, TextInput, Button, Text, StatusBar, ScrollView } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import React, { useState } from "react";
+import { StyleSheet, View } from "react-native";
 import { ToastAndroid } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { SearchBar } from "react-native-elements";
-import { useRouter } from "expo-router";
-import Api from "../api/api";
-import Tweet from "./Tweet";
+import SearchResult from "./searchResult";
 
 
-function Search({loggedUser}) {
-  const navigation = useNavigation();
-  const navi = useRouter();
-  const [searchText, setSearchText] = useState("");
-  const [tweets, setTweets] = useState([]);
+function Search() {  
 
-   useEffect(() => {
-         Api.getSearch(searchText)
-           .then(response => {
-             if (response && response.data && Array.isArray(response.data.result)) {
-               const withLikes = response.data.result.map(tweet => {
-                  let isLiked = !!tweet.likes.find(user => user.id === loggedUser);
-                 return { ...tweet, isLiked};
-               });
-               setTweets(withLikes);
-             }
-           })
-       .catch(error => {
-         console.log(error);
-       });
-   }, []);
-  
-  const actualizarTweet = (tweetActualizar) => {
-    setTweets((prevState) =>  prevState.map((tweet) => ( (tweet.id === tweetActualizar.id)?  tweetActualizar : tweet)))
-   
-  };
+  const [searchText, setSearchText] = useState("");  
 
   const handleSearch = () => {
     if (!searchText) {
       ToastAndroid.show("Please introduce some text to search", ToastAndroid.SHORT);
       return;
     }
-
-    navigation.navigate("Search", { searchText });
     setSearchText("");
   };
 
@@ -58,17 +30,9 @@ function Search({loggedUser}) {
 
   return (
     <View style={styles.widgets}>
-    {/* <View style={styles.widgets__input}>
-      <AntDesign style={styles.widgets__searchIcon} name="search1" size={20} color="black" onPress={() => handleSearch()}/>
-      <TextInput
-        placeholder="Search Tweets"
-        value={searchText}
-        onChangeText={handleOnChange}
-        onKeyPress={handleKeyPress}
-      />
-    </View> */}
       <SearchBar
         placeholder="Search Tweets"
+        placeholderTextColor="#888888"
         value={searchText}
         onChangeText={handleOnChange}
         onKeyPress={handleKeyPress}
@@ -84,23 +48,9 @@ function Search({loggedUser}) {
           />
         }
       />
-    <View style={styles.container}>
-  <ScrollView>
-      {tweets.length > 0 ? (
-        tweets.map(tweet => (
-          <Tweet
-          key={tweet.id}
-          tweet={tweet}
-          isLikedT={tweet.isLiked}
-          actualizar={actualizarTweet}
-          show={true}
-          />
-        ))
-      ) : (
-        <Text>No se encontraron tweets.</Text>
-      )}
-    </ScrollView>
-    </View>
+      {searchText != "" && 
+      <SearchResult
+        searchText={searchText}/>}
     </View>
   );
 }
@@ -118,7 +68,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
   },
   searchBarInputContainer: {
-    backgroundColor: 'transparent',
+    backgroundColor: "rgba(242, 242, 242, 0.5)",
     borderWidth: 1,
     borderColor: 'gray',
     borderRadius: 20,
@@ -126,6 +76,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   searchBarInput: {
+    color: "#888888",
     fontSize: 14, 
   },
   searchBarIconContainer: {

@@ -11,21 +11,20 @@ import Footer from "./Footer";
 
 const SearchScreen = () => (
   <View style={styles.scene} >
-    <Text>Search</Text>
     <Search />
   </View>
 );
 
 const TrendingTopicsScreen = () => (
   <View style={styles.scene}>
-    <Text>Trending Topics</Text>
+    <Text style={styles.text}>Trending Topics</Text>
     <TrendingTopics />
   </View>
 );
 
 const UserToFollowScreen = () => (
   <View style={styles.scene}>
-    <Text>User to Follow</Text>
+    <Text style={styles.text}>User to Follow</Text>
     <UserToFollow/>
   </View>
 );
@@ -73,8 +72,12 @@ const Explore = () => {
 const styles = StyleSheet.create({
   scene: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    //alignItems: 'center',
+    //justifyContent: 'center',
+    marginTop:10
+  },
+  text: {
+    textAlign: "center", 
   },
   tabBar: {
     backgroundColor: '#FFFFFF',
