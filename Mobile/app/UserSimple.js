@@ -49,23 +49,20 @@ const styles = {
   container: {
     flexDirection: 'column',
     alignItems: 'center',
-    borderRadius: 10,
+    borderRadius: 25,
     backgroundColor: '#ffffff',
-    padding: 10,
-    marginBottom: 10,
-    borderColor: 'gray',    
+    borderColor: 'lightgray',    
     borderWidth: 1,
-    margin: 10,
+    paddingVertical:15,
   },
   userContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
-    margin: 20,    
   },
   userInfo: {
     flexDirection: 'column',
     alignItems: 'center',
+    padding:5
   },
   avatar: {
     width: 60,
@@ -75,15 +72,19 @@ const styles = {
     marginTop: 10,
     fontSize: 16,
     fontWeight: 'bold',
+    padding:5
   },
   followButton: {
     paddingVertical: 5,
     paddingHorizontal: 20,
     borderRadius: 20,
-    backgroundColor: '#1DA1F2',
+    backgroundColor: 'rgb(80, 183, 245)',
   },
   unfollowButton: {
-    backgroundColor: '#8B0000',
+    paddingVertical: 5,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    backgroundColor: 'rgb(245, 80, 80)',
   },
   buttonText: {
     color: 'white',

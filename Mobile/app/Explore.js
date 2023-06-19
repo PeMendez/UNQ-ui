@@ -17,14 +17,12 @@ const SearchScreen = () => (
 
 const TrendingTopicsScreen = () => (
   <View style={styles.scene}>
-    <Text style={styles.text}>Trending Topics</Text>
     <TrendingTopics />
   </View>
 );
 
 const UserToFollowScreen = () => (
   <View style={styles.scene}>
-    <Text style={styles.text}>User to Follow</Text>
     <UserToFollow/>
   </View>
 );
@@ -36,7 +34,7 @@ const Explore = () => {
   const [routes] = useState([
     { key: 'search', title: 'Search' },
     { key: 'trending', title: 'Trending Topics' },
-    { key: 'userToFollow', title: 'User to Follow' },
+    { key: 'userToFollow', title: 'Users to Follow' },
   ]);
 
   const renderScene = SceneMap({
@@ -77,7 +75,7 @@ const styles = StyleSheet.create({
     marginTop:10
   },
   text: {
-    textAlign: "center", 
+    textAlign: "center",
   },
   tabBar: {
     backgroundColor: '#FFFFFF',
@@ -87,6 +85,7 @@ const styles = StyleSheet.create({
   },
   label: {
     color: '#000000',
+    fontSize:12
   },
   container: {
     flex: 1,
