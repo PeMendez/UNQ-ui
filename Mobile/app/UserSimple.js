@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { Avatar } from 'react-native-elements';
 import Api from "../api/api";
+import { useRouter } from 'expo-router';
 
 const UserSimple = ({ user }) => {
   const [isFollowed, setIsFollowed] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useRouter();
 
   const handleFollow = async () => {
     try {
@@ -18,7 +18,7 @@ const UserSimple = ({ user }) => {
   };
 
   const handleGoToUser = () => {
-    navigation.navigate('UserProfile', { userId: user.id });
+    navigation.push({ pathname: "/profile", params: {userId: user.id}})
   };
 
 
