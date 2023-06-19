@@ -19,19 +19,20 @@ const UsersToFollow = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView horizontal={true}>
-      {Array.isArray(users) && users.length > 0 ? (
-        users.map(user => (
-          <View key={user.id} style={styles.userContainer}>
-            <UserSimple user={user} />
-          </View>
-        ))
-      ) : (
-        <Text>No hay usuarios para recomendar.</Text>
-      )}
-    </ScrollView>
+      <ScrollView contentContainerStyle={styles.userContainer} showsVerticalScrollIndicator={false}>
+        {Array.isArray(users) && users.length > 0 ? (
+          users.map(user => (
+            <View key={user.id} style={styles.userItem}>
+              <UserSimple user={user} />
+            </View>
+          ))
+        ) : (
+          <Text>No hay usuarios para recomendar.</Text>
+        )}
+      </ScrollView>
     </View>
   );
+  
 };
 
 const styles = {
@@ -39,14 +40,20 @@ const styles = {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    padding:10
   },
   heading: {
     fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 10,
   },
   userContainer: {
-    marginBottom: 10,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  userItem: {
+    width: '50%',
+    padding:5
   },
 };
 
