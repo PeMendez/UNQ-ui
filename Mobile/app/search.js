@@ -11,11 +11,14 @@ function Search() {
   const [searchText, setSearchText] = useState("");  
 
   const handleSearch = () => {
-    if (!searchText) {
-      ToastAndroid.show("Please introduce some text to search", ToastAndroid.SHORT);
+    if (searchText === "") {
+      ToastAndroid.showWithGravity(
+        "Please introduce some text to search",
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER
+      );
       return;
     }
-    setSearchText("");
   };
 
   const handleOnChange = (text) => {
