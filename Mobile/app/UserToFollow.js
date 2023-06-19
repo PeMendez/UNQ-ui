@@ -19,7 +19,7 @@ const UsersToFollow = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView horizontal={true}>
       {Array.isArray(users) && users.length > 0 ? (
         users.map(user => (
           <View key={user.id} style={styles.userContainer}>
