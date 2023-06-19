@@ -9,6 +9,7 @@ import SearchResult from "./searchResult";
 function Search() {  
 
   const [searchText, setSearchText] = useState("");  
+  const [textToSearch, setTextToSearch] = useState("");  
 
   const handleSearch = () => {
     if (searchText === "") {
@@ -18,6 +19,8 @@ function Search() {
         ToastAndroid.CENTER
       );
       return;
+    } else{
+      setTextToSearch(searchText)
     }
   };
 
@@ -26,34 +29,36 @@ function Search() {
   };
 
   const handleKeyPress = (e) => {
-    if (e.nativeEvent.key === "Enter") {
+    if (e.nativeEvent.key === "Enter" || e.nativeEvent.key === "Search") {
       handleSearch();
     }
   };
 
   return (
     <View style={styles.widgets}>
-      <SearchBar
-        placeholder="Search Tweets"
-        placeholderTextColor="#888888"
-        value={searchText}
-        onChangeText={handleOnChange}
-        onKeyPress={handleKeyPress}
-        containerStyle={styles.searchBar}
-        inputContainerStyle={styles.searchBarInputContainer}
-        rightIconContainerStyle={styles.searchBarIconContainer}
-        rightIcon={
-          <AntDesign
-            name="search1"
-            size={20}
-            color="black"
-            onPress={handleSearch}
-          />
-        }
-      />
-      {searchText != "" && 
+      <View style={styles.search}>
+        <SearchBar
+          placeholder="Search Tweets"
+          placeholderTextColor="#888888"
+          value={searchText}
+          onChangeText={handleOnChange}
+          onKeyPress={handleKeyPress}
+          onSubmitEditing={()=>handleSearch()}
+          containerStyle={styles.searchBar}
+          inputContainerStyle={styles.searchBarInputContainer}
+          searchIcon={null}
+          clearIcon={null}
+        />
+        {/* <AntDesign
+          name="search1"
+          size={15}
+          color="black"
+          onPress={()=> setTextToSearch(searchText)}
+        /> */}
+      </View>
+      {textToSearch != "" && 
       <SearchResult
-        searchText={searchText}/>}
+        searchText={textToSearch}/>}
     </View>
   );
 }
@@ -61,14 +66,18 @@ function Search() {
 
 const styles = StyleSheet.create({
   widgets: {
-    flex: 1,
     paddingHorizontal: 10,
+  },
+  searchBar: {
+    backgroundColor: 'transparent',
+  },
+  search: {
+    margin:2
   },
   searchBar: {
     backgroundColor: 'transparent',
     borderTopWidth: 0,
     borderBottomWidth: 0,
-    paddingHorizontal: 0,
   },
   searchBarInputContainer: {
     backgroundColor: "rgba(242, 242, 242, 0.5)",
@@ -82,10 +91,6 @@ const styles = StyleSheet.create({
     color: "#888888",
     fontSize: 14, 
   },
-  searchBarIconContainer: {
-    marginRight: 10,
-  },
-
 });
 
 export default Search;
