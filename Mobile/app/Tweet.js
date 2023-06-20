@@ -48,11 +48,9 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
   };
 
   const handleRedirectTo = (tweetRender) => { //no anda esto, ver de hacer otra pantalla... 
-    navigation.push("/tweet", {
-      tweet: tweetRender,
-      actualizarTweet: actualizarTweet,
-      show: true,
-      isLikedT: tweetOrRetweet.isLiked
+    navigation.push({ pathname:"/FullTweet",  params: {
+      tweetId: tweetRender.id
+    }
     });
   };
 
@@ -101,8 +99,8 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
         <Text style={styles.createdAt}>- {moment(tweet.date).fromNow()}</Text>
       </View>
     </View>
-    <View>
-      <Text style={styles.content}>{tweet.content}</Text>
+    <View onPress={() => handleRedirectTo(tweet)}>
+      <Text style={styles.content} onPress={() => handleRedirectTo(tweet)}>{tweet.content} </Text>
     </View>
         {retweet()}
         {tweet.type?.image ? (
