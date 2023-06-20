@@ -30,7 +30,7 @@ export default function Header() {
 }
 
 const styles = StyleSheet.create({
-    header: {
+  header: {
     height: 60,
     width: "100%",
     justifyContent: "center",
@@ -38,11 +38,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 10, 
     backgroundColor: "white", 
-    },
-    logoutIconContainer: {
-      position: "absolute",
-      right: 20,
-      top: 20,
-      marginTop: 5,
-    },
+  },
+  logoutIconContainer: {
+    position: "absolute",
+    right: 20,
+    top: 20,
+    marginTop: 5,
+  },
 });

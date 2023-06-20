@@ -199,7 +199,8 @@ const postRegister = (user, pass, email, image, backgroundImage, setInvalidData)
       axios
         .post(`${url}/tweet/${id}/retweet`, reTweetData)
         .then(response => {
-          resolve();
+          console.log(response.data.id)
+          resolve(response.data);
         })
         .catch(err => {
           console.log(err);
@@ -218,8 +219,7 @@ const postRegister = (user, pass, email, image, backgroundImage, setInvalidData)
       axios
       .post(`${url}/tweet/${id}/reply`, tweetData)
       .then(response => {
-        console.log(response.data.id)
-         resolve();
+         resolve(response.data);
       })
       .catch(err => {
         console.log(err);
@@ -238,7 +238,10 @@ const postRegister = (user, pass, email, image, backgroundImage, setInvalidData)
       axios
         .post(url + "/tweet", tweetData)
         .then(response => {
-          resolve(); 
+          const token = response.headers.authorization;
+          storeToken(token)
+          setAuthToken(token);
+          resolve(response.data); 
         })
         .catch(err => {
           console.log(err);

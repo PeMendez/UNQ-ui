@@ -30,21 +30,22 @@ export default function Interaction() {
         return;
       } else {
         if (typeInteraction === "ReTweet"){
-          Api.postReTweet(tweetReference, tweetMessage, tweetImage)
+          Api.postReTweet(tweetReference, tweetMessage)
           .then((response) =>{
+            console.log(response.id)
               setTweetMessage("")
               setTweetImage("")
-              // navigation.push({ pathname: "/tweet", params: {tweet: response.data}})
+              navigation.push({ pathname: "/FullTweet", params: {tweetId: response.id}})
           })
           .catch((error) => {
               console.log(error)
           })
       } else if (typeInteraction === "Reply"){
-          Api.postReply(tweetReference, tweetMessage)
+          Api.postReply(tweetReference, tweetMessage, tweetImage)
           .then((response) =>{
               setTweetMessage("")
               setTweetImage("")
-              // navigation.push({ pathname: "/tweet", params: {tweet: response.data}})
+              navigation.push({ pathname: "/FullTweet", params: {tweetId: tweetReference}})
           })
           .catch((error) => {
               console.log(error)
@@ -52,9 +53,10 @@ export default function Interaction() {
       } else {
           Api.postTweet(tweetMessage, tweetImage)
           .then((response) =>{
+            console.log(response)
               setTweetMessage("")
               setTweetImage("")
-              // navigation.push({ pathname: "/tweet", params: {tweet: response.data}})
+              navigation.push({ pathname: "/FullTweet", params: {tweetId: response.id}})
           })
           .catch((error) => {
               console.log(error)
