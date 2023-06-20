@@ -1,4 +1,4 @@
-import {StyleSheet, View, Text, StatusBar, TextInput, ScrollView, TouchableOpacity, ActivityIndicator, TouchableHighlight} from "react-native";
+import {StyleSheet, View, Text, StatusBar, TextInput, ScrollView, TouchableOpacity, ActivityIndicator, TouchableHighlight, ToastAndroid } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { AntDesign, Feather } from '@expo/vector-icons'; 
@@ -7,7 +7,6 @@ import Header from "./Header";
 import Api from "../api/api";
 import { Avatar } from 'react-native-elements';
 import { useRouter } from "expo-router";
-import { createIconSetFromFontello } from "react-native-vector-icons";
 
 export default function Interaction() {
     const {typeInteraction} = useLocalSearchParams(); 
@@ -23,38 +22,46 @@ export default function Interaction() {
 
     const navigation = useRouter()
 
+    console.log(userId)
+
     const handleInteraction = () => {
+      if (tweetMessage === ""){
+        ToastAndroid.show("you can't send an empty tweet", ToastAndroid.SHORT);
+        return;
+      } else {
         if (typeInteraction === "ReTweet"){
-            Api.postReTweet(tweetReference, tweetMessage, tweetImage)
-            .then((response) =>{
-                setTweetMessage("")
-                setTweetImage("")
-                // navigation.push({ pathname: "/tweet", params: {tweet: response.data}})
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-        } else if (typeInteraction === "Reply"){
-            Api.postReply(tweetReference, tweetMessage)
-            .then((response) =>{
-                setTweetMessage("")
-                setTweetImage("")
-                // navigation.push({ pathname: "/tweet", params: {tweet: response.data}})
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-        } else {
-            Api.postTweet(tweetMessage, tweetImage)
-            .then((response) =>{
-                setTweetMessage("")
-                setTweetImage("")
-                // navigation.push({ pathname: "/tweet", params: {tweet: response.data}})
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-        }
+          Api.postReTweet(tweetReference, tweetMessage, tweetImage)
+          .then((response) =>{
+              setTweetMessage("")
+              setTweetImage("")
+              // navigation.push({ pathname: "/tweet", params: {tweet: response.data}})
+          })
+          .catch((error) => {
+              console.log(error)
+          })
+      } else if (typeInteraction === "Reply"){
+          Api.postReply(tweetReference, tweetMessage)
+          .then((response) =>{
+              setTweetMessage("")
+              setTweetImage("")
+              // navigation.push({ pathname: "/tweet", params: {tweet: response.data}})
+          })
+          .catch((error) => {
+              console.log(error)
+          })
+      } else {
+          Api.postTweet(tweetMessage, tweetImage)
+          .then((response) =>{
+              setTweetMessage("")
+              setTweetImage("")
+              // navigation.push({ pathname: "/tweet", params: {tweet: response.data}})
+          })
+          .catch((error) => {
+              console.log(error)
+          })
+      }
+      }
+        
 
     };
 

@@ -1,5 +1,5 @@
-import { StyleSheet, View, Text, Button} from "react-native";
-import { Link , useRouter} from "expo-router";
+import { StyleSheet, View, Text, Button, TouchableOpacity} from "react-native";
+import { useRouter} from "expo-router";
 import { useState } from "react";
 import { TextInput } from 'react-native';
 import { ToastAndroid } from "react-native";
@@ -68,12 +68,18 @@ const Login = () => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <View style={styles.headerButton}>
-                    <Button onPress={() => setLogin(true)} title="Login" style={styles.buttonText}/>
-                </View>
-                <View style={styles.headerButton}>
-                    <Button onPress={() => setLogin(false)} title="Register" style={styles.buttonText}/>
-                </View>
+              <TouchableOpacity
+                style={styles.headerButton}
+                onPress={() => setLogin(true)}
+              >
+                <Text style={styles.buttonText}>Login</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.headerButton}
+                onPress={() => setLogin(false)}
+              >
+                <Text style={styles.buttonText}>Register</Text>
+              </TouchableOpacity>
             </View>
             <View style={styles.fields}>
                 <TextInput
@@ -114,7 +120,12 @@ const Login = () => {
                 }
             </View>
             <View style={styles.postButton}>
-                <Button onPress={login?() => handleLogin():()=>handleRegister()} title="Submit" style={styles.buttonText}></Button>
+              <TouchableOpacity
+                style={styles.headerButton}
+                onPress={login ? handleLogin : handleRegister}
+              >
+                <Text style={styles.buttonText}>Submit</Text>
+              </TouchableOpacity>
             </View>
         </View>
     );
@@ -135,11 +146,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   headerButton: {
-    width: 50,
     width: 120,
     margin: 5,
     borderRadius: 25,
     overflow: "hidden",
+    backgroundColor: 'rgb(80, 183, 245)',
+    alignItems: "center",
+    justifyContent: "center",
   },
   
   inputField: {
@@ -157,10 +170,15 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 25,
     overflow: "hidden",
+    alignItems: "center",
+    justifyContent: "center",
   },
   buttonText: {
-    textTransform: "none",
-},
+    color: "#fff",
+    padding:10, 
+    fontSize: 16, 
+    fontWeight: 'bold', 
+  },
 });
 
 
