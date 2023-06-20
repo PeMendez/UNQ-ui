@@ -47,7 +47,7 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
     } catch (error) {}
   };
 
-  const handleRedirectTo = (tweetRender) => { //no anda esto, ver de hacer otra pantalla... 
+  const handleRedirectTo = (tweetRender) => {  
     navigation.push({ pathname:"/FullTweet",  params: {
       tweetId: tweetRender.id
     }
@@ -99,15 +99,16 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
         <Text style={styles.createdAt}>- {moment(tweet.date).fromNow()}</Text>
       </View>
     </View>
-    <View onPress={() => handleRedirectTo(tweet)}>
+    <View >
       <Text style={styles.content} onPress={() => handleRedirectTo(tweet)}>{tweet.content} </Text>
     </View>
         {retweet()}
-        {tweet.type?.image ? (
-          <Image source={{ uri: tweet.type.image }} onPress={() => handleRedirectTo(tweet)} style={styles.image} /> )
-          : (
-            <Text> </Text>
-          )}
+        {tweet.type?.image &&
+          (<TouchableOpacity onPress={() => handleRedirectTo(tweet)}>
+              <Image source={{ uri: tweet.type.image }} style={styles.image} />
+            </TouchableOpacity> 
+          )
+        }
         <View style={styles[showFooter]}>
           <View style={styles.tweet__footerIcon}>
             <FontAwesome5 name="comment" size={24} color="black" onPress={() => handleComment("Reply")}/>
@@ -186,6 +187,7 @@ const styles = StyleSheet.create({
       marginTop: 5,
       lineHeight: 18,
       marginRight:20, 
+      marginBottom: 20, 
     },
     image: {  
       alignSelf: 'center', 

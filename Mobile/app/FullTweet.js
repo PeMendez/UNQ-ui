@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Image, StatusBar,TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
-import { FontAwesome5, Feather } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
 import Api from "../api/api";
-import moment from 'moment';
 import Header from './Header';
 import Footer from './Footer'; 
 import 'moment-timezone';
-import { Avatar } from 'react-native-elements';
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Tweet from './Tweet';
 
@@ -17,6 +13,8 @@ const FullTweet = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [tweetsWithLike, setTweetsWithLike] = useState([]);
 
+  const navigation = useRouter(); 
+
   useEffect(() => {
     Api.getTweet(tweetId)
       .then((response) => {
@@ -24,12 +22,13 @@ const FullTweet = () => {
         setIsLoading(false);
         fetchLoggedUser()
         .then(loggedUserResponse => {
-          const promises = tweet.replies.map(tweet => {
-            let isLiked = !!tweet.likes.find(user => user.id === loggedUserResponse.id);
-            return { ...tweet, isLiked };
-          });
+          if (tweet && tweet.replies) {
+            const promises = tweet.replies.map(tweet => {
+              let isLiked = !!tweet.likes.find(user => user.id === loggedUserResponse.id);
+              return { ...tweet, isLiked };
+            });
           setTweetsWithLike(promises);
-        })
+        }})
         .catch(error => {
           console.log(error);
         });
@@ -48,33 +47,13 @@ const FullTweet = () => {
     }
   };
 
-  // useEffect(() => {
-  //   if (tweet) {
-  //     fetchLoggedUser()
-  //       .then(loggedUserResponse => {
-  //         const promises = tweet.replies.map(tweet => {
-  //           let isLiked = !!tweet.likes.find(user => user.id === loggedUserResponse.id);
-  //           return { ...tweet, isLiked };
-  //         });
-  //         setTweetsWithLike(promises);
-  //       })
-  //       .catch(error => {
-  //         console.log(error);
-  //       });
-  //   }
-  // }, [tweet]);
-
   const actualizarTweet = (tweetActualizar) => {
     setTweetsWithLike(prevState => prevState.map((tweet) => ((tweet.id === tweetActualizar.id) ? tweetActualizar : tweet)))
   };
 
-  if (isLoading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="gray" />
-      </View>
-    );
-  }
+  const handleComment = (typeInteraction) => {
+    navigation.push({pathname: "/interaction", params: {typeInteraction: typeInteraction, tweetReference: tweetId, username: tweet.user.username, userId: tweet.user.id}})
+  };
 
   return (
     <View style={styles.container}>
@@ -83,17 +62,19 @@ const FullTweet = () => {
       {isLoading ? (
         <View style={[styles.loadingContainer, styles.loadingAbsolute]}>
           <ActivityIndicator size="large" color="skyblue" />
-        </View>) : (
-        <View style={styles.tweet}>
-          <Tweet
-            key={tweet.id}
-            tweet={tweet}
-            actualizarTweet={actualizarTweet}
-            isLikedT={tweet.isLiked}
-            show={true}
-          />
+        </View>
+        ) : (
+          <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.tweet}>
+            <Tweet
+              key={tweet.id}
+              tweet={tweet}
+              actualizarTweet={actualizarTweet}
+              isLikedT={tweet.isLiked}
+              show={true}
+            />
+          </View>
           <View style={styles.replies}>
-            <ScrollView>
               {tweetsWithLike.length > 0 ? (
                 tweetsWithLike.map((tweet) => (
                   <Tweet
@@ -105,11 +86,12 @@ const FullTweet = () => {
                   />
                 ))
               ) : (
-                <Text>No se encontraron tweets.</Text>
-              )}
-            </ScrollView>
+                <TouchableOpacity onPress={() => handleComment("Reply")}>
+                  <Text>Add your reply.</Text>
+                </TouchableOpacity>                 
+              )}            
           </View>
-        </View>
+          </ScrollView>
       )}
         <View style={styles.footerContainer}>
           <Footer/>
@@ -131,7 +113,7 @@ const styles = StyleSheet.create({
   replies: {
     flex: 1,
     justifyContent: 'space-between',
-    marginTop:20
+    marginBottom: 60,
   },
   contentContainer: {
     paddingTop: StatusBar.currentHeight,
