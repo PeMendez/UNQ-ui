@@ -35,7 +35,7 @@ export default function Interaction() {
             console.log(response.id)
               setTweetMessage("")
               setTweetImage("")
-              navigation.push({ pathname: "/FullTweet", params: {tweetId: response.id}})
+              navigation.replace({ pathname: "/FullTweet", params: {tweetId: response.reTweet[response.reTweet.length-1].id}})
           })
           .catch((error) => {
               console.log(error)
@@ -45,7 +45,7 @@ export default function Interaction() {
           .then((response) =>{
               setTweetMessage("")
               setTweetImage("")
-              navigation.push({ pathname: "/FullTweet", params: {tweetId: tweetReference}})
+              navigation.replace({ pathname: "/FullTweet", params: {tweetId: tweetReference}})
           })
           .catch((error) => {
               console.log(error)
@@ -56,7 +56,7 @@ export default function Interaction() {
             console.log(response)
               setTweetMessage("")
               setTweetImage("")
-              navigation.push({ pathname: "/FullTweet", params: {tweetId: response.id}})
+              navigation.replace({ pathname: "/FullTweet", params: {tweetId: response.id}})
           })
           .catch((error) => {
               console.log(error)
