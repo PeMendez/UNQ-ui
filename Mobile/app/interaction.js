@@ -1,7 +1,7 @@
 import {StyleSheet, View, Text, StatusBar, TextInput, ScrollView, TouchableOpacity, ActivityIndicator, TouchableHighlight} from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign, Feather } from '@expo/vector-icons'; 
 import Tweet from "./Tweet";
 import Header from "./Header";
 import Api from "../api/api";
@@ -21,14 +21,12 @@ export default function Interaction() {
     const [tweetImage, setTweetImage] = useState(""); 
 
     const navigation = useRouter()
-    console.log(tweetReference)
-    console.log(tweet)
 
     const handleInteraction = () => {
         if (typeInteraction === "ReTweet"){
-            Api.postReTweet(tweetReference, tweetMessage)
+            Api.postReTweet(tweetReference, tweetMessage, tweetImage)
         } else if (typeInteraction === "Reply"){
-            Api.postReply(tweetReference, tweetMessage, tweetImage)
+            Api.postReply(tweetReference, tweetMessage)
         } else {
             Api.postTweet(tweetMessage, tweetImage)
         }
@@ -36,7 +34,7 @@ export default function Interaction() {
     };
 
     const handleClose = () => {
-
+        navigation.back();
     }
 
     const onPressUsername = () => {
@@ -113,24 +111,35 @@ export default function Interaction() {
                            typeInteraction === "ReTweet" ?
                             "Add a comment..." :
                             "What's happening?" }
-            />
+            />  
             </View>
-            {isLoading ? (
-              <View>
-                <ActivityIndicator size="large" color="skyblue" />
-              </View>
-            ) : (
-              typeInteraction === "ReTweet" && (
+            {typeInteraction === "ReTweet" && (
+              isLoading ? (
+                <View>
+                  <ActivityIndicator size="large" color="skyblue" />
+                </View>
+              ) : (
                 <ScrollView showsVerticalScrollIndicator={false}>
-                 <View style={styles.tweet}>
-                  <Tweet
-                    tweet={tweet}
-                    show={false}
-                  />
-                 </View>
+                  <View style={styles.tweet}>
+                    <Tweet
+                      tweet={tweet}
+                      show={false}
+                    />
+                  </View>
                 </ScrollView>
-            )
+              )
             )}
+            {typeInteraction !== "ReTweet" && (
+            <View style={styles.image}>
+            <Feather name="image" size={24} color="black" style={styles.icon}/>   
+                <TextInput
+                  value={tweetImage}
+                  onChangeText={(newText) => setTweetImage(newText)}
+                  style={styles.textInput}
+                  placeholder="insert your image..."
+                /> 
+            </View>
+            )} 
         </View>
     )
 }; 
@@ -200,6 +209,21 @@ const styles = StyleSheet.create({
       width: '80%',
       justifyContent: 'flex-end',
       marginLeft: 70, 
+    },
+    image: {
+      position: 'absolute',
+      bottom: 0,
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 10,
+      paddingBottom: 10,
+      width: '100%',
+      marginLeft:20,
+      backgroundColor: '#fff',
+    },
+    icon: {
+      marginRight: 5,
+      marginBottom: 30, 
     },
 
 });

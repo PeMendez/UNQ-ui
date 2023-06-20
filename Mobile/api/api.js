@@ -2,7 +2,7 @@ import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setAuthToken } from "./axios";
 
-const url = 'http://192.168.100.6:7071'
+const url = 'http://192.168.0.55:7071'
 
 const storeToken = async (value) => {
   try {
@@ -191,7 +191,7 @@ const postRegister = (user, pass, email, image, backgroundImage, setInvalidData)
     }
   };
   
-  const postReTweet = (id, content, setInvalidData) => {
+  const postReTweet = (id, content) => {
     return new Promise((resolve, reject) => {
       const reTweetData = {
         content: content,
@@ -203,13 +203,12 @@ const postRegister = (user, pass, email, image, backgroundImage, setInvalidData)
         })
         .catch(err => {
           console.log(err);
-          setInvalidData(true);
           reject(err);
         });
     });
   };
   
-  const postReply = (id, content, image, setInvalidData) => {
+  const postReply = (id, content, image) => {
     return new Promise((resolve, reject) => {
       const tweetData = {
         content: content,
@@ -224,13 +223,12 @@ const postRegister = (user, pass, email, image, backgroundImage, setInvalidData)
       })
       .catch(err => {
         console.log(err);
-        setInvalidData(true);
         reject(err);
       });
   });
   };
 
-  const postTweet = (content, image, setInvalidData) => {
+  const postTweet = (content, image) => {
     return new Promise((resolve, reject) => {
       const tweetData = {
         content: content,
@@ -244,7 +242,6 @@ const postRegister = (user, pass, email, image, backgroundImage, setInvalidData)
         })
         .catch(err => {
           console.log(err);
-          setInvalidData(true);
           reject(err); 
         });
     });
