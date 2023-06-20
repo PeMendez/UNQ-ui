@@ -3,6 +3,7 @@ import { StyleSheet, View, ScrollView, ActivityIndicator, Text } from "react-nat
 import { useLocalSearchParams } from "expo-router";
 import Api from "../api/api";
 import Tweet from "./Tweet";
+import { sortBy } from "lodash";
 
 function SearchResult({ searchText }) {
   const { loggedUser } = useLocalSearchParams();
@@ -42,7 +43,7 @@ function SearchResult({ searchText }) {
       ) : (
         <ScrollView>
           {tweets.length > 0 ? (
-            tweets.map((tweet) => (
+            sortBy(tweets, ['date']).reverse().map((tweet) => (
               <Tweet
                 key={tweet.id}
                 tweet={tweet}

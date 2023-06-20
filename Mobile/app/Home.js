@@ -8,6 +8,7 @@ import Header from './Header';
 import Footer from './Footer'; 
 import FloatingActionButton from './FloatingActionButton';
 import { useRouter } from 'expo-router';
+import { sortBy } from "lodash";
 
 const GetFollowingTweets = () => {
   const {loggedUser} = useLocalSearchParams() 
@@ -52,7 +53,7 @@ const GetFollowingTweets = () => {
         </View>) : (
     <ScrollView>
       {tweets.length > 0 ? (
-        tweets.map((tweet) => (
+        sortBy(tweets, ['date']).reverse().map((tweet) => (
           <Tweet
             key={tweet.id}
             tweet={tweet}

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StatusBar, ScrollView } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import Api from "../api/api";
 import Tweet from './Tweet';
-import Header from './Header';
-import Footer from './Footer';
 import { useLocalSearchParams } from "expo-router";
+import { sortBy } from "lodash";
 
 
 function TrendingTopics() {
@@ -37,7 +36,7 @@ function TrendingTopics() {
     <View style={styles.container}>
   <ScrollView showsVerticalScrollIndicator={false}>
       {tweets.length > 0 ? (
-        tweets.map(tweet => (
+        sortBy(tweets, ['date']).reverse().map((tweet) => (
           <Tweet
           key={tweet.id}
           tweet={tweet}

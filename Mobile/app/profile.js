@@ -5,6 +5,7 @@ import Tweet from "./Tweet";
 import Header from "./Header";
 import Footer from "./Footer";
 import Api from "../api/api";
+import { sortBy } from "lodash";
 import { Avatar } from 'react-native-elements';
 
 export default function Profile() {
@@ -90,9 +91,10 @@ const actualizarTweet = (tweetActualizar) => {
                     <Text>{<Text style={styles.statsText}>{followingAmount}</Text>}{" "}Following</Text>
                   </View>          
                 </View>
-              )}      
+              )}   
+              <View style={styles.tweets}> 
               {user.tweets?.length > 0 ? (
-                user.tweets.map((tweet) => (
+                sortBy(user.tweets, ['date']).reverse().map((tweet) => (
                   <Tweet
                     key={tweet.id}
                     tweet={tweet}
@@ -104,6 +106,7 @@ const actualizarTweet = (tweetActualizar) => {
               ) : (
                 <Text>No se encontraron tweets.</Text>
               )}
+              </View>  
             </ScrollView>
         )}
         <View style={styles.footerContainer}>
@@ -211,6 +214,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+  },
+  tweets: {
+    marginBottom: 60, 
   },
 });
 
