@@ -6,11 +6,15 @@ import { useLocalSearchParams } from 'expo-router';
 import { ScrollView } from 'react-native';
 import Header from './Header';
 import Footer from './Footer'; 
+import FloatingActionButton from './FloatingActionButton';
+import { useRouter } from 'expo-router';
 
 const GetFollowingTweets = () => {
   const {loggedUser} = useLocalSearchParams() 
   const [tweets, setTweets] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const navigation = useRouter(); 
 
    useEffect(() => {
          Api.getFollowingTweets()
@@ -32,6 +36,10 @@ const GetFollowingTweets = () => {
   const actualizarTweet = (tweetActualizar) => {
     setTweets((prevState) =>  prevState.map((tweet) => ( (tweet.id === tweetActualizar.id)?  tweetActualizar : tweet)))
    
+  };
+
+  const handleFloatingActionButton = () => {
+    navigation.push({pathname: "/interaction", params: {typeInteraction: "Tweet", userId: loggedUser}})
   };
 
   return (
@@ -60,6 +68,7 @@ const GetFollowingTweets = () => {
         <View style={styles.footerContainer}>
           <Footer/>
         </View>
+        <FloatingActionButton onPress={handleFloatingActionButton} />
     </View>
   );
 }
