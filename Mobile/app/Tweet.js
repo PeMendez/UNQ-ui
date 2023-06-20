@@ -9,9 +9,7 @@ import { Avatar } from 'react-native-elements';
 import { useRouter } from "expo-router";
 
 const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [tweetId, setTweetId] = useState(null);
-  const [isComment, setIsComment] = useState(false);
   const [likesAmount, setlikesAmount] = useState(tweet.likes?.length);
   const [isLiked, setIsLiked] = useState(isLikedT);
   const [tweetData, setTweetData] = useState(null);
@@ -38,10 +36,8 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
     }
   };
 
-  const handleComment = (isReply) => {
-    setTweetId(tweet.id);
-    setIsPopupOpen(true);
-    setIsComment(isReply);
+  const handleComment = (typeInteraction) => {
+    navigation.push({pathname: "/interaction", params: {typeInteraction: typeInteraction, tweetReference: tweet.id, username: tweet.user.username, userId: tweet.user.id}})
   };
 
   const handleLike = async () => {
@@ -49,10 +45,6 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
       await Api.putLike(tweet.id);
       fetchLike();
     } catch (error) {}
-  };
-
-  const handlePopupClose = () => {
-    setIsPopupOpen(false);
   };
 
   const handleRedirectTo = (tweetRender) => { //no anda esto, ver de hacer otra pantalla... 
@@ -120,11 +112,11 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
           )}
         <View style={styles[showFooter]}>
           <View style={styles.tweet__footerIcon}>
-            <FontAwesome5 name="comment" size={24} color="black" onPress={() => handleComment(true)}/>
+            <FontAwesome5 name="comment" size={24} color="black" onPress={() => handleComment("Reply")}/>
             <Text style={styles.tweet__footerIconCount}>{tweet.repliesAmount}</Text>
           </View>
           <View style={styles.tweet__footerIcon}>
-          <Feather name="refresh-cw" size={24} color="black" onPress={() => handleComment(false)}/>
+          <Feather name="refresh-cw" size={24} color="black" onPress={() => handleComment("ReTweet")}/>
             <Text style={styles.tweet__footerIconCount}>{tweet.reTweetAmount}</Text>
           </View>
           <View style={styles.tweet__footerIcon}>
@@ -141,7 +133,6 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
       <Feather name="refresh-cw" size={16} color="black" />
         <Text style={styles.reTweetText}>You Retweeted</Text>
       </View>
-      {isPopupOpen && <PopUpCommentTweet onClose={handlePopupClose} id={tweetId} isComment={isComment} />}
     </View>
   )};
 

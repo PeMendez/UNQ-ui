@@ -48,7 +48,7 @@ const Explore = () => {
       {...props}
       indicatorStyle={styles.indicator}
       style={styles.tabBar}
-      labelStyle={styles.label}
+      labelStyle={[styles.label, { textTransform: 'none' }]}
     />
   );
 
@@ -70,8 +70,6 @@ const Explore = () => {
 const styles = StyleSheet.create({
   scene: {
     flex: 1,
-    //alignItems: 'center',
-    //justifyContent: 'center',
     marginTop:10
   },
   text: {
@@ -85,7 +83,7 @@ const styles = StyleSheet.create({
   },
   label: {
     color: '#000000',
-    fontSize:12
+    fontSize:14
   },
   container: {
     flex: 1,
