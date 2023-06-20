@@ -7,6 +7,7 @@ import Header from "./Header";
 import Api from "../api/api";
 import { Avatar } from 'react-native-elements';
 import { useRouter } from "expo-router";
+import { createIconSetFromFontello } from "react-native-vector-icons";
 
 export default function Interaction() {
     const {typeInteraction} = useLocalSearchParams(); 
@@ -25,10 +26,34 @@ export default function Interaction() {
     const handleInteraction = () => {
         if (typeInteraction === "ReTweet"){
             Api.postReTweet(tweetReference, tweetMessage, tweetImage)
+            .then((response) =>{
+                setTweetMessage("")
+                setTweetImage("")
+                // navigation.push({ pathname: "/tweet", params: {tweet: response.data}})
+            })
+            .catch((error) => {
+                console.log(error)
+            })
         } else if (typeInteraction === "Reply"){
             Api.postReply(tweetReference, tweetMessage)
+            .then((response) =>{
+                setTweetMessage("")
+                setTweetImage("")
+                // navigation.push({ pathname: "/tweet", params: {tweet: response.data}})
+            })
+            .catch((error) => {
+                console.log(error)
+            })
         } else {
             Api.postTweet(tweetMessage, tweetImage)
+            .then((response) =>{
+                setTweetMessage("")
+                setTweetImage("")
+                // navigation.push({ pathname: "/tweet", params: {tweet: response.data}})
+            })
+            .catch((error) => {
+                console.log(error)
+            })
         }
 
     };
