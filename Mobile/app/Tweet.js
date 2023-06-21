@@ -17,7 +17,6 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
   const navigation = useRouter()
 
   const dateTime = tweet.date;
-  const formattedDateTime = moment(dateTime).format('D MMMM YYYY, HH:mm');
 
   const showFooter = show ? "container" : "dontShowFooter";
   const showIsRetweet = tweet.typeAsString === "ReTweet" ? "reTweet" : "dontRetweet";
@@ -126,7 +125,6 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
             )}
             <Text style={styles.tweet__footerIconCount}>{likesAmount}</Text>
           </View>
-        {/* </View> */}
       </View>
       <View style={styles[showIsRetweet]}>
       <Feather name="refresh-cw" size={16} color="black" />

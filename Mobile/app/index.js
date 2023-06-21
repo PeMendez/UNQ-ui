@@ -1,4 +1,4 @@
-import { StyleSheet, View, SafeAreaView } from "react-native";
+import { StyleSheet, View, SafeAreaView, StatusBar } from "react-native";
 import React, { useEffect, useState } from 'react';
 import { useRouter } from "expo-router";
 import { AntDesign } from '@expo/vector-icons';
@@ -34,6 +34,7 @@ export default function Page() {
   
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <Header/>
       <View style={styles.loadingContainer}>
         <AntDesign name="twitter" size={40} color="white"/>
@@ -48,6 +49,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "100%"
+  },
+  contentContainer: {
+    paddingTop: StatusBar.currentHeight,
   },
   loadingContainer: {
     flex: 1,
