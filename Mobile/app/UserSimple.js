@@ -71,7 +71,7 @@ const styles = {
   username: {
     marginTop: 10,
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: 500,
     padding:5
   },
   followButton: {
