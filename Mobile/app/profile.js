@@ -20,25 +20,18 @@ export default function Profile() {
   const followingAmount = user && user.following ? Object.keys(user.following)?.length : 0;
   
   useEffect(() => {
-  
-    Api.getUser(userId)
-    .then((response) => {
-        setUser(response.data)        
+    Promise.all([Api.getUser(userId), Api.getLoggedUser()])
+      .then(([userResponse, loggedUserResponse]) => {
+        setUser(userResponse.data);
         setIsLoading(false);
-    })
-    .catch(error => {
-      console.log(error)
-    }) 
-    Api.getLoggedUser()
-    .then((response) => {
-        setLoggedUser(response.data)
-        setIsFollowed(response.data.following.some(obj => obj.id === user.id))
-    })
-    .catch(error => {
-      console.log(error)
-    }) 
-
-}, [isFollowed]);
+        setLoggedUser(loggedUserResponse.data);
+        setIsFollowed(loggedUserResponse.data.following.some(obj => obj.id === userResponse.data.id));
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [isFollowed]);
+  
 
 const handleFollow = async () => {
   try {

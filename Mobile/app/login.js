@@ -106,7 +106,6 @@ const Login = () => {
                         <TextInput
                             style={styles.inputField}
                             placeholder="Image"
-                            secureTextEntry
                             value={image}
                             onChangeText={(text) => setImage(text)}
                         />
