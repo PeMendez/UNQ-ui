@@ -22,8 +22,6 @@ export default function Interaction() {
 
     const navigation = useRouter()
 
-    console.log(userId)
-
     const handleInteraction = () => {
       if (tweetMessage === ""){
         ToastAndroid.show("you can't send an empty tweet", ToastAndroid.SHORT);
@@ -32,7 +30,6 @@ export default function Interaction() {
         if (typeInteraction === "ReTweet"){
           Api.postReTweet(tweetReference, tweetMessage)
           .then((response) =>{
-            console.log(response.id)
               setTweetMessage("")
               setTweetImage("")
               navigation.replace({ pathname: "/FullTweet", params: {tweetId: response.reTweet[response.reTweet.length-1].id}})
@@ -53,7 +50,6 @@ export default function Interaction() {
       } else {
           Api.postTweet(tweetMessage, tweetImage)
           .then((response) =>{
-            console.log(response)
               setTweetMessage("")
               setTweetImage("")
               navigation.replace({ pathname: "/FullTweet", params: {tweetId: response.id}})
