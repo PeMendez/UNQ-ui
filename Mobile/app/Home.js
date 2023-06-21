@@ -60,6 +60,7 @@ const GetFollowingTweets = () => {
             isLikedT={tweet.isLiked}
             actualizar={actualizarTweet}
             show={true}
+            showRetweet={true}
           />
         ))
       ) : (

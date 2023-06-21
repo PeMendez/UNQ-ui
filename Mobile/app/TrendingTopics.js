@@ -43,6 +43,7 @@ function TrendingTopics() {
           isLikedT={tweet.isLiked}
           actualizar={actualizarTweet}
           show={true}
+          showRetweet={true}
           />
         ))
       ) : (

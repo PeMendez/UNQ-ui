@@ -8,18 +8,15 @@ import 'moment-timezone';
 import { Avatar } from 'react-native-elements';
 import { useRouter } from "expo-router";
 
-const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
-  const [tweetId, setTweetId] = useState(null);
+const Tweet = ({tweet, actualizarTweet, show, isLikedT, showRetweet }) => {
   const [likesAmount, setlikesAmount] = useState(tweet.likes?.length);
   const [isLiked, setIsLiked] = useState(isLikedT);
   const [tweetData, setTweetData] = useState(null);
 
   const navigation = useRouter()
 
-  const dateTime = tweet.date;
-
   const showFooter = show ? "container" : "dontShowFooter";
-  const showIsRetweet = tweet.typeAsString === "ReTweet" ? "reTweet" : "dontRetweet";
+  const showIsRetweet = tweet.typeAsString === "ReTweet"  && showRetweet ? "reTweet" : "dontRetweet";
   const tweetOrRetweet = show ? "tweet" : "retweet"; 
   const tweetHeaderContainer = show ? "tweetHeaderContainer" : "retweetHeaderContainer"
 
@@ -68,7 +65,7 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
   }, []);
   
   const retweet = () => {
-    if (tweet.typeAsString === "ReTweet") {
+    if (tweet.typeAsString === "ReTweet" && showRetweet) {
       if (tweetData && tweetData.type && tweetData.type.tweet) {
         const tweetARenderizar = tweetData.type.tweet;
         return (
@@ -76,6 +73,7 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT }) => {
             <Tweet
               tweet={tweetARenderizar}
               show={false}
+              showRetweet={false}
             />
           </View>
         );
