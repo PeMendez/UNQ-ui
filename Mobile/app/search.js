@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { ToastAndroid } from "react-native";
-import { AntDesign } from '@expo/vector-icons';
 import { SearchBar } from "react-native-elements";
 import SearchResult from "./searchResult";
 
@@ -49,12 +48,6 @@ function Search() {
           searchIcon={null}
           clearIcon={null}
         />
-        {/* <AntDesign
-          name="search1"
-          size={15}
-          color="black"
-          onPress={()=> setTextToSearch(searchText)}
-        /> */}
       </View>
       {textToSearch != "" && 
       <SearchResult

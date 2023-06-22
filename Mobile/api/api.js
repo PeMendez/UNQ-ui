@@ -8,7 +8,7 @@ const storeToken = async (value) => {
   try {
     await AsyncStorage.setItem('@storage_Key', value)
   } catch (e) {
-    // saving error
+    console.log(e);
   }
 }
 

@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ToastAndroid } from "react-native";
 import React, { useEffect, useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import { Avatar } from 'react-native-elements';
@@ -17,6 +17,7 @@ export default function Footer() {
             setLoggedUser(response.data)
         })
         .catch(error => {
+          ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
           console.log(error)
         }) 
 
@@ -25,10 +26,6 @@ export default function Footer() {
     const handleHome = () => {
       navigation.push({ pathname: "/Home", params: {loggedUser: loggedUser.id}})
      };
-    
-    // const handleSearch = () => {
-    //   navigation.push({pathname: "/search", params: {loggedUser: loggedUser.id}})
-    // };
 
     const handleSearch = () => {
       navigation.push({pathname: "/Explore", params: {loggedUser: loggedUser.id}})

@@ -1,4 +1,4 @@
-import {StyleSheet, View, Text, StatusBar, ScrollView, Image, TouchableOpacity, ActivityIndicator} from "react-native";
+import { ToastAndroid, StyleSheet, View, Text, StatusBar, ScrollView, Image, TouchableOpacity, ActivityIndicator} from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import Tweet from "./Tweet";
@@ -29,10 +29,11 @@ export default function Profile() {
         setIsFollowed(loggedUserResponse.data.following.some(obj => obj.id === userResponse.data.id));
       })
       .catch(error => {
+        ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
         console.log(error);
       });
-  }, [isFollowed,userId]); //agregar loading useIsFocused
-  
+  }, [isFollowed,userId]); 
+
   const isFocused = useIsFocused()
 
   useEffect(() => {
@@ -73,17 +74,17 @@ const actualizarTweet = (tweetActualizar) => {
                     />
                   </View>
                   <View style={styles.userInfo}>            
-                     <View style={styles.usernameContainer}>
-                      <Text>@{user.username}</Text>
-                          {user.id != loggedUser.id &&
-                            <View style={styles.buttomFollow}>
-                              <TouchableOpacity
-                                onPress={handleFollow}
-                                style={[styles.followButton, isFollowed ? styles.followingButton : null]}>      
-                                <Text style={[styles.buttonText, isFollowed ? styles.followingButtonText : null]}>{isFollowed ? 'Following' : 'Follow'}</Text>
-                              </TouchableOpacity>
-                            </View>}
-                      </View>
+                    <View style={styles.usernameContainer}>
+                      <Text>@{user.username}</Text>                    
+                    </View>
+                    {user.id != loggedUser.id &&
+                      <View style={styles.buttomFollow}>
+                        <TouchableOpacity
+                          onPress={handleFollow}
+                          style={[styles.followButton, isFollowed ? styles.followingButton : null]}>      
+                          <Text style={[styles.buttonText, isFollowed ? styles.followingButtonText : null]}>{isFollowed ? 'Following' : 'Follow'}</Text>
+                        </TouchableOpacity>
+                      </View>}
                   </View>
                   <View style={styles.userStats}>
                     <Text>{<Text style={styles.statsText}>{followersAmount}</Text>}{" "}Followers{"    "}</Text>
@@ -120,12 +121,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  usernameContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',    
-    justifyContent: 'space-between',
-    paddingHorizontal: 10,
-  },
   contentContainer: {
     paddingTop: StatusBar.currentHeight,
   },
@@ -142,6 +137,24 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 1,
   },
+  userInfo: {
+    alignSelf: 'flex-start',
+    marginTop: 10,
+    marginLeft: 10,
+  },
+  usernameContainer: {
+    position: "absolute",
+    left: 20,
+    top: 20,
+    marginTop: 5,
+  },
+  buttomFollow: {
+    width:120,    
+    position: "absolute",
+    right: 400,
+    top: 20,
+    marginTop: 5, 
+  },
   userProfile: {
     flex: 1,
     backgroundColor: '#fff',
@@ -149,10 +162,6 @@ const styles = StyleSheet.create({
   userBackground: {
     width: '100%',
     height: 150,
-  },
-  buttomFollow: {
-    width:120,
-    marginLeft:260, 
   },
   userAvatar: {
     alignSelf: 'flex-start',
@@ -165,11 +174,6 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 3,
     borderColor: '#fff',
-  },
-  userInfo: {
-    alignSelf: 'flex-start',
-    marginTop: 10,
-    marginLeft: 10,
   },
   usernameText: {
     fontSize: 18,

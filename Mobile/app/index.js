@@ -1,4 +1,4 @@
-import { StyleSheet, View, SafeAreaView, StatusBar } from "react-native";
+import { StyleSheet, View, SafeAreaView, StatusBar, ToastAndroid } from "react-native";
 import React, { useEffect, useState } from 'react';
 import { useRouter } from "expo-router";
 import { AntDesign } from '@expo/vector-icons';
@@ -22,6 +22,7 @@ export default function Page() {
             navigation.push({ pathname: "/Home", params: {loggedUser: response.data.id}})
           })
           .catch(error => {
+            ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
             console.log(error)
           })
         ) : (

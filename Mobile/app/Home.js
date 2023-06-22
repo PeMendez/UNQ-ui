@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, StatusBar, ActivityIndicator } from "react-native";
+import { StyleSheet, View, Text, StatusBar, ActivityIndicator, ToastAndroid } from "react-native";
 import Api from "../api/api";
 import Tweet from './Tweet';
 import { useLocalSearchParams } from 'expo-router';
@@ -30,6 +30,7 @@ const GetFollowingTweets = () => {
              }
            })
        .catch(error => {
+        ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
          console.log(error);
        });
    }, []);
@@ -46,7 +47,9 @@ const GetFollowingTweets = () => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
-      <Header />
+      <Header 
+        screen={"Home"}
+      />
       {isLoading ? (
         <View style={[styles.loadingContainer, styles.loadingAbsolute]}>
           <ActivityIndicator size="large" color="skyblue" />

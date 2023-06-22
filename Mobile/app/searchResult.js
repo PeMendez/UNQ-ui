@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, ScrollView, ActivityIndicator, Text } from "react-native";
+import { StyleSheet, View, ScrollView, ActivityIndicator, Text, ToastAndroid } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import Api from "../api/api";
 import Tweet from "./Tweet";
@@ -24,6 +24,7 @@ function SearchResult({ searchText }) {
         }
       })
       .catch((error) => {
+        ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
         console.log(error);
       });
   }, [searchText]);

@@ -1,20 +1,26 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ToastAndroid } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from "expo-router";
 
 
-export default function Header() {
+export default function Header({screen}) {
   const isLogged = AsyncStorage.getItem('@storage_Key')
   const navigation = useRouter()
-
 
   const handleLogout = async () => {
     await AsyncStorage.removeItem('@Storage_key')
     .then(()=>{
       navigation.push({ pathname: "/"})
     })
+    .catch((error) => {
+      ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
+    })
+  };
+
+  const handleBack = () => {
+    navigation.back()
   };
 
     return (
@@ -23,6 +29,11 @@ export default function Header() {
         {isLogged && (
           <View style={styles.logoutIconContainer}>
             <MaterialIcons name="logout" size={24} color="black" onPress={() => handleLogout()}/>
+          </View>
+        )}
+        {screen != "Home" && (
+          <View style={styles.backIconContainer}>
+            <AntDesign name="back" size={24} color="black" onPress={() => handleBack()}/>
           </View>
         )}
       </View>
@@ -45,4 +56,10 @@ const styles = StyleSheet.create({
     top: 20,
     marginTop: 5,
   },
+  backIconContainer: {
+    position: "absolute",
+    left: 20,
+    top: 20,
+    marginTop: 5,
+  }
 });

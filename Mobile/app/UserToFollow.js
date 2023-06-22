@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, ToastAndroid } from "react-native";
 import Api from "../api/api";
 import UserSimple from "./UserSimple";
 
@@ -13,6 +13,7 @@ const UsersToFollow = () => {
         setUsers(response.data.result);
       })
       .catch(error => {
+        ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
         console.error(error);
       });
   }, []);

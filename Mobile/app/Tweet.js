@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import {StyleSheet, View, Text, Image, TouchableOpacity, ToastAndroid } from 'react-native';
 import { FontAwesome5, Feather} from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons'; 
 import Api from "../api/api";
@@ -28,6 +28,7 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT, showRetweet }) => {
       setlikesAmount(amount);
       setIsLiked(prevState => !prevState);
     } catch (error) {
+      ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
       console.error("Error al obtener los likes del tweet:", error);
     }
   };
@@ -60,7 +61,8 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT, showRetweet }) => {
         setTweetData(updatedTweet?.data);
       })
       .catch(error => {
-        console.error(error, "?????????????????????????");
+        ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
+        console.error(error);
       });
   }, []);
   
@@ -92,7 +94,9 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT, showRetweet }) => {
           size="small"
           onPress={() => handleUserProfile(tweet.user.id)}
         />
-        <Text style={styles.username}>@{tweet.user.username}</Text>
+        <TouchableOpacity onPress={() => handleUserProfile(tweet.user.id)}>
+          <Text style={styles.username}>@{tweet.user.username}</Text>
+        </TouchableOpacity>
         <Text style={styles.createdAt}>- {moment(tweet.date).fromNow()}</Text>
       </View>
     </View>
@@ -126,7 +130,7 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT, showRetweet }) => {
       </View>
       <View style={styles[showIsRetweet]}>
       <Feather name="refresh-cw" size={16} color="black" />
-        <Text style={styles.reTweetText}>You Retweeted</Text>
+        <Text style={styles.reTweetText}>Is Retweet</Text>
       </View>
     </View>
   )};

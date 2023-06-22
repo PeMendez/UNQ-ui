@@ -35,6 +35,7 @@ export default function Interaction() {
               navigation.replace({ pathname: "/FullTweet", params: {tweetId: response.reTweet[response.reTweet.length-1].id}})
           })
           .catch((error) => {
+             ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
               console.log(error)
           })
       } else if (typeInteraction === "Reply"){
@@ -45,6 +46,7 @@ export default function Interaction() {
               navigation.replace({ pathname: "/FullTweet", params: {tweetId: tweetReference}})
           })
           .catch((error) => {
+            ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
               console.log(error)
           })
       } else {
@@ -55,6 +57,7 @@ export default function Interaction() {
               navigation.replace({ pathname: "/FullTweet", params: {tweetId: response.id}})
           })
           .catch((error) => {
+            ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
               console.log(error)
           })
       }
@@ -78,6 +81,7 @@ export default function Interaction() {
             setLoggedUser(response.data)
         })
         .catch(error => {
+          ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
           console.log(error)
         }) 
         if (typeInteraction === "ReTweet"){
@@ -87,6 +91,7 @@ export default function Interaction() {
                 setLoading(false)
             })
             .catch(error =>{
+              ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
                 console.log(error)
             })
         }
@@ -97,7 +102,9 @@ export default function Interaction() {
     return (
         <View style={styles.container}>
          <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
-          <Header />
+          <Header 
+            screen={"Home"}
+          />
             <View style={styles.buttom}>
                 <AntDesign 
                   style={styles.closeButton}

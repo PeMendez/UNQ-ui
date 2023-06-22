@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Image, StatusBar,TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { ToastAndroid, StyleSheet, View, Text, Image, StatusBar,TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import Api from "../api/api";
 import Header from './Header';
 import Footer from './Footer'; 
@@ -30,10 +30,12 @@ const FullTweet = () => {
           setTweetsWithLike(promises);
         }})
         .catch(error => {
+          ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
           console.log(error);
         });
       })
       .catch(error => {
+        ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
         console.log(error)
       })
   }, [tweet]);
@@ -43,6 +45,7 @@ const FullTweet = () => {
       const response = await Api.getLoggedUser();
       return response.data;
     } catch (error) {
+      ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
       console.error(error);
     }
   };

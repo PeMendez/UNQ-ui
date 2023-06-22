@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ToastAndroid } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import Api from "../api/api";
 import { useRouter } from 'expo-router';
@@ -13,6 +13,7 @@ const UserSimple = ({ user }) => {
       await Api.putFollowUser(user.id);
       setIsFollowed(prevState => !prevState);
     } catch (error) {
+      ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
       console.error('Error al seguir al usuario:', error);
     }
   };
