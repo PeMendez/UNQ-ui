@@ -138,22 +138,17 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   userInfo: {
-    alignSelf: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'center',
     marginTop: 10,
     marginLeft: 10,
   },
   usernameContainer: {
-    position: "absolute",
-    left: 20,
-    top: 20,
-    marginTop: 5,
+    flex: 1,
+    marginRight: 'auto',
   },
   buttomFollow: {
-    width:120,    
-    position: "absolute",
-    right: 400,
-    top: 20,
-    marginTop: 5, 
+    marginLeft: 'auto',
   },
   userProfile: {
     flex: 1,
