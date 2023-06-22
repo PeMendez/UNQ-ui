@@ -145,7 +145,8 @@ const styles = StyleSheet.create({
     height: 150,
   },
   buttomFollow: {
-    marginLeft:210, 
+    width:120,
+    marginLeft:260, 
   },
   userAvatar: {
     alignSelf: 'flex-start',
@@ -199,6 +200,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
+    textAlign:'center'
   },
   followingButtonText: {
     color: 'rgb(80, 183, 245)',
