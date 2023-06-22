@@ -7,6 +7,7 @@ import Footer from "./Footer";
 import Api from "../api/api";
 import { sortBy } from "lodash";
 import { Avatar } from 'react-native-elements';
+import { useIsFocused } from "@react-navigation/native";
 
 export default function Profile() {
   const {userId} = useLocalSearchParams() 
@@ -30,8 +31,13 @@ export default function Profile() {
       .catch(error => {
         console.log(error);
       });
-  }, [isFollowed]);
+  }, [isFollowed,userId]); //agregar loading useIsFocused
   
+  const isFocused = useIsFocused()
+
+  useEffect(() => {
+    setIsLoading(true)
+  }, [userId])
 
 const handleFollow = async () => {
   try {
