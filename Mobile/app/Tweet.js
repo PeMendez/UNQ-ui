@@ -130,7 +130,7 @@ const Tweet = ({tweet, actualizarTweet, show, isLikedT, showRetweet }) => {
       </View>
       <View style={styles[showIsRetweet]}>
       <Feather name="refresh-cw" size={16} color="black" />
-        <Text style={styles.reTweetText}>Is Retweet</Text>
+        <Text style={styles.reTweetText}>Retweeted</Text>
       </View>
     </View>
   )};
@@ -222,6 +222,7 @@ const styles = StyleSheet.create({
       marginRight: 10,
     },
     reTweet: {
+      alignItems:'center',
       flexDirection: 'row',
       fontStyle: 'italic',
       fontSize: 5,
