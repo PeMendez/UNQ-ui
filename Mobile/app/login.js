@@ -27,7 +27,7 @@ const Login = () => {
 
       Api.postLogin(username, password, setInvalidData)
         .then((response) => {
-          navigation.push({ pathname: "/Home", params: {loggedUser: response.id}});
+          navigation.replace({ pathname: "/Home", params: {loggedUser: response.id}});
         })
         .catch(() => {
           ToastAndroid.show("Login failed. Please check your credentials.", ToastAndroid.SHORT);
@@ -58,7 +58,7 @@ const Login = () => {
   
       Api.postRegister(username, password, email, image, backgroundImage, setInvalidData)
         .then((response) => {
-          navigation.push({ pathname: "/Home", params: {loggedUser: response.id}});
+          navigation.replace({ pathname: "/Home", params: {loggedUser: response.id}});
         })
         .catch(() => {
           ToastAndroid.show("Login failed. Please check your credentials.", ToastAndroid.SHORT);
