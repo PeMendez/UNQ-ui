@@ -7,7 +7,6 @@ import Footer from "./Footer";
 import Api from "../api/api";
 import { sortBy } from "lodash";
 import { Avatar } from 'react-native-elements';
-import { useIsFocused } from "@react-navigation/native";
 
 export default function Profile() {
   const {userId} = useLocalSearchParams() 
@@ -34,8 +33,6 @@ export default function Profile() {
       });
   }, [isFollowed,userId]); 
 
-  const isFocused = useIsFocused()
-
   useEffect(() => {
     setIsLoading(true)
   }, [userId])
@@ -51,7 +48,6 @@ const handleFollow = async () => {
 
 const actualizarTweet = (tweetActualizar) => {
   setTweets((prevState) =>  prevState.map((tweet) => ( (tweet.id === tweetActualizar.id)?  tweetActualizar : tweet)))
- 
 };
 
   return (
@@ -189,6 +185,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   followButton: {
+    marginEnd:50,
+    width:125,
     paddingVertical: 5,
     paddingHorizontal: 20,
     borderRadius: 20,
