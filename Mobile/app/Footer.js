@@ -40,16 +40,16 @@ export default function Footer() {
     return (
         <View style={styles.footerContainer}>
             <View style={styles.iconContainer}>
-                <AntDesign name="home" size={34} color="black" onPress={() => handleHome()}/>
+                <AntDesign name="home" size={35} color="black" onPress={() => handleHome()}/>
             </View>
             <View style={styles.iconContainer}>
-                <AntDesign name="search1" size={34} color="black" onPress={() => handleSearch()}/>
+                <AntDesign name="search1" size={35} color="black" onPress={() => handleSearch()}/>
             </View>
             <View style={styles.iconContainer}>
                 <Avatar
                   rounded
                   source={loggedUser.image ? { uri: loggedUser.image } : undefined}
-                  size="medium"
+                  size={35}
                   onPress={() => handleUserProfile()}
                 />
             </View>
@@ -62,8 +62,7 @@ export default function Footer() {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      paddingHorizontal: 20,
-      paddingBottom: 10,
+      padding: 10,
       backgroundColor: 'white',
       borderTopWidth: 1, 
       borderTopColor: 'gray', 
