@@ -12,3 +12,8 @@ npx create-expo-app -e with-router
 
 - [Expo Router: Docs](https://expo.github.io/router)
 - [Expo Router: Repo](https://github.com/expo/router)
+
+## Modificaciones en la API
+
+- SimpleUserDTO ahora también nos trae el atributo image.
+- TweetDTO ahora también trae el atributo isLiked, que indica si el tweet esta "likeado" por el usuario logueado.
