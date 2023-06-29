@@ -199,7 +199,6 @@ const postRegister = (user, pass, email, image, backgroundImage, setInvalidData)
       axios
         .post(`${url}/tweet/${id}/retweet`, reTweetData)
         .then(response => {
-          console.log(response.data.id)
           resolve(response.data);
         })
         .catch(err => {
