@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Search from "./search";
 import TrendingTopics from "./TrendingTopics";
 import UserToFollow from "./UserToFollow"; 
-import { useRouter, useLocalSearchParams } from "expo-router";
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { StyleSheet, View, Text, StatusBar } from "react-native";
 import Header from "./Header";
@@ -28,8 +27,6 @@ const UserToFollowScreen = () => (
 );
 
 const Explore = () => {
-  const {loggedUser} = useLocalSearchParams()
-  const navigation = useRouter()
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     { key: 'search', title: 'Search' },
