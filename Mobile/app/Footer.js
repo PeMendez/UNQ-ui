@@ -5,7 +5,7 @@ import { Avatar } from 'react-native-elements';
 import Api from "../api/api";
 import { useRouter } from "expo-router";
   
-export default function Footer() {
+const Footer = () => {
 
     const [loggedUser, setLoggedUser] = useState("");
     const navigation = useRouter()
@@ -75,4 +75,4 @@ export default function Footer() {
   });
 
   
-  
+  export default Footer

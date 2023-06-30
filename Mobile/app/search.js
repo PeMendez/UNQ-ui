@@ -5,7 +5,7 @@ import { SearchBar } from "react-native-elements";
 import SearchResult from "./searchResult";
 
 
-function Search() {  
+const Search = () => {  
 
   const [searchText, setSearchText] = useState("");  
   const [textToSearch, setTextToSearch] = useState("");  

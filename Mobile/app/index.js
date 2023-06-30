@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Api from "../api/api";
 import Header from "./Header";
 
-export default function Page() {
+const Page = () => {
 
   const navigation = useRouter()
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -66,3 +66,5 @@ const styles = StyleSheet.create({
     height: 120,
   }
 });
+
+export default Page

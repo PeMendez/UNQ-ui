@@ -149,7 +149,7 @@ const postRegister = (user, pass, email, image, backgroundImage, setInvalidData)
     }
   };
   
-  async function getTrendingTopics() {
+  const getTrendingTopics = async() => {
     try {
       const token = await AsyncStorage.getItem("@storage_Key");
       const response = await axios.get(`${url}/trendingTopics`, {

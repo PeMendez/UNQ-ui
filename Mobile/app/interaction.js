@@ -8,7 +8,7 @@ import Api from "../api/api";
 import { Avatar } from 'react-native-elements';
 import { useRouter } from "expo-router";
 
-export default function Interaction() {
+const Interaction = () => {
     const {typeInteraction} = useLocalSearchParams(); 
     const {tweetReference} = useLocalSearchParams();
     const {username} = useLocalSearchParams();
@@ -180,6 +180,8 @@ export default function Interaction() {
         </View>
     )
 }; 
+
+export default Interaction
 
 const styles = StyleSheet.create({
     container: {

@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from "expo-router";
 
 
-export default function Header({screen}) {
+const Header = ({screen}) => {
   const isLogged = AsyncStorage.getItem('@storage_Key')
   const navigation = useRouter()
 
@@ -63,3 +63,5 @@ const styles = StyleSheet.create({
     marginTop: 5,
   }
 });
+
+export default Header
