@@ -5,7 +5,7 @@ import Api from "../api/api";
 import Tweet from "./Tweet";
 import { sortBy } from "lodash";
 
-function SearchResult({ searchText }) {
+const SearchResult = ({ searchText }) => {
   const { loggedUser } = useLocalSearchParams();
   const [tweets, setTweets] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -29,12 +29,6 @@ function SearchResult({ searchText }) {
       });
   }, [searchText]);
 
-  const actualizarTweet = (tweetActualizar) => {
-    setTweets((prevState) =>
-      prevState.map((tweet) => (tweet.id === tweetActualizar.id ? tweetActualizar : tweet))
-    );
-  };
-
   return (
     <View style={styles.container}>
       {isLoading ? (
@@ -49,7 +43,6 @@ function SearchResult({ searchText }) {
                 key={tweet.id}
                 tweet={tweet}
                 isLikedT={tweet.isLiked}
-                actualizar={actualizarTweet}
                 show={true}
                 showRetweet={true}
               />

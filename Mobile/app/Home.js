@@ -34,11 +34,6 @@ const GetFollowingTweets = () => {
          console.log(error);
        });
    }, []);
-  
-  const actualizarTweet = (tweetActualizar) => {
-    setTweets((prevState) =>  prevState.map((tweet) => ( (tweet.id === tweetActualizar.id)?  tweetActualizar : tweet)))
-   
-  };
 
   const handleFloatingActionButton = () => {
     navigation.push({pathname: "/interaction", params: {typeInteraction: "Tweet", userId: loggedUser}})
@@ -61,7 +56,6 @@ const GetFollowingTweets = () => {
             key={tweet.id}
             tweet={tweet}
             isLikedT={tweet.isLiked}
-            actualizar={actualizarTweet}
             show={true}
             showRetweet={true}
           />

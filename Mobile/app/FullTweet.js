@@ -50,10 +50,6 @@ const FullTweet = () => {
     }
   };
 
-  const actualizarTweet = (tweetActualizar) => {
-    setTweetsWithLike(prevState => prevState.map((tweet) => ((tweet.id === tweetActualizar.id) ? tweetActualizar : tweet)))
-  };
-
   const handleComment = (typeInteraction) => {
     navigation.push({pathname: "/interaction", params: {typeInteraction: typeInteraction, tweetReference: tweetId, username: tweet.user.username, userId: tweet.user.id}})
   };
@@ -72,7 +68,6 @@ const FullTweet = () => {
             <Tweet
               key={tweet.id}
               tweet={tweet}
-              actualizarTweet={actualizarTweet}
               isLikedT={tweet.isLiked}
               show={true}
             />
@@ -84,7 +79,6 @@ const FullTweet = () => {
                     key={tweet.id}
                     tweet={tweet}
                     isLikedT={tweet.isLiked}
-                    actualizar={actualizarTweet}
                     show={true}
                   />
                 ))

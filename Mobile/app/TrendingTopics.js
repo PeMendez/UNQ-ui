@@ -6,7 +6,7 @@ import { useLocalSearchParams } from "expo-router";
 import { sortBy } from "lodash";
 
 
-function TrendingTopics() {
+const TrendingTopics = () => {
   const {loggedUser} = useLocalSearchParams() 
 
   const [tweets, setTweets] = useState([]);
@@ -27,11 +27,6 @@ function TrendingTopics() {
          console.log(error);
        });
    }, []);
-  
-  const actualizarTweet = (tweetActualizar) => {
-    setTweets((prevState) =>  prevState.map((tweet) => ( (tweet.id === tweetActualizar.id)?  tweetActualizar : tweet)))
-   
-  };
 
   return (
     <View style={styles.container}>
@@ -42,7 +37,6 @@ function TrendingTopics() {
           key={tweet.id}
           tweet={tweet}
           isLikedT={tweet.isLiked}
-          actualizar={actualizarTweet}
           show={true}
           showRetweet={true}
           />

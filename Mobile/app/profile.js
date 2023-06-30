@@ -8,7 +8,7 @@ import Api from "../api/api";
 import { sortBy } from "lodash";
 import { Avatar } from 'react-native-elements';
 
-export default function Profile() {
+const Profile = () => {
   const {userId} = useLocalSearchParams() 
   const [user, setUser] = useState("");
   const [loggedUser, setLoggedUser] = useState("");  
@@ -44,10 +44,6 @@ const handleFollow = async () => {
   } catch (error) {
     console.error('Error al seguir al usuario:', error);
   }
-};
-
-const actualizarTweet = (tweetActualizar) => {
-  setTweets((prevState) =>  prevState.map((tweet) => ( (tweet.id === tweetActualizar.id)?  tweetActualizar : tweet)))
 };
 
   return (
@@ -95,7 +91,6 @@ const actualizarTweet = (tweetActualizar) => {
                     key={tweet.id}
                     tweet={tweet}
                     isLikedT={tweet.isLiked}
-                    actualizar={actualizarTweet}
                     show={true}
                     showRetweet={true}
                   />
@@ -112,6 +107,8 @@ const actualizarTweet = (tweetActualizar) => {
     </View>
   );
 }
+
+export default Profile
 
 const styles = StyleSheet.create({
   container: {
