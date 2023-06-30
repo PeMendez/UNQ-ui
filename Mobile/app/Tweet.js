@@ -8,7 +8,7 @@ import 'moment-timezone';
 import { Avatar } from 'react-native-elements';
 import { useRouter } from "expo-router";
 
-const Tweet = ({tweet, actualizarTweet, show, isLikedT, showRetweet }) => {
+const Tweet = ({tweet, show, isLikedT, showRetweet }) => {
   const [likesAmount, setlikesAmount] = useState(tweet.likes?.length);
   const [isLiked, setIsLiked] = useState(isLikedT);
   const [tweetData, setTweetData] = useState(null);
@@ -236,80 +236,3 @@ const styles = StyleSheet.create({
     },
   });
   
-  //   tweet__avatar: {
-  //     borderRadius: 30,
-  //     marginRight: 10,
-  //     marginTop: 10,
-  //     marginLeft: 10,
-  //     width: 60,
-  //     height: 60,
-  //   },
-  //   tweet__body: {
-  //     flex: 1,
-  //     backgroundColor: 'white',
-  //     marginLeft: 10,
-  //     borderRadius: 10,
-  //   },
-  //   tweet__header: {
-  //     display: 'flex',
-  //     flexDirection: 'column',
-  //   },
-  //   tweet__headerUsername: {
-  //     flex: 1,
-  //     textAlign: 'left',
-  //     marginTop: 10,
-  //   },
-  //   tweet__username: {
-  //     fontStyle: 'italic',
-  //     fontSize: 10,
-  //   },
-  //   tweet__date: {
-  //     fontSize: 10,
-  //     color: 'gray',
-  //     marginLeft: 30,
-  //     fontStyle: 'italic',
-  //   },
-  //   tweet__headerDescription: {
-  //     fontStyle: 'italic',
-  //     flex: 1,
-  //     fontSize: 14,
-  //   },
-  //   tweet__footer: {
-  //     display: 'flex',
-  //     justifyContent: 'space-between',
-  //     alignItems: 'center',
-  //     marginTop: 4,
-  //     cursor: 'pointer',
-  //     marginBottom: 10,
-  //   },
-  //   tweet__footerIcon: {
-  //     display: 'flex',
-  //     alignItems: 'center',
-  //     marginRight: 5,
-  //     color: 'gray',
-  //     cursor: 'pointer',
-  //   },
-  //   tweet__footerIconLike: {
-  //     display: 'flex',
-  //     alignItems: 'center',
-  //     marginRight: 150,
-  //     color: 'gray',
-  //     cursor: 'pointer',
-  //   },
-  //   tweet__footerIconChat: {
-  //     display: 'flex',
-  //     alignItems: 'center',
-  //     marginLeft: 100,
-  //     color: 'gray',
-  //     cursor: 'pointer',
-  //   },
-  //   tweet__footerCount: {
-  //     fontSize: 12,
-  //     marginLeft: 2,
-  //     color: 'gray',
-  //   },
-  //   dontShowFooter: {
-  //     display: 'none',
-  //   },
-
-  // });
