@@ -8,7 +8,7 @@ const storeToken = async (value) => {
   try {
     await AsyncStorage.setItem('@storage_Key', value)
   } catch (e) {
-    console.log(e);
+
   }
 }
 
@@ -33,7 +33,6 @@ const postRegister = (user, pass, email, image, backgroundImage) => {
 
         })
         .catch(err => {
-          console.log(err);
           reject(err);
         });
     });
@@ -57,7 +56,6 @@ const postRegister = (user, pass, email, image, backgroundImage) => {
           resolve(response.data);
         })
         .catch(err => {
-          console.log(err);
           reject(err); 
         });
     });
@@ -200,7 +198,6 @@ const postRegister = (user, pass, email, image, backgroundImage) => {
           resolve(response.data);
         })
         .catch(err => {
-          console.log(err);
           reject(err);
         });
     });
@@ -219,7 +216,6 @@ const postRegister = (user, pass, email, image, backgroundImage) => {
          resolve(response.data);
       })
       .catch(err => {
-        console.log(err);
         reject(err);
       });
   });
@@ -241,7 +237,6 @@ const postRegister = (user, pass, email, image, backgroundImage) => {
           resolve(response.data); 
         })
         .catch(err => {
-          console.log(err);
           reject(err); 
         });
     });

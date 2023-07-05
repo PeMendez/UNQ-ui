@@ -23,7 +23,6 @@ const Page = () => {
           })
           .catch(error => {
             ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
-            console.log(error)
           })
         ) : (
           navigation.push({ pathname: "/login"})

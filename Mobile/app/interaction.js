@@ -36,7 +36,6 @@ const Interaction = () => {
           })
           .catch((error) => {
              ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
-              console.log(error)
           })
       } else if (typeInteraction === "Reply"){
           Api.postReply(tweetReference, tweetMessage, tweetImage)
@@ -47,7 +46,6 @@ const Interaction = () => {
           })
           .catch((error) => {
             ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
-              console.log(error)
           })
       } else {
           Api.postTweet(tweetMessage, tweetImage)
@@ -58,7 +56,6 @@ const Interaction = () => {
           })
           .catch((error) => {
             ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
-              console.log(error)
           })
       }
       }
@@ -82,7 +79,6 @@ const Interaction = () => {
         })
         .catch(error => {
           ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
-          console.log(error)
         }) 
         if (typeInteraction === "ReTweet"){
             Api.getTweet(tweetReference)
@@ -92,7 +88,6 @@ const Interaction = () => {
             })
             .catch(error =>{
               ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
-                console.log(error)
             })
         }
 

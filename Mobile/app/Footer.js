@@ -18,7 +18,6 @@ const Footer = () => {
         })
         .catch(error => {
           ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
-          console.log(error)
         }) 
 
     }, []);

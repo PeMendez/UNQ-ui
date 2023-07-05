@@ -31,12 +31,10 @@ const FullTweet = () => {
         }})
         .catch(error => {
           ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
-          console.log(error);
         });
       })
       .catch(error => {
         ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
-        console.log(error)
       })
   }, [tweet]);
 

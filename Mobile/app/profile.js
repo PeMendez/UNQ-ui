@@ -29,7 +29,6 @@ const Profile = () => {
       })
       .catch(error => {
         ToastAndroid.show("There are connection problems, try again later.", ToastAndroid.SHORT)
-        console.log(error);
       });
   }, [isFollowed,userId]); 
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
 const FloatingActionButton = ({ onPress }) => {
