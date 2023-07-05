@@ -8,7 +8,6 @@ import Api from "../api/api";
 
 
 const Login = () => {
-    const [invalidData, setInvalidData] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
@@ -25,7 +24,7 @@ const Login = () => {
         return;
       }
 
-      Api.postLogin(username, password, setInvalidData)
+      Api.postLogin(username, password)
         .then((response) => {
           navigation.replace({ pathname: "/Home", params: {loggedUser: response.id}});
         })
@@ -56,7 +55,7 @@ const Login = () => {
         return;
       }
   
-      Api.postRegister(username, password, email, image, backgroundImage, setInvalidData)
+      Api.postRegister(username, password, email, image, backgroundImage)
         .then((response) => {
           navigation.replace({ pathname: "/Home", params: {loggedUser: response.id}});
         })

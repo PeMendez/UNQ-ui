@@ -12,7 +12,7 @@ const storeToken = async (value) => {
   }
 }
 
-const postRegister = (user, pass, email, image, backgroundImage, setInvalidData) => {
+const postRegister = (user, pass, email, image, backgroundImage) => {
     return new Promise(async (resolve, reject) => {
       const registerData = {
         username: user,
@@ -34,13 +34,12 @@ const postRegister = (user, pass, email, image, backgroundImage, setInvalidData)
         })
         .catch(err => {
           console.log(err);
-          setInvalidData(true);
           reject(err);
         });
     });
   };
   
-  const postLogin = (user, pass, setInvalidData) => {
+  const postLogin = (user, pass) => {
   
     return new Promise((resolve, reject) => {
       const loginData = {
@@ -59,7 +58,6 @@ const postRegister = (user, pass, email, image, backgroundImage, setInvalidData)
         })
         .catch(err => {
           console.log(err);
-          setInvalidData(true);
           reject(err); 
         });
     });

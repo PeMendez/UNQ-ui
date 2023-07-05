@@ -3,7 +3,7 @@ import Search from "./search";
 import TrendingTopics from "./TrendingTopics";
 import UserToFollow from "./UserToFollow"; 
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import { StyleSheet, View, Text, StatusBar } from "react-native";
+import { StyleSheet, View, StatusBar } from "react-native";
 import Header from "./Header";
 import Footer from "./Footer";
 
