@@ -4,12 +4,10 @@ import Tweet from './Tweet';
 
 const GetFollowingTweets = () => {
   const [tweets, setTweets] = useState([]);
-  const [loggedUser, setLoggedUser] = useState("");
 
   const fetchLoggedUser = async () => {
     try {
       const response = await Api.getLoggedUser();
-      setLoggedUser(response.data);
       return response.data
     } catch (error) {
       console.error(error);

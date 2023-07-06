@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React from "react";
 import "../../styles/home/Sidebar.css";
 import SidebarOption from './SidebarOptions';
 import HomeIcon from "@mui/icons-material/Home";

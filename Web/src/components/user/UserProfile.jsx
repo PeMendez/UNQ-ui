@@ -9,16 +9,11 @@ const UserProfile = ({user}) => {
   const followersAmount = user && user.followers ? Object.keys(user.followers).length : 0;
   const followingAmount = user && user.following ? Object.keys(user.following).length : 0;
 
-  const [loggedUser, setLoggedUser] = useState(null);
   const [teSigo, setTeSigo] = useState();
   const buttonClassName = teSigo ? 'user_button user_button_following' : 'user_button';
   const [hovered, setHovered] = useState(false);
   const [followersAmountRefresh, setFollowersAmountRefresh] = useState(followersAmount);
 
-    const updateLoggedUser = (updatedLoggedUser) => {
-        setLoggedUser(updatedLoggedUser)
-    }
-    
 
   useEffect(() => {
     if (user) {
@@ -30,7 +25,6 @@ const UserProfile = ({user}) => {
   const fetchData = async () => {
       try {
         const response = await Api.getLoggedUser();
-        setLoggedUser(response.data);
         setTeSigo(response.data.following.some(obj => obj.id === user.id));
       } catch (error) {
         console.error(error);

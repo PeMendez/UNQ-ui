@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import Api from "../../api/Api";
 import { useNavigate } from "react-router-dom";
 import "../../styles/home/Login.css";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
 const Login = () => {
-  const [context, setContext] = useState({});
-  const [invalidData, setInvalidData] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -18,9 +16,6 @@ const Login = () => {
   const navigate = useNavigate();
   const [login, setLogin] = useState(true);
   
-  const inputRef = useRef(null);
-  const usernameInputRef = useRef(null);
-
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -76,9 +71,7 @@ const Login = () => {
       password,
       email,
       image,
-      backgroundImage,
-      setContext,
-      setInvalidData
+      backgroundImage
     )
       .then(() => {
         navigate("/user/followingTweets");
@@ -101,10 +94,9 @@ const Login = () => {
       return;
     }
 
-    Api.postLogin(username, password, setContext, setInvalidData)
+    Api.postLogin(username, password)
       .then((response) => {
         navigate("/user/followingTweets");
-        setContext(response)
       })
       .catch((error) => {
         console.error("Error during login:", error);

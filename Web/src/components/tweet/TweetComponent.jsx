@@ -36,10 +36,6 @@ const TweetComponent = ({tweet}) => {
     const reTweetAmount = tweet && tweet.reTweet ? tweet.reTweet.length : 0;
     const repliesAmount = tweet && tweet.replies ? tweet.replies.length : 0;
 
-    // const actualizarTweet = (tweetActualizar) => {
-    //     setTweetRender(tweetActualizar )
-    //    setIsLiked(prevState => !prevState)
-    //   };
     
     const actualizarTweet = (tweetActualizar) => {
         setTweetsWithLike((prevState) =>  prevState.map((tweet) => ( (tweet.id === tweetActualizar.id)?  tweetActualizar : tweet)))
@@ -63,7 +59,6 @@ const TweetComponent = ({tweet}) => {
                 typeAsString={tweet.typeAsString}
                 userId={tweet.user?.id}
                 isLikedT={tweet.isLiked}
-                //actualizar={actualizarTweet}
                 show={true}
             />
             </div>
@@ -83,7 +78,6 @@ const TweetComponent = ({tweet}) => {
                             isLikedT={reply.isLiked}
                             actualizar={actualizarTweet}
                             userId={reply.user?.id}
-                            //userID={tweet.tweetTypeID.usedID}
                         />
                     ))
                 ) : (

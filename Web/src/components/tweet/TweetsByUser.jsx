@@ -5,12 +5,10 @@ import Tweet from '../../components/tweet/Tweet.jsx';
 const TweesByUser = ({user}) =>{
 
   const [tweets, setTweets] = useState([]);
-  const [loggedUser, setLoggedUser] = useState("");
 
   const fetchLoggedUser = async () => {
     try {
       const response = await Api.getLoggedUser();
-      setLoggedUser(response.data);
       return response.data
     } catch (error) {
       console.error(error);

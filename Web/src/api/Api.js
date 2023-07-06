@@ -3,25 +3,7 @@ import { setAuthToken } from "./AxiosConfig";
 
 const url = 'http://localhost:7071'
 
-const get = (url) => {
-  return axios.get(url)
-    .then(({ data }) => data)
-    .catch(error => Promise.reject(error.response.data))
-};
-
-const post = (url, data) => {
-  return axios.post(url, data)
-    .then(({ data }) => data)
-    .catch(error => Promise.reject(error.response.data))
-};
-
-const put = (url) => {
-   return axios.put(url, null)
-    .then(({ data }) => data)
-    .catch(error => Promise.reject(error.response.data))
-};
-
-const postRegister = (user, pass, email, image, backgroundImage, setContext, setInvalidData) => {
+const postRegister = (user, pass, email, image, backgroundImage) => {
   return new Promise((resolve, reject) => {
     const registerData = {
       username: user,
@@ -38,30 +20,17 @@ const postRegister = (user, pass, email, image, backgroundImage, setContext, set
         localStorage.setItem("authorization_token", token);
         setAuthToken(token);
 
-        let data = response.data;
-        setContext({
-          logged: true,
-          id: data.id,
-          username: data.username,
-          email: data.email,
-          image: data.image,
-          followers: data.followers,
-          following: data.following,
-          tweet: data.tweet
-        });
-
         resolve(); 
       })
       .catch(err => {
         console.log(err);
-        setInvalidData(true);
         reject(err);
       });
   });
 };
 
 
-const postLogin = (user, pass, setContext, setInvalidData) => {
+const postLogin = (user, pass) => {
 
   return new Promise((resolve, reject) => {
     const loginData = {
@@ -76,22 +45,10 @@ const postLogin = (user, pass, setContext, setInvalidData) => {
         localStorage.setItem("authorization_token", token);
         setAuthToken(token);
 
-        let data = response.data;
-        setContext({
-          logged: true,
-          id: data.id,
-          username: data.username,
-          email: data.email,
-          image: data.image,
-          followers: data.followers,
-          following: data.following,
-          tweet: data.tweet
-        });
           resolve(); 
       })
       .catch(err => {
         console.log(err);
-        setInvalidData(true);
         reject(err); 
       });
   });
@@ -221,7 +178,7 @@ const putLike= async (id) => {
     }
   } 
   
-  const postReTweet = (id, content, setInvalidData) =>{
+  const postReTweet = (id, content) =>{
     return new Promise((resolve, reject) => {
       const reTweetData = {
         content: content,
@@ -229,18 +186,15 @@ const putLike= async (id) => {
       axios
         .post(`${url}/tweet/${id}/retweet`, reTweetData)
         .then(response => {
-          console.log(response.data.id)
-          console.log(response.data.user.id)
           resolve();
         })
         .catch(err => {
           console.log(err);
-          setInvalidData(true);
           reject(err); });
         });
       }
       
-      const postReply = (id, content, image, setInvalidData) => {
+      const postReply = (id, content, image) => {
         return new Promise((resolve, reject) => {
           const tweetData = {
             content: content,
@@ -250,16 +204,13 @@ const putLike= async (id) => {
           axios
           .post(`${url}/tweet/${id}/reply`, tweetData)
           .then(response => {
-            console.log(response.data.id)
              resolve();
           })
           .catch(err => {
-            console.log(err);
-            setInvalidData(true);
             reject(err);});
           });
           };
-          const postTweet = (content, image, setInvalidData) => {
+          const postTweet = (content, image) => {
             return new Promise((resolve, reject) => {
               const tweetData = {
                 content: content,
@@ -273,7 +224,6 @@ const putLike= async (id) => {
                 })
                 .catch(err => {
                   console.log(err);
-                  setInvalidData(true);
                   reject(err); 
                 });
             });

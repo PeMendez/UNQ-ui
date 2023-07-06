@@ -7,21 +7,19 @@ import Api from '../../api/Api';
 import { useNavigate } from "react-router-dom";
 
 function PopUpCommentTweet({ onClose, id, isComment }) {
-
-  const [invalidData, setInvalidData] = useState(false);
   const [tweetMessage, setTweetMessage] = useState("");
   const [tweetImage, setTweetImage] = useState("");
   const navigate = useNavigate();
 
   const sendTweet = (id) => {
     if(isComment){
-      Api.postReply(id, tweetMessage, tweetImage, setInvalidData)
+      Api.postReply(id, tweetMessage, tweetImage)
 
       setTweetMessage("");
       setTweetImage(""); 
   
     } else {
-      Api.postReTweet(id, tweetMessage, setInvalidData)
+      Api.postReTweet(id, tweetMessage)
 
       setTweetMessage("");
     }

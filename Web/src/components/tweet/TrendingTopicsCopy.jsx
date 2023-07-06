@@ -5,13 +5,11 @@ import "../../styles/tweet/TrendingTopics.css";
 
 function TrendingTopics() {
   const [tweets, setTweets] = useState([]);
-  const [loggedUser, setLoggedUser] = useState("");
 
   
   const fetchLoggedUser = async () => {
     try {
       const response = await Api.getLoggedUser();
-      setLoggedUser(response.data);
       return response.data
     } catch (error) {
       console.error(error);

@@ -7,7 +7,6 @@ import {toast} from 'react-toastify';
 
 const TweetBox = () => {
   
-  const [invalidData, setInvalidData] = useState(false);
   const [tweetMessage, setTweetMessage] = useState("");
   const [tweetImage, setTweetImage] = useState("");
   const [loggedUser, setLoggedUser] = useState("");
@@ -24,7 +23,7 @@ const TweetBox = () => {
 
   const sendTweet = (e) => {
       e.preventDefault()
-      Api.postTweet(tweetMessage, tweetImage, setInvalidData)
+      Api.postTweet(tweetMessage, tweetImage)
       .catch((error) => {
         toast.error("Content cannot be empty")}
       )
@@ -32,18 +31,11 @@ const TweetBox = () => {
         setTweetMessage("");
         setTweetImage("");    
       });
-    }
-
-    // 
-    // Api.postTweet(tweetMessage, tweetImage, setInvalidData)
-
-    // setTweetMessage("");
-    // setTweetImage("");    
+    } 
 
   useEffect(() => {
     fetchLoggedUser();
-    
-   //toast.error("queres que desactive las notificaciones?")
+  
     const textarea = document.querySelector(".tweetBox__input > textarea");
     textarea.addEventListener("input", () => {
       textarea.style.height = "auto";
