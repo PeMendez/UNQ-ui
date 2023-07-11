@@ -6,7 +6,7 @@ import "../../styles/tweet/PopUpCommentTweet.css"
 import Api from '../../api/Api';
 import { useNavigate } from "react-router-dom";
 
-function PopUpCommentTweet({ onClose, id, isComment }) {
+const PopUpCommentTweet = ({ onClose, id, isComment }) => {
   const [tweetMessage, setTweetMessage] = useState("");
   const [tweetImage, setTweetImage] = useState("");
   const navigate = useNavigate();

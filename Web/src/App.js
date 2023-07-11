@@ -9,7 +9,7 @@ const token = localStorage.getItem('token')
     setAuthToken(token)
   }
 
-function App() {
+const App = () => {
   return (
     <div>
       <Browser />

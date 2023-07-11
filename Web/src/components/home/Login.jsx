@@ -38,7 +38,6 @@ const Login = () => {
   };
 
   const handleRegister = (e) => {
-    //e.preventDefault();
     setLoading(true);
 
     if (!username || !password || !email || !image || !backgroundImage) {

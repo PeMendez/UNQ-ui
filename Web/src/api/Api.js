@@ -140,7 +140,7 @@ const getSearch = async (searchText) => {
 }
 
 //TrendingTopics
-async function getTrendingTopics() {
+const getTrendingTopics = async () => {
   try {
     const response = await axios.get(`${url}/trendingTopics`, {
       headers: {

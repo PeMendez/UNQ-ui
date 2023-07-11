@@ -10,8 +10,8 @@ import { useNavigate } from "react-router-dom";
 import moment from 'moment';
 import 'moment-timezone';
 
-const Tweet = (props, actualizarTweet) => {
-  const {key, id, type, typeAsString, tweetTypeID ,image, content, date, profile_pic, 
+const Tweet = (props) => {
+  const {key, id, typeAsString ,image, content, date, profile_pic, 
           likes, repliesAmount, reTweetAmount, username, userId, isLikedT, show } = props;
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [tweetId, setTweetId] = useState(null);

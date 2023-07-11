@@ -7,7 +7,7 @@ import UserComponent from '../components/user/UserComponent';
 import PrivateRoute from './PrivateRoute.jsx'
 import Login from '../components/home/Login';
 import SearchComponent from '../components/search/SearchComponent';
-import TrendingTopicsCopy from '../components/tweet/TrendingTopicsCopy';
+import TrendingTopics from '../components/tweet/TrendingTopics';
 import UsersToFollow from '../components/user/UsersToFollow';
 import NotFoundPage from '../components/home/NotFoundPage';
 
@@ -25,7 +25,7 @@ const Browser = ()=>
        </Route>
        <Route path="/search/:searchText" element={<PrivateRoute> <SearchComponent/> </PrivateRoute>} />
        <Route path="/tweet/:tweetId" element={<PrivateRoute> <TweetRoute/> </PrivateRoute>} />       
-       <Route path="/trendingTopics" element={<PrivateRoute> <TrendingTopicsCopy/> </PrivateRoute>} />
+       <Route path="/trendingTopics" element={<PrivateRoute> <TrendingTopics/> </PrivateRoute>} />
        <Route path="*" element={<NotFoundPage/>} />
      </Route>
    </Routes>

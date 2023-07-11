@@ -6,7 +6,7 @@ import { Button } from "@mui/material";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function Widgets() {
+const Widgets = () => {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState("");
 

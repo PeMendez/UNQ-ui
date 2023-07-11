@@ -24,7 +24,6 @@ const TweetComponent = ({tweet}) => {
               let isLiked = !!tweet.likes.find(user => user.id === loggedUserResponse.id);
               return { ...tweet, isLiked };
             });
-            console.log(promises)
             setTweetsWithLike(promises);
           })
           .catch(error => {

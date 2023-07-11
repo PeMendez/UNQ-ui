@@ -5,7 +5,6 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import HomeIcon from "@mui/icons-material/Home";
 import Search from "@mui/icons-material/Search";
 import Notification from "@mui/icons-material/Notifications";
-import { Button } from "@mui/material";
 
 const Sidebar = () => {
     return(

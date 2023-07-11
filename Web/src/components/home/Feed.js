@@ -1,9 +1,9 @@
 import React from "react";
 import "../../styles/home/Feed.css";
 import TweetBox from "../../components/tweet/TweetBox.js";
-import FollowingTweetsCopy from "../../components/tweet/FollowingTweetsCopy.jsx"; 
+import FollowingTweets from "../../components/tweet/FollowingTweets.jsx"; 
 
-function Feed() {
+const Feed = () => {
 
   return (
     <div className="feed">
@@ -12,7 +12,7 @@ function Feed() {
       </div>
 
       <TweetBox />
-      <FollowingTweetsCopy/>
+      <FollowingTweets/>
     </div>
   );
 }

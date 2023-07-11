@@ -53,7 +53,7 @@ const UserById = ({user}) => {
 
 const onClickFollow = async () => {
   try {
-    await Api.putFollowUser(user.id).then(console.log);
+    await Api.putFollowUser(user.id);
     fetchUser();
   } catch (error) {
     console.error("Error al seguir al usuario:", error);
