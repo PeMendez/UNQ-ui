@@ -156,9 +156,11 @@ const getTrendingTopics = async () => {
 //Tweet 
 const getTweet = async (id) => {
   try {
-    const response = await axios.get(`${url}/tweet/${id}`)
-
-    return response;
+    const response = await axios.get(`${url}/tweet/${id}`, {
+      headers: {
+        Authorization: localStorage.getItem("authorization_token")
+      }, });
+      return response; 
   }
   catch (error) {
   return Promise.reject(error.response.data);
@@ -178,56 +180,57 @@ const putLike= async (id) => {
     }
   } 
   
-  const postReTweet = (id, content) =>{
-    return new Promise((resolve, reject) => {
-      const reTweetData = {
-        content: content,
-      };
-      axios
-        .post(`${url}/tweet/${id}/retweet`, reTweetData)
-        .then(response => {
-          resolve();
-        })
-        .catch(err => {
-          console.log(err);
-          reject(err); });
-        });
-      }
-      
-      const postReply = (id, content, image) => {
-        return new Promise((resolve, reject) => {
-          const tweetData = {
-            content: content,
-            image: image
-          };
-      
-          axios
-          .post(`${url}/tweet/${id}/reply`, tweetData)
-          .then(response => {
-             resolve();
-          })
-          .catch(err => {
-            reject(err);});
-          });
-          };
-          const postTweet = (content, image) => {
-            return new Promise((resolve, reject) => {
-              const tweetData = {
-                content: content,
-                image: image
-              };
-          
-              axios
-                .post(url + "/tweet", tweetData)
-                .then(response => {
-                  resolve(); 
-                })
-                .catch(err => {
-                  console.log(err);
-                  reject(err); 
-                });
-            });
-          }
+const postReTweet = (id, content) =>{
+  return new Promise((resolve, reject) => {
+    const reTweetData = {
+      content: content,
+    };
+    axios
+      .post(`${url}/tweet/${id}/retweet`, reTweetData)
+      .then(response => {
+        resolve();
+      })
+      .catch(err => {
+        console.log(err);
+        reject(err); });
+      });
+}
+    
+const postReply = (id, content, image) => {
+  return new Promise((resolve, reject) => {
+    const tweetData = {
+      content: content,
+      image: image
+    };
+
+    axios
+    .post(`${url}/tweet/${id}/reply`, tweetData)
+    .then(response => {
+       resolve();
+    })
+    .catch(err => {
+      reject(err);});
+    });
+};
+
+const postTweet = (content, image) => {
+  return new Promise((resolve, reject) => {
+    const tweetData = {
+      content: content,
+      image: image
+    };
+
+    axios
+      .post(url + "/tweet", tweetData)
+      .then(response => {
+        resolve(); 
+      })
+      .catch(err => {
+        console.log(err);
+        reject(err); 
+      });
+  });
+}
           
           
           const Api = {

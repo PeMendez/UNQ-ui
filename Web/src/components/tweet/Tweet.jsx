@@ -65,14 +65,16 @@ const fetchLike = async () => {
   };
 
   useEffect(() => {
+    if ({id}){
       Api.getTweet(id)
         .then(updatedTweet => {
           setTweet(updatedTweet.data);
         })
         .catch(error => {
-          console.error(error);
+          console.error(error, "??????????");
         });
-  }, []);
+    }
+  }, [id]);
   
 
   const retweet = () => { 
