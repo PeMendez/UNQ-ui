@@ -27,7 +27,6 @@ const UserById = ({user}) => {
         const response = await Api.getLoggedUser();
         setLoggedUser(response.data);
         setTeSigo(response.data.following.some(obj => obj.id === user.id));
-        console.log("?", response.data.following, user.id, response.data.following.some(obj => obj.id === user.id))
       } catch (error) {
         console.error(error);
       }
