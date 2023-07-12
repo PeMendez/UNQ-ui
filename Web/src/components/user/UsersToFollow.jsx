@@ -24,7 +24,7 @@ const UsersToFollow = () => {
                     users.map((user) => (
                         <div className="list_of_users_to_follow">
                           <div className="user-container">
-                            <UserSimple user={user} />
+                            <UserSimple key={user.id} user={user} />
                           </div>
                         </div>
                     ))
