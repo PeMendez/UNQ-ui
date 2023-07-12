@@ -1,8 +1,9 @@
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setAuthToken } from "./axios";
+import { API_URL } from "@env";
 
-const url = 'http://192.168.100.6:7071'
+const url = API_URL
 
 const storeToken = async (value) => {
   try {
